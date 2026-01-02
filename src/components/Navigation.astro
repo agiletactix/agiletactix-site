@@ -1,4 +1,6 @@
 ---
+import DarkModeToggle from './DarkModeToggle.astro';
+
 const currentPath = Astro.url.pathname;
 
 const navLinks = [
@@ -10,34 +12,35 @@ const navLinks = [
 ];
 ---
 
-<nav class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+<nav class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50 shadow-sm backdrop-blur-sm bg-white/95 dark:bg-gray-900/95 transition-colors duration-300">
   <div class="section-container">
     <div class="flex items-center justify-between h-16 sm:h-20">
       <!-- Logo and Tagline -->
       <div class="flex-shrink-0">
         <a href="/" class="flex flex-col focus-visible-ring rounded">
-          <span class="text-2xl font-bold text-gray-900">Agile Tactix</span>
-          <span class="text-xs text-gray-600 hidden sm:block">Real-World Agility. AI-Powered. Career-Focused.</span>
+          <span class="text-2xl font-bold text-gray-900 dark:text-white">Agile Tactix</span>
+          <span class="text-xs text-gray-600 dark:text-gray-400 hidden sm:block">Real-World Agility. AI-Powered. Career-Focused.</span>
         </a>
       </div>
 
       <!-- Desktop Navigation -->
-      <div class="hidden md:flex md:items-center md:space-x-8">
+      <div class="hidden md:flex md:items-center md:space-x-6">
         {navLinks.map((link) => (
           <a
             href={link.href}
-            class={`text-sm font-medium transition-colors duration-200 focus-visible-ring rounded px-2 py-1 ${
+            class={`text-sm font-semibold transition-colors duration-200 focus-visible-ring rounded px-3 py-2 ${
               currentPath === link.href
-                ? 'text-primary-600'
-                : 'text-gray-700 hover:text-primary-600'
+                ? 'text-primary-600 dark:text-primary-400'
+                : 'text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400'
             }`}
           >
             {link.label}
           </a>
         ))}
+        <DarkModeToggle />
         <a
           href="/blueprint"
-          class="btn-primary text-sm"
+          class="btn-primary text-sm px-6 py-2.5"
         >
           Get the Blueprint
         </a>
