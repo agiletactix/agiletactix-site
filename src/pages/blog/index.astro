@@ -1,0 +1,97 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const allPosts = await getCollection('blog');
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const pageTitle = 'Blog';
+const pageDescription = 'Tactical insights on AI-powered agility, Jira automation, and career transformation for agile professionals.';
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-br from-gray-50 via-white to-primary-50">
+    <div class="section-container py-16 sm:py-20">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="heading-xl text-gray-900 mb-6">
+          The AgileTactix Blog
+        </h1>
+        <p class="text-xl text-gray-600">
+          Tactical insights on AI-powered agility, Jira automation, and career transformation for agile professionals
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Posts Grid -->
+  <section class="bg-white">
+    <div class="section-container section-spacing">
+      <div class="max-w-5xl mx-auto">
+        <div class="grid gap-12">
+          {sortedPosts.map((post) => (
+            <article class="bg-white border-2 border-gray-200 rounded-2xl p-8 hover:border-primary-300 hover:shadow-medium transition-all duration-300">
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+                <div class="flex items-center space-x-3 mb-2 sm:mb-0">
+                  <span class="text-sm font-medium text-gray-600">
+                    {new Date(post.data.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  </span>
+                  <span class="text-gray-400">•</span>
+                  <span class="text-sm font-medium text-gray-600">
+                    {post.data.author}
+                  </span>
+                </div>
+                {post.data.tags && post.data.tags.length > 0 && (
+                  <div class="flex flex-wrap gap-2">
+                    {post.data.tags.slice(0, 3).map((tag) => (
+                      <span class="inline-block bg-primary-50 text-primary-700 text-xs font-semibold px-3 py-1 rounded-full">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <h2 class="heading-sm text-gray-900 mb-4 hover:text-primary-600 transition-colors">
+                <a href={`/blog/${post.slug}`} class="focus-visible-ring rounded">
+                  {post.data.title}
+                </a>
+              </h2>
+
+              <p class="text-gray-600 mb-6 leading-relaxed">
+                {post.data.description}
+              </p>
+
+              <a
+                href={`/blog/${post.slug}`}
+                class="inline-flex items-center text-primary-600 font-semibold hover:text-primary-700 transition-colors focus-visible-ring rounded"
+              >
+                Read full article
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-primary-600 text-white">
+    <div class="section-container py-16 sm:py-20">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="heading-lg mb-6">
+          Want More Tactical Insights?
+        </h2>
+        <p class="text-xl mb-8 text-primary-100">
+          Download the free Agile-AI Blueprint and get the complete framework for transforming your agile career
+        </p>
+        <a href="/blueprint" class="inline-block bg-white text-primary-600 px-10 py-4 rounded-lg font-bold text-lg shadow-strong hover:shadow-xl hover:bg-gray-50 transform hover:-translate-y-1 transition-all duration-200">
+          Get the Blueprint
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

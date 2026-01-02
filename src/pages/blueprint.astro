@@ -1,0 +1,429 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import KitModal from '../components/KitModal.astro';
+
+const pageTitle = 'Free Agile-AI Blueprint Download';
+const pageDescription = 'Download the free Agile-AI Blueprint and discover what it takes to provide real agile value in today\'s AI-driven world. Join 13,000+ professionals who\'ve learned from this instructor.';
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-br from-primary-50 via-white to-primary-100">
+    <div class="section-container py-16 sm:py-20 lg:py-28">
+      <div class="max-w-4xl mx-auto text-center">
+        <!-- Pre-headline -->
+        <div class="inline-block bg-primary-600 text-white px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-6">
+          Free Download
+        </div>
+
+        <!-- Main Headline -->
+        <h1 class="heading-xl text-gray-900 mb-6">
+          The Agile-AI Blueprint
+        </h1>
+
+        <!-- Subheadline -->
+        <p class="text-2xl sm:text-3xl font-semibold text-gray-700 mb-8">
+          Discover What It Takes to Provide Real Agile Value in Today's AI-Driven World
+        </p>
+
+        <!-- Description -->
+        <div class="prose prose-lg max-w-none text-gray-600 mb-10 space-y-4">
+          <p>
+            This blueprint reveals the mindset shift and technical skills you need to go from "agile ceremony manager" to "AI-powered business partner." Learn what's actually working in 2026 for agile professionals who refuse to be left behind.
+          </p>
+
+          <p>
+            Based on 15 years of real-world experience and insights from training 13,000+ professionals, this is the tactical guide generic training companies won't give you.
+          </p>
+        </div>
+
+        <!-- Primary CTA -->
+        <button
+          data-modal-trigger="blueprint"
+          class="btn-primary text-xl px-10 py-5 shadow-strong hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
+        >
+          Download Your Free Blueprint
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- What You'll Learn Section -->
+  <section class="bg-white">
+    <div class="section-container section-spacing">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="heading-lg text-gray-900 text-center mb-16">
+          What's Inside the Agile-AI Blueprint
+        </h2>
+
+        <div class="grid sm:grid-cols-2 gap-6">
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <svg class="w-7 h-7 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p class="text-lg text-gray-700">
+              Why traditional agile roles are being eliminated (and what's replacing them)
+            </p>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <svg class="w-7 h-7 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p class="text-lg text-gray-700">
+              The 3 technical skills every agile professional needs in 2026
+            </p>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <svg class="w-7 h-7 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p class="text-lg text-gray-700">
+              How to leverage Jira automation to become indispensable
+            </p>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <svg class="w-7 h-7 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p class="text-lg text-gray-700">
+              AI agents in agile: practical use cases you can implement this week
+            </p>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <svg class="w-7 h-7 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p class="text-lg text-gray-700">
+              The "Analytics Architect" career path nobody talks about
+            </p>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <svg class="w-7 h-7 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p class="text-lg text-gray-700">
+              Real-world examples from 15+ years in the trenches
+            </p>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <svg class="w-7 h-7 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p class="text-lg text-gray-700">
+              How to position yourself as AI-forward (without becoming a developer)
+            </p>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <svg class="w-7 h-7 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p class="text-lg text-gray-700">
+              The career optionality framework: never fear layoffs again
+            </p>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <svg class="w-7 h-7 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p class="text-lg text-gray-700">
+              Atlassian Rovo deep-dive: turn AI hype into business value
+            </p>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <svg class="w-7 h-7 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p class="text-lg text-gray-700">
+              Action steps to start your transformation today
+            </p>
+          </div>
+        </div>
+
+        <div class="text-center mt-12">
+          <button
+            data-modal-trigger="blueprint"
+            class="btn-primary text-lg px-10 py-4"
+          >
+            Download the Blueprint
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who This Is For Section -->
+  <section class="bg-gray-50">
+    <div class="section-container section-spacing">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="heading-lg text-gray-900 text-center mb-12">
+          This Blueprint Is Perfect For You If...
+        </h2>
+
+        <div class="space-y-6">
+          <div class="flex items-start space-x-4 bg-white rounded-lg p-6 shadow-soft">
+            <div class="flex-shrink-0 mt-1">
+              <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p class="text-lg text-gray-700">
+              You're an agile professional (Scrum Master, PO, RTE, Coach) feeling vulnerable in today's job market
+            </p>
+          </div>
+
+          <div class="flex items-start space-x-4 bg-white rounded-lg p-6 shadow-soft">
+            <div class="flex-shrink-0 mt-1">
+              <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p class="text-lg text-gray-700">
+              You know certification alone won't save your career
+            </p>
+          </div>
+
+          <div class="flex items-start space-x-4 bg-white rounded-lg p-6 shadow-soft">
+            <div class="flex-shrink-0 mt-1">
+              <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p class="text-lg text-gray-700">
+              You're tired of generic agile theory that doesn't work in real companies
+            </p>
+          </div>
+
+          <div class="flex items-start space-x-4 bg-white rounded-lg p-6 shadow-soft">
+            <div class="flex-shrink-0 mt-1">
+              <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p class="text-lg text-gray-700">
+              You want to build technical skills without becoming a developer
+            </p>
+          </div>
+
+          <div class="flex items-start space-x-4 bg-white rounded-lg p-6 shadow-soft">
+            <div class="flex-shrink-0 mt-1">
+              <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p class="text-lg text-gray-700">
+              You're curious about AI but don't know where to start in an agile context
+            </p>
+          </div>
+
+          <div class="flex items-start space-x-4 bg-white rounded-lg p-6 shadow-soft">
+            <div class="flex-shrink-0 mt-1">
+              <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p class="text-lg text-gray-700">
+              You want career optionality and confidence in the job market
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Proof Section -->
+  <section class="bg-white">
+    <div class="section-container section-spacing">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="heading-lg text-gray-900 text-center mb-12">
+          From an Instructor Who's Been There
+        </h2>
+
+        <div class="bg-gray-50 rounded-xl p-8 sm:p-12 mb-12">
+          <p class="text-xl text-gray-700 mb-6">
+            Created by Danny, an agile professional with 15+ years hands-on experience who's trained 13,000+ students on Jira mastery and is currently employed full-time using these exact tools and techniques.
+          </p>
+        </div>
+
+        <!-- Testimonial Placeholders -->
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="bg-white border-2 border-gray-200 rounded-xl p-6">
+            <p class="text-gray-700 mb-4 italic">
+              "This blueprint showed me exactly what I was missing. Within 2 weeks I had automated our sprint planning process and became the 'AI guy' on my team."
+            </p>
+            <p class="text-sm text-gray-600 font-medium">
+              — [Placeholder], Scrum Master
+            </p>
+            <p class="text-xs text-amber-600 mt-2">
+              Example testimonial for future real feedback
+            </p>
+          </div>
+
+          <div class="bg-white border-2 border-gray-200 rounded-xl p-6">
+            <p class="text-gray-700 mb-4 italic">
+              "Finally, someone who gets it. No theory, just tactical advice I could use Monday morning."
+            </p>
+            <p class="text-sm text-gray-600 font-medium">
+              — [Placeholder], Product Owner
+            </p>
+            <p class="text-xs text-amber-600 mt-2">
+              Example testimonial for future real feedback
+            </p>
+          </div>
+
+          <div class="bg-white border-2 border-gray-200 rounded-xl p-6">
+            <p class="text-gray-700 mb-4 italic">
+              "I went from fearing layoffs to getting recruited by companies specifically for my Jira + AI skills."
+            </p>
+            <p class="text-sm text-gray-600 font-medium">
+              — [Placeholder], Agile Coach
+            </p>
+            <p class="text-xs text-amber-600 mt-2">
+              Example testimonial for future real feedback
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Credibility Section -->
+  <section class="bg-gray-50">
+    <div class="section-container section-spacing">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="heading-lg text-gray-900 text-center mb-12">
+          Why Listen to Me?
+        </h2>
+
+        <div class="prose prose-lg max-w-none text-gray-700 space-y-6">
+          <p>
+            I'm Danny, and I've spent 15+ years as an agile professional working with tools like Jira, Confluence, and now Atlassian Rovo. I've trained over 13,000 students on Jira mastery via Udemy, and I'm currently employed full-time using these exact automation and AI techniques.
+          </p>
+
+          <p>
+            I'm not a corporate trainer selling outdated frameworks. I'm a real practitioner sharing what actually works in 2026—the tactical skills that make you indispensable to your organization.
+          </p>
+
+          <p>
+            AgileTactix exists because I saw too many talented agile professionals getting left behind by the AI wave, relying on certifications that don't teach the technical skills companies actually need.
+          </p>
+
+          <p class="font-semibold text-gray-900">
+            This Blueprint is the starting point for your transformation from theory-focused coach to AI-powered partner.
+          </p>
+        </div>
+
+        <!-- Placeholder for professional headshot -->
+        <div class="mt-12 flex justify-center">
+          <div class="w-48 h-48 bg-gray-200 rounded-full flex items-center justify-center border-4 border-white shadow-medium">
+            <svg class="w-24 h-24 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+            </svg>
+          </div>
+        </div>
+        <p class="text-center text-sm text-gray-500 mt-4">
+          Professional headshot placeholder
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Urgency Section -->
+  <section class="bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+    <div class="section-container py-16 sm:py-20">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="heading-lg mb-8">
+          The AI Wave Isn't Waiting
+        </h2>
+
+        <div class="prose prose-lg max-w-none text-gray-300 space-y-6 mb-10">
+          <p>
+            Every day you delay building these skills, your peers are getting ahead. Companies are hiring "AI-forward agile architects" right now—professionals who can automate workflows, integrate AI agents, and provide real business value beyond facilitation.
+          </p>
+
+          <p>
+            The question isn't if you'll need these skills—it's whether you'll have them before the market demands them.
+          </p>
+
+          <p class="text-xl font-semibold text-white">
+            Download the Blueprint today and start your transformation this week.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA Section -->
+  <section class="bg-primary-600 text-white">
+    <div class="section-container py-20 sm:py-24">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="heading-lg mb-4">
+          Get Your Free Agile-AI Blueprint Now
+        </h2>
+        <p class="text-2xl mb-8 text-primary-100">
+          No credit card. No strings. Just actionable insights you can use today.
+        </p>
+
+        <button
+          data-modal-trigger="blueprint"
+          class="inline-block bg-white text-primary-600 px-12 py-5 rounded-lg font-bold text-xl shadow-strong hover:shadow-xl hover:bg-gray-50 transform hover:-translate-y-1 transition-all duration-200 mb-10"
+        >
+          Download the Blueprint
+        </button>
+
+        <!-- Trust Indicators -->
+        <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-8 text-primary-100">
+          <div class="flex items-center space-x-2">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
+            <span>Instant PDF download</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
+            <span>13,000+ professionals trained</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
+            <span>100% free, no catch</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Include the Kit Modal -->
+  <KitModal />
+</BaseLayout>

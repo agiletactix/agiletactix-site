@@ -1,0 +1,127 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('blog');
+  return blogEntries.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<'blog'>;
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const { title, description, pubDate, author, tags } = entry.data;
+---
+
+<BaseLayout title={title} description={description}>
+  <!-- Article Header -->
+  <article class="bg-white">
+    <div class="section-container py-12 sm:py-16">
+      <div class="max-w-4xl mx-auto">
+        <!-- Breadcrumb -->
+        <nav class="mb-8">
+          <ol class="flex items-center space-x-2 text-sm text-gray-600">
+            <li><a href="/" class="hover:text-primary-600 transition-colors">Home</a></li>
+            <li><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg></li>
+            <li><a href="/blog" class="hover:text-primary-600 transition-colors">Blog</a></li>
+            <li><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg></li>
+            <li class="text-gray-900 font-medium truncate">{title}</li>
+          </ol>
+        </nav>
+
+        <!-- Article Meta -->
+        <div class="mb-8">
+          {tags && tags.length > 0 && (
+            <div class="flex flex-wrap gap-2 mb-4">
+              {tags.map((tag) => (
+                <span class="inline-block bg-primary-50 text-primary-700 text-xs font-semibold px-3 py-1 rounded-full">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+
+          <h1 class="heading-xl text-gray-900 mb-6">
+            {title}
+          </h1>
+
+          <div class="flex items-center space-x-4 text-gray-600">
+            <div class="flex items-center space-x-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              <span class="font-medium">{author}</span>
+            </div>
+            <span class="text-gray-400">•</span>
+            <div class="flex items-center space-x-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <time datetime={pubDate.toISOString()}>
+                {new Date(pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </time>
+            </div>
+          </div>
+        </div>
+
+        <!-- Article Content -->
+        <div class="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-primary-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-ul:text-gray-700 prose-ol:text-gray-700 prose-code:text-primary-600 prose-code:bg-primary-50 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-pre:bg-gray-900 prose-pre:text-gray-100">
+          <Content />
+        </div>
+
+        <!-- Article Footer - Share/CTA -->
+        <div class="mt-16 pt-8 border-t-2 border-gray-200">
+          <div class="bg-gradient-to-br from-primary-50 to-primary-100 rounded-2xl p-8 sm:p-12 text-center">
+            <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+              Found this helpful?
+            </h3>
+            <p class="text-lg text-gray-700 mb-6 max-w-2xl mx-auto">
+              Get the complete framework for transforming your agile career with AI and automation
+            </p>
+            <a href="/blueprint" class="btn-primary text-lg px-10 py-4 inline-block">
+              Download the Free Blueprint
+            </a>
+          </div>
+        </div>
+
+        <!-- Back to Blog -->
+        <div class="mt-12 text-center">
+          <a href="/blog" class="inline-flex items-center text-primary-600 font-semibold hover:text-primary-700 transition-colors">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+            </svg>
+            Back to all articles
+          </a>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Schema.org Article Markup -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": title,
+    "description": description,
+    "author": {
+      "@type": "Person",
+      "name": author
+    },
+    "datePublished": pubDate.toISOString(),
+    "publisher": {
+      "@type": "Organization",
+      "name": "AgileTactix",
+      "logo": {
+        "@type": "ImageObject",
+        "url": new URL('/images/logo.png', Astro.site)
+      }
+    }
+  })} />
+</BaseLayout>

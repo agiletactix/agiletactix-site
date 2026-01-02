@@ -1,0 +1,238 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const pageTitle = 'About';
+const pageDescription = 'Learn about AgileTactix and Danny, the agile professional with 15+ years experience teaching real-world AI and automation skills to agile professionals.';
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-br from-gray-50 via-white to-primary-50">
+    <div class="section-container py-16 sm:py-20">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="heading-xl text-gray-900 mb-6">
+          About AgileTactix
+        </h1>
+        <p class="text-xl sm:text-2xl text-gray-600 max-w-3xl mx-auto">
+          Real-world practitioner teaching agile professionals the technical skills they need to thrive in the AI era
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Personal Story Section -->
+  <section class="bg-white">
+    <div class="section-container section-spacing">
+      <div class="max-w-4xl mx-auto">
+        <div class="grid md:grid-cols-5 gap-12 items-center mb-16">
+          <!-- Headshot Placeholder -->
+          <div class="md:col-span-2">
+            <div class="w-full aspect-square bg-gray-200 rounded-2xl flex items-center justify-center border-4 border-white shadow-medium">
+              <svg class="w-32 h-32 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p class="text-center text-sm text-gray-500 mt-4">
+              Professional headshot placeholder
+            </p>
+          </div>
+
+          <!-- Intro Text -->
+          <div class="md:col-span-3">
+            <h2 class="heading-md text-gray-900 mb-6">
+              Hi, I'm Danny
+            </h2>
+            <p class="text-lg text-gray-600 leading-relaxed">
+              An agile professional with 15+ years of hands-on experience who's trained 13,000+ students on Jira mastery and is currently employed full-time using these exact automation and AI techniques.
+            </p>
+          </div>
+        </div>
+
+        <!-- The Journey -->
+        <div class="prose prose-lg max-w-none text-gray-700 space-y-6 mb-12">
+          <h3 class="heading-sm text-gray-900">
+            From Theory-Focused to Technical
+          </h3>
+
+          <p>
+            Like many of you, I started my agile journey learning the traditional frameworks—Scrum, SAFe, all the certifications. I facilitated ceremonies, coached teams, and preached the values and principles. But somewhere along the way, I realized something wasn't adding up.
+          </p>
+
+          <p>
+            The agile professionals who were thriving weren't just the best facilitators or the ones with the most certifications. They were the ones who could actually deliver technical value—automate workflows, build dashboards, integrate tools, and solve real business problems beyond just "doing agile right."
+          </p>
+
+          <p>
+            So I made a shift. I went deep on Jira—not just "how to create a board," but advanced automation, JQL analytics, workflow optimization, and integration strategies. I learned how to turn raw data into insights that leadership actually cared about. I became the person teams came to when they needed something built, not just facilitated.
+          </p>
+
+          <p>
+            That shift changed everything. I went from being just another agile coach to being indispensable. And I'm still employed full-time, using these exact skills every day.
+          </p>
+        </div>
+
+        <div class="prose prose-lg max-w-none text-gray-700 space-y-6">
+          <h3 class="heading-sm text-gray-900">
+            Why Traditional Training Wasn't Enough
+          </h3>
+
+          <p>
+            As I developed my technical skills, I started teaching on Udemy. Over the years, I've trained 13,000+ professionals on Jira mastery—going far beyond the basics to show them how to become Jira power users and automation architects.
+          </p>
+
+          <p>
+            But I kept seeing the same problem: talented agile professionals were getting left behind because the training industry was selling them outdated content. Large organizations like Scrum.org, Agile Alliance, and Scaled Agile were teaching the same generic theory to non-technical audiences, completely ignoring the AI revolution happening right now.
+          </p>
+
+          <p>
+            Nobody was teaching agile professionals how to leverage AI agents in sprint planning. Nobody was showing them how to use Atlassian Rovo to transform their workflows. Nobody was preparing them for a future where "ceremony management" isn't enough.
+          </p>
+
+          <p>
+            That's why I created AgileTactix.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission Statement Section -->
+  <section class="bg-primary-600 text-white">
+    <div class="section-container py-16 sm:py-20">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="heading-lg mb-6">
+          Our Mission
+        </h2>
+        <div class="prose prose-lg max-w-none text-primary-100 space-y-6">
+          <p class="text-xl leading-relaxed">
+            To help agile professionals survive and thrive in the AI era by teaching them tactical, real-world technical skills—not generic theory.
+          </p>
+
+          <p class="text-lg leading-relaxed">
+            We're building in public, sharing the authentic journey of what it takes to stay relevant and valuable in an industry that's changing faster than ever.
+          </p>
+
+          <p class="text-lg leading-relaxed">
+            This isn't corporate training. This is practitioner-to-practitioner mentorship, showing you what actually works in 2026.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Credibility Markers Section -->
+  <section class="bg-white">
+    <div class="section-container section-spacing">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="heading-lg text-gray-900 text-center mb-16">
+          Why You Can Trust This
+        </h2>
+
+        <div class="grid sm:grid-cols-3 gap-8">
+          <!-- Marker 1 -->
+          <div class="text-center">
+            <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">
+              13,000+ Students Trained
+            </h3>
+            <p class="text-gray-600">
+              Proven track record teaching Jira mastery on Udemy to professionals worldwide
+            </p>
+          </div>
+
+          <!-- Marker 2 -->
+          <div class="text-center">
+            <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">
+              Currently Employed Full-Time
+            </h3>
+            <p class="text-gray-600">
+              Using these exact tools and techniques in a real agile professional role right now
+            </p>
+          </div>
+
+          <!-- Marker 3 -->
+          <div class="text-center">
+            <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">
+              Real Practitioner
+            </h3>
+            <p class="text-gray-600">
+              Not a corporate trainer—a working professional sharing what actually works
+            </p>
+          </div>
+        </div>
+
+        <!-- Additional Credibility Points -->
+        <div class="mt-16 bg-gray-50 rounded-xl p-8 sm:p-12">
+          <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">
+            What Makes AgileTactix Different
+          </h3>
+          <ul class="space-y-4 max-w-2xl mx-auto">
+            <li class="flex items-start">
+              <svg class="w-6 h-6 text-primary-600 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span class="text-lg text-gray-700">
+                <strong>15+ years</strong> of hands-on experience in agile transformation across multiple organizations
+              </span>
+            </li>
+            <li class="flex items-start">
+              <svg class="w-6 h-6 text-primary-600 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span class="text-lg text-gray-700">
+                Bringing <strong>tactical expertise to AI-powered agility</strong>—showing what works NOW, not what worked in 2015
+              </span>
+            </li>
+            <li class="flex items-start">
+              <svg class="w-6 h-6 text-primary-600 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span class="text-lg text-gray-700">
+                <strong>Building in public</strong>, sharing the authentic journey of staying relevant in a rapidly changing industry
+              </span>
+            </li>
+            <li class="flex items-start">
+              <svg class="w-6 h-6 text-primary-600 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span class="text-lg text-gray-700">
+                <strong>No corporate BS</strong>—just peer-to-peer mentorship from someone who's done it and is still doing it
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-gradient-to-br from-primary-600 to-primary-700 text-white">
+    <div class="section-container py-16 sm:py-20">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="heading-lg mb-6">
+          Ready to Start Your Transformation?
+        </h2>
+        <p class="text-xl mb-8 text-primary-100">
+          Get the free Agile-AI Blueprint and discover what it takes to provide real agile value in today's AI-driven world.
+        </p>
+        <a href="/blueprint" class="inline-block bg-white text-primary-600 px-10 py-4 rounded-lg font-bold text-lg shadow-strong hover:shadow-xl hover:bg-gray-50 transform hover:-translate-y-1 transition-all duration-200">
+          Get the Blueprint
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
