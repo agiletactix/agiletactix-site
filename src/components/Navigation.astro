@@ -2,13 +2,14 @@
 import DarkModeToggle from './DarkModeToggle.astro';
 
 const currentPath = Astro.url.pathname;
+const base = import.meta.env.BASE_URL;
 
 const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/about', label: 'About' },
-  { href: '/services', label: 'Services' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/contact', label: 'Contact' },
+  { href: `${base}`, label: 'Home' },
+  { href: `${base}about`, label: 'About' },
+  { href: `${base}services`, label: 'Services' },
+  { href: `${base}blog`, label: 'Blog' },
+  { href: `${base}contact`, label: 'Contact' },
 ];
 ---
 
@@ -17,7 +18,7 @@ const navLinks = [
     <div class="flex items-center justify-between h-16 sm:h-20">
       <!-- Logo and Tagline -->
       <div class="flex-shrink-0">
-        <a href="/" class="flex flex-col focus-visible-ring rounded">
+        <a href={base} class="flex flex-col focus-visible-ring rounded">
           <span class="text-2xl font-bold text-gray-900 dark:text-white">Agile Tactix</span>
           <span class="text-xs text-gray-600 dark:text-gray-400 hidden sm:block">Real-World Agility. AI-Powered. Career-Focused.</span>
         </a>
@@ -39,10 +40,10 @@ const navLinks = [
         ))}
         <DarkModeToggle />
         <a
-          href="/blueprint"
-          class="btn-primary text-sm px-6 py-2.5"
+          href={`${base}blueprint`}
+          class="btn-primary text-sm px-6 py-2.5 relative z-10"
         >
-          Get the Blueprint
+          <span class="relative z-10">Get the Blueprint</span>
         </a>
       </div>
 
@@ -79,10 +80,10 @@ const navLinks = [
         </a>
       ))}
       <a
-        href="/blueprint"
-        class="block px-3 py-2 btn-primary text-center mt-4"
+        href={`${base}blueprint`}
+        class="block px-3 py-2 btn-primary text-center mt-4 relative"
       >
-        Get the Blueprint
+        <span class="relative z-10">Get the Blueprint</span>
       </a>
     </div>
   </div>
