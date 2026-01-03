@@ -1,0 +1,24 @@
+<svg width="1000" height="240" viewBox="0 0 1000 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Geometric A Symbol -->
+  <defs>
+    <linearGradient id="logoGradient" x1="135" y1="20" x2="135" y2="220" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5DB6E5"/>
+      <stop offset="50%" stop-color="#2E5C9A"/>
+      <stop offset="100%" stop-color="#0D2847"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Outer triangle -->
+  <path d="M135 20 L250 200 L210 200 L135 70 L60 200 L20 200 Z" fill="url(#logoGradient)" opacity="0.9"/>
+
+  <!-- Inner triangle layers -->
+  <path d="M135 50 L220 200 L180 200 L135 100 L90 200 L50 200 Z" fill="url(#logoGradient)" opacity="0.7"/>
+  <path d="M135 80 L190 200 L150 200 L135 170 L120 200 L80 200 Z" fill="#00D4FF" opacity="0.3"/>
+
+  <!-- Agiletactix Text -->
+  <text x="315" y="155" font-family="Arial, Helvetica, sans-serif" font-size="110" font-weight="bold" fill="#2E5C9A" letter-spacing="-2">Agiletactix</text>
+
+  <!-- Sparkle elements -->
+  <path d="M510 75 L515 85 L525 90 L515 95 L510 105 L505 95 L495 90 L505 85 Z" fill="#5DB6E5" opacity="0.8"/>
+  <path d="M895 65 L902 78 L915 85 L902 92 L895 105 L888 92 L875 85 L888 78 Z" fill="#5DB6E5" opacity="0.8"/>
+</svg>
