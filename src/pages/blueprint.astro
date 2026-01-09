@@ -1,136 +1,123 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import KitModal from '../components/KitModal.astro';
 
-const pageTitle = 'Free Agile-AI Blueprint Download';
-const pageDescription = 'Download the free Agile-AI Blueprint and discover what it takes to provide real agile value in today\'s AI-driven world. Join 13,000+ professionals who\'ve learned from this instructor.';
+const pageTitle = 'The AI-Powered Agile Blueprint';
+const pageDescription = 'Join 13,000+ agile professionals learning to leverage AI and automation. From Fortune 500 companies to solo practitioners, discover the 3-lesson framework for staying relevant in 2026.';
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
   <!-- Hero Section -->
   <section class="relative gradient-bg-mesh overflow-hidden">
-    <div class="section-container" style="padding-top: 5rem; padding-bottom: 5rem;">
+    <div class="section-container">
       <div class="max-w-4xl mx-auto text-center">
-        <!-- FREE Badge -->
-        <div class="inline-flex items-center gap-2 px-5 py-2.5 bg-green-100 dark:bg-green-900/30 rounded-full mb-6 animate-slide-up">
-          <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-          </svg>
-          <span class="text-sm font-bold text-green-700 dark:text-green-300 uppercase tracking-wide">
-            Free Download • No Credit Card Required
-          </span>
-        </div>
-
-        <!-- Main Headline -->
-        <h1 class="heading-xl mb-6 animate-slide-up" style="animation-delay: 0.1s;">
+        <h1 class="heading-xl mb-8">
           <span class="text-gray-900 dark:text-white">The</span>
-          <span class="gradient-text"> Agile-AI Blueprint</span>
+          <span class="gradient-text"> AI-Powered Agile Blueprint</span>
         </h1>
 
-        <!-- Subheadline -->
-        <p class="text-2xl sm:text-3xl font-bold text-gray-700 dark:text-gray-300 mb-8 animate-slide-up" style="animation-delay: 0.2s;">
-          Discover What It Takes to Provide Real Agile Value in Today's AI-Driven World
+        <p class="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed font-medium">
+          A 3-lesson framework to transform from ceremony manager to AI-powered partner—before the market leaves you behind.
         </p>
 
-        <!-- Description -->
-        <div class="max-w-3xl mx-auto space-y-4 text-lg text-gray-600 dark:text-gray-400 mb-10 animate-slide-up" style="animation-delay: 0.3s;">
-          <p>
-            This blueprint reveals the mindset shift and technical skills you need to go from "agile ceremony manager" to "AI-powered business partner." Learn what's actually working in 2026 for agile professionals who refuse to be left behind.
-          </p>
-          <p class="font-semibold text-gray-900 dark:text-white">
-            Based on 15 years of real-world experience and insights from training 13,000+ professionals, this is the tactical guide generic training companies won't give you.
-          </p>
-        </div>
+        <a href="https://agiletactix.circle.so" class="btn-primary text-lg px-10 py-4">
+          Join Free Community
+          <svg class="w-5 h-5 ml-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </a>
 
-        <!-- Primary CTA -->
-        <button
-          data-modal-trigger="blueprint"
-          class="btn-primary text-xl px-12 py-5 animate-scale-in shadow-strong hover:shadow-xl" style="animation-delay: 0.4s;"
-        >
-          <span class="relative z-10 flex items-center gap-2">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-            </svg>
-            Download Your Free Blueprint
-          </span>
-        </button>
-
-        <!-- Trust Bar -->
-        <div class="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-gray-600 dark:text-gray-400">
+        <div class="mt-16 flex items-center justify-center gap-8 text-sm text-gray-600 dark:text-gray-400">
           <div class="flex items-center gap-2">
-            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            <svg class="w-5 h-5 text-primary-600 dark:text-primary-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
             </svg>
-            <span class="font-semibold">Instant PDF download</span>
+            <span class="font-semibold">13,000+ students trained</span>
           </div>
-          <div class="flex items-center gap-2">
-            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          <div class="hidden sm:flex items-center gap-2">
+            <svg class="w-5 h-5 text-primary-600 dark:text-primary-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
             </svg>
-            <span class="font-semibold">13,000+ professionals trained</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-            </svg>
-            <span class="font-semibold">100% free, no catch</span>
+            <span class="font-semibold">15+ years experience</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- What You'll Learn Section -->
+  <!-- 3 Lessons Section -->
   <section class="bg-white dark:bg-gray-900">
     <div class="section-container section-spacing">
       <div class="max-w-5xl mx-auto">
         <div class="text-center mb-16">
           <h2 class="heading-lg text-gray-900 dark:text-white mb-4">
-            What's Inside the Agile-AI Blueprint
+            3 Lessons Inside
           </h2>
           <p class="text-xl text-gray-600 dark:text-gray-400">
-            10 tactical insights you can apply immediately
+            The exact framework 13,000+ professionals used to stay relevant
           </p>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-6 mb-12">
-          {[
-            "Why traditional agile roles are being eliminated (and what's replacing them)",
-            "The 3 technical skills every agile professional needs in 2026",
-            "How to leverage Jira automation to become indispensable",
-            "AI agents in agile: practical use cases you can implement this week",
-            "The \"Analytics Architect\" career path nobody talks about",
-            "Real-world examples from 15+ years in the trenches",
-            "How to position yourself as AI-forward (without becoming a developer)",
-            "The career optionality framework: never fear layoffs again",
-            "Atlassian Rovo deep-dive: turn AI hype into business value",
-            "Action steps to start your transformation today"
-          ].map((item) => (
-            <div class="card-modern flex items-start gap-4 hover-lift">
-              <div class="flex-shrink-0 w-8 h-8 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
-                <svg class="w-5 h-5 text-primary-600 dark:text-primary-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                </svg>
+        <div class="grid gap-8 mb-12">
+          <div class="card-modern hover-lift">
+            <div class="flex items-start gap-6">
+              <div class="flex-shrink-0 w-16 h-16 bg-primary-600 rounded-xl flex items-center justify-center">
+                <span class="text-2xl font-extrabold text-white">1</span>
               </div>
-              <p class="text-lg text-gray-700 dark:text-gray-300 font-medium pt-0.5">{item}</p>
+              <div>
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                  The AI Threat: Why Manual Facilitators Are Being Replaced
+                </h3>
+                <p class="text-lg text-gray-600 dark:text-gray-400">
+                  Discover which agile roles are being quietly eliminated, why ceremony-only professionals are vulnerable, and the 3 technical skills that make you indispensable in an AI-driven workplace.
+                </p>
+              </div>
             </div>
-          ))}
+          </div>
+
+          <div class="card-modern hover-lift">
+            <div class="flex items-start gap-6">
+              <div class="flex-shrink-0 w-16 h-16 bg-primary-600 rounded-xl flex items-center justify-center">
+                <span class="text-2xl font-extrabold text-white">2</span>
+              </div>
+              <div>
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                  Your First Jira Automation: Save 2 Hours Per Week
+                </h3>
+                <p class="text-lg text-gray-600 dark:text-gray-400">
+                  Walk through your first practical Jira automation that eliminates manual busywork. No coding required—just tactical steps you can implement Monday morning to reclaim your time and demonstrate value.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-modern hover-lift">
+            <div class="flex items-start gap-6">
+              <div class="flex-shrink-0 w-16 h-16 bg-primary-600 rounded-xl flex items-center justify-center">
+                <span class="text-2xl font-extrabold text-white">3</span>
+              </div>
+              <div>
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                  Your 90-Day Transformation Roadmap (+ What's Next)
+                </h3>
+                <p class="text-lg text-gray-600 dark:text-gray-400">
+                  Follow the exact 90-day plan to position yourself as AI-forward without becoming a developer. Learn the career optionality framework that gives you confidence in any job market.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="text-center">
-          <button
-            data-modal-trigger="blueprint"
-            class="btn-primary text-lg px-10 py-4"
-          >
-            <span class="relative z-10">Get Instant Access Now</span>
-          </button>
+          <a href="https://agiletactix.circle.so" class="btn-primary text-lg px-10 py-4">
+            Start Learning Today
+          </a>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Who This Is For Section -->
-  <section class="bg-gray-50 dark:bg-gray-800/50">
+  <section class="bg-gray-50 dark:bg-gray-800">
     <div class="section-container section-spacing">
       <div class="max-w-4xl mx-auto">
         <h2 class="heading-lg text-gray-900 dark:text-white text-center mb-16">
@@ -138,41 +125,60 @@ const pageDescription = 'Download the free Agile-AI Blueprint and discover what 
         </h2>
 
         <div class="grid gap-6">
-          {[
-            {
-              icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
-              text: "You're an agile professional (Scrum Master, PO, RTE, Coach) feeling vulnerable in today's job market"
-            },
-            {
-              icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
-              text: "You know certification alone won't save your career"
-            },
-            {
-              icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
-              text: "You're tired of generic agile theory that doesn't work in real companies"
-            },
-            {
-              icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
-              text: "You want to build technical skills without becoming a developer"
-            },
-            {
-              icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
-              text: "You're curious about AI but don't know where to start in an agile context"
-            },
-            {
-              icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
-              text: "You want career optionality and confidence in the job market"
-            }
-          ].map((item) => (
-            <div class="card-modern flex items-start gap-5 hover-lift border-2 border-transparent hover:border-primary-200 dark:hover:border-primary-800">
-              <div class="flex-shrink-0">
-                <svg class="w-7 h-7 text-primary-600 dark:text-primary-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d={item.icon} clip-rule="evenodd" />
-                </svg>
-              </div>
-              <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed pt-0.5">{item.text}</p>
+          <div class="card-modern flex items-start gap-5 hover-lift">
+            <div class="flex-shrink-0">
+              <svg class="w-7 h-7 text-primary-600 dark:text-primary-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
             </div>
-          ))}
+            <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+              You're an agile professional (Scrum Master, PO, RTE, Coach) feeling vulnerable in today's job market
+            </p>
+          </div>
+
+          <div class="card-modern flex items-start gap-5 hover-lift">
+            <div class="flex-shrink-0">
+              <svg class="w-7 h-7 text-primary-600 dark:text-primary-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+              You know certification alone won't save your career
+            </p>
+          </div>
+
+          <div class="card-modern flex items-start gap-5 hover-lift">
+            <div class="flex-shrink-0">
+              <svg class="w-7 h-7 text-primary-600 dark:text-primary-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+              You want to build technical skills without becoming a developer
+            </p>
+          </div>
+
+          <div class="card-modern flex items-start gap-5 hover-lift">
+            <div class="flex-shrink-0">
+              <svg class="w-7 h-7 text-primary-600 dark:text-primary-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+              You're curious about AI but don't know where to start in an agile context
+            </p>
+          </div>
+
+          <div class="card-modern flex items-start gap-5 hover-lift">
+            <div class="flex-shrink-0">
+              <svg class="w-7 h-7 text-primary-600 dark:text-primary-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+              You want career optionality and confidence in the job market
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -182,78 +188,21 @@ const pageDescription = 'Download the free Agile-AI Blueprint and discover what 
   <section class="bg-white dark:bg-gray-900">
     <div class="section-container section-spacing">
       <div class="max-w-4xl mx-auto">
-        <h2 class="heading-lg text-gray-900 dark:text-white text-center mb-6">
-          From an Instructor Who's Been There
-        </h2>
-
-        <div class="card-modern text-center mb-12 bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 border border-primary-200 dark:border-primary-800">
-          <p class="text-xl text-gray-800 dark:text-gray-200 leading-relaxed">
-            Created by <strong>Danny</strong>, an agile professional with <strong>15+ years</strong> hands-on experience who's trained <strong>13,000+ students</strong> on Jira mastery and is currently employed full-time using these exact tools and techniques.
-          </p>
-        </div>
-
-        <!-- Testimonials -->
-        <div class="grid md:grid-cols-3 gap-6">
-          {[
-            {
-              quote: "This blueprint showed me exactly what I was missing. Within 2 weeks I had automated our sprint planning process and became the 'AI guy' on my team.",
-              author: "[Placeholder]",
-              role: "Scrum Master"
-            },
-            {
-              quote: "Finally, someone who gets it. No theory, just tactical advice I could use Monday morning.",
-              author: "[Placeholder]",
-              role: "Product Owner"
-            },
-            {
-              quote: "I went from fearing layoffs to getting recruited by companies specifically for my Jira + AI skills.",
-              author: "[Placeholder]",
-              role: "Agile Coach"
-            }
-          ].map((testimonial) => (
-            <div class="card-modern border-2 border-gray-200 dark:border-gray-700">
-              <div class="flex gap-1 text-yellow-400 mb-4">
-                {[...Array(5)].map(() => (
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-              <p class="text-gray-700 dark:text-gray-300 mb-4 italic leading-relaxed">
-                "{testimonial.quote}"
-              </p>
-              <p class="text-sm text-gray-600 dark:text-gray-400 font-semibold">
-                — {testimonial.author}, {testimonial.role}
-              </p>
-              <p class="text-xs text-amber-600 dark:text-amber-500 mt-2">
-                Example testimonial for future real feedback
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Credibility Section -->
-  <section class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800/50 dark:to-gray-900/50">
-    <div class="section-container section-spacing">
-      <div class="max-w-4xl mx-auto">
         <h2 class="heading-lg text-gray-900 dark:text-white text-center mb-12">
-          Why Listen to Me?
+          Trusted by Professionals at Fortune 500 Companies
         </h2>
 
         <div class="grid md:grid-cols-3 gap-8 mb-12">
           <div class="text-center">
-            <div class="w-20 h-20 bg-primary-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <div class="w-20 h-20 bg-primary-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <span class="text-3xl font-extrabold text-white">15+</span>
             </div>
-            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Years of Experience</h3>
-            <p class="text-gray-600 dark:text-gray-400">Hands-on agile professional working with Jira, Confluence, and Atlassian Rovo</p>
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Years Experience</h3>
+            <p class="text-gray-600 dark:text-gray-400">Real-world agile professional, not a corporate trainer</p>
           </div>
 
           <div class="text-center">
-            <div class="w-20 h-20 bg-primary-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <div class="w-20 h-20 bg-primary-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <span class="text-2xl font-extrabold text-white">13K+</span>
             </div>
             <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Students Trained</h3>
@@ -261,57 +210,97 @@ const pageDescription = 'Download the free Agile-AI Blueprint and discover what 
           </div>
 
           <div class="text-center">
-            <div class="w-20 h-20 bg-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <div class="w-20 h-20 bg-primary-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
               </svg>
             </div>
-            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Currently Employed</h3>
-            <p class="text-gray-600 dark:text-gray-400">Using these exact automation and AI techniques full-time</p>
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Fortune 500</h3>
+            <p class="text-gray-600 dark:text-gray-400">Students from top companies worldwide</p>
           </div>
         </div>
 
-        <div class="card-modern bg-white dark:bg-gray-800 prose prose-lg max-w-none dark:prose-invert">
-          <p>
-            I'm Danny, and I've spent 15+ years as an agile professional working with tools like Jira, Confluence, and now Atlassian Rovo. I've trained over 13,000 students on Jira mastery via Udemy, and I'm currently employed full-time using these exact automation and AI techniques.
-          </p>
-
-          <p>
-            <strong>I'm not a corporate trainer selling outdated frameworks.</strong> I'm a real practitioner sharing what actually works in 2026—the tactical skills that make you indispensable to your organization.
-          </p>
-
-          <p>
-            AgileTactix exists because I saw too many talented agile professionals getting left behind by the AI wave, relying on certifications that don't teach the technical skills companies actually need.
-          </p>
-
-          <p class="text-xl font-bold text-primary-600 dark:text-primary-400">
-            This Blueprint is the starting point for your transformation from theory-focused coach to AI-powered partner.
+        <div class="card-modern bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20">
+          <p class="text-xl text-gray-800 dark:text-gray-200 leading-relaxed text-center">
+            Created by <strong>Danny</strong>, an agile professional with <strong>15+ years</strong> hands-on experience who's trained <strong>13,000+ students</strong> and currently uses these exact tools and techniques full-time at a Fortune 500 company.
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Urgency Section -->
-  <section class="bg-gradient-to-br from-gray-900 to-gray-800 text-white">
-    <div class="section-container py-20">
-      <div class="max-w-3xl mx-auto text-center">
-        <h2 class="heading-lg mb-8">
-          The AI Wave Isn't Waiting
+  <!-- What Happens After You Join Section -->
+  <section class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
+    <div class="section-container section-spacing">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="heading-lg text-gray-900 dark:text-white text-center mb-12">
+          What Happens After You Join
         </h2>
 
-        <div class="space-y-6 text-lg text-gray-300 mb-10">
-          <p>
-            Every day you delay building these skills, your peers are getting ahead. Companies are hiring <strong class="text-white">"AI-forward agile architects"</strong> right now—professionals who can automate workflows, integrate AI agents, and provide real business value beyond facilitation.
-          </p>
+        <div class="grid gap-6">
+          <div class="card-modern">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                <span class="text-lg font-bold text-primary-600 dark:text-primary-400">1</span>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                  Instant Access to the 3-Lesson Blueprint
+                </h3>
+                <p class="text-gray-600 dark:text-gray-400">
+                  Get immediate access to all 3 lessons. Start with Lesson 1 and understand exactly why your role is vulnerable—and what to do about it.
+                </p>
+              </div>
+            </div>
+          </div>
 
-          <p>
-            The question isn't <em>if</em> you'll need these skills—it's whether you'll have them <strong class="text-white">before the market demands them</strong>.
-          </p>
+          <div class="card-modern">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                <span class="text-lg font-bold text-primary-600 dark:text-primary-400">2</span>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                  Join the Community
+                </h3>
+                <p class="text-gray-600 dark:text-gray-400">
+                  Connect with 13,000+ agile professionals who are making the same transformation. Share wins, ask questions, and learn from practitioners using these tools daily.
+                </p>
+              </div>
+            </div>
+          </div>
 
-          <p class="text-2xl font-bold text-white">
-            Download the Blueprint today and start your transformation this week.
-          </p>
+          <div class="card-modern">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                <span class="text-lg font-bold text-primary-600 dark:text-primary-400">3</span>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                  Implement Your First Automation
+                </h3>
+                <p class="text-gray-600 dark:text-gray-400">
+                  Follow the step-by-step guide in Lesson 2 to build your first Jira automation this week. Save 2 hours and show your team immediate value.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-modern">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                <span class="text-lg font-bold text-primary-600 dark:text-primary-400">4</span>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                  Follow the 90-Day Roadmap
+                </h3>
+                <p class="text-gray-600 dark:text-gray-400">
+                  Use Lesson 3's transformation roadmap to systematically build the skills companies are actually hiring for. Get career optionality and confidence in 90 days.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -319,52 +308,43 @@ const pageDescription = 'Download the free Agile-AI Blueprint and discover what 
 
   <!-- Final CTA Section -->
   <section class="bg-primary-600">
-    <div class="section-container py-24">
+    <div class="section-container">
       <div class="max-w-3xl mx-auto text-center">
         <h2 class="heading-lg text-white mb-4">
-          Get Your Free Agile-AI Blueprint Now
+          Join 13,000+ Professionals
         </h2>
         <p class="text-2xl text-primary-100 mb-12 font-medium">
-          No credit card. No strings. Just actionable insights you can use today.
+          Free community. Real skills. Career optionality.
         </p>
 
-        <button
-          data-modal-trigger="blueprint"
-          class="inline-block bg-white text-primary-600 px-14 py-6 rounded-xl font-extrabold text-2xl shadow-strong hover:shadow-2xl hover:bg-gray-50 transform hover:scale-105 transition-all duration-300 mb-12"
+        <a
+          href="https://agiletactix.circle.so"
+          class="inline-block bg-white text-primary-600 px-14 py-6 rounded-xl font-extrabold text-2xl hover:bg-gray-50 mb-12"
         >
-          <span class="flex items-center gap-3">
-            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-            </svg>
-            Download the Blueprint
-          </span>
-        </button>
+          Get Started Free
+        </a>
 
-        <!-- Trust Indicators -->
         <div class="flex flex-col sm:flex-row items-center justify-center gap-8 text-primary-100">
           <div class="flex items-center gap-2">
             <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
             </svg>
-            <span class="font-bold text-lg">Instant PDF download</span>
+            <span class="font-bold text-lg">No credit card required</span>
           </div>
           <div class="flex items-center gap-2">
             <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
             </svg>
-            <span class="font-bold text-lg">13,000+ professionals trained</span>
+            <span class="font-bold text-lg">Instant access</span>
           </div>
           <div class="flex items-center gap-2">
             <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
             </svg>
-            <span class="font-bold text-lg">100% free, no catch</span>
+            <span class="font-bold text-lg">Join 13,000+ students</span>
           </div>
         </div>
       </div>
     </div>
   </section>
-
-  <!-- Include the Kit Modal -->
-  <KitModal />
 </BaseLayout>
