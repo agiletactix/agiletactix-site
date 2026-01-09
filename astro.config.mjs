@@ -4,8 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://agiletactix.github.io',
-  base: '/agiletactix-site',
+  site: 'https://agiletactix.ai',
   integrations: [
     tailwind(),
     sitemap()
