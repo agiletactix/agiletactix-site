@@ -9,12 +9,12 @@ const base = import.meta.env.BASE_URL;
 
 <BaseLayout title={pageTitle} description={pageDescription}>
   <!-- Hero Section with Particle Network Background -->
-  <section class="relative bg-black overflow-hidden min-h-[90vh] flex items-center">
+  <section class="relative bg-black overflow-hidden min-h-screen flex items-center -mt-[88px] sm:-mt-[96px] pt-[88px] sm:pt-[96px]">
     <!-- Particle Animation Background -->
     <ParticleNetwork />
 
     <!-- Content -->
-    <div class="section-container relative z-10" style="padding-top: 6rem; padding-bottom: 6rem;">
+    <div class="section-container relative z-10 py-16 lg:py-24">
       <div class="max-w-4xl animate-fade-in">
         <!-- Pre-headline -->
         <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary-600/20 border border-primary-500/30 rounded-full mb-8 animate-slide-up">
