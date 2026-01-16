@@ -15,7 +15,9 @@ const base = import.meta.env.BASE_URL;
 
     <!-- Content -->
     <div class="section-container relative z-10 py-16 lg:py-24">
-      <div class="max-w-4xl animate-fade-in">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Left Column: Text Content -->
+        <div class="max-w-xl animate-fade-in">
         <!-- Pre-headline -->
         <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary-600/20 border border-primary-500/30 rounded-full mb-8 animate-slide-up">
           <svg class="w-4 h-4 text-primary-400" fill="currentColor" viewBox="0 0 20 20">
@@ -64,6 +66,91 @@ const base = import.meta.env.BASE_URL;
               <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
             </svg>
             <span class="font-semibold">15+ years experience</span>
+          </div>
+        </div>
+        </div>
+
+        <!-- Right Column: Analytics Dashboard -->
+        <div class="animate-fade-in lg:animate-slide-left" style="animation-delay: 0.3s;">
+          <div class="bg-white/5 backdrop-blur-sm border border-blue-600/20 rounded-2xl p-6 shadow-xl">
+            <!-- Dashboard Header -->
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="text-white font-semibold text-lg">Sprint Velocity</h3>
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
+                <span class="text-blue-400 text-sm">Live</span>
+              </div>
+            </div>
+
+            <!-- Bar Chart -->
+            <div class="relative h-48 mb-6">
+              <!-- Y-axis labels -->
+              <div class="absolute left-0 top-0 h-full flex flex-col justify-between text-xs text-gray-500 pr-2">
+                <span>60</span>
+                <span>40</span>
+                <span>20</span>
+                <span>0</span>
+              </div>
+
+              <!-- Chart Area -->
+              <div class="ml-8 h-full flex items-end justify-between gap-2" id="velocity-chart">
+                <div class="velocity-bar flex-1 bg-gradient-to-t from-blue-600 to-blue-400 rounded-t-md transition-all duration-700 ease-out" style="height: 65%;">
+                  <span class="block text-center text-xs text-gray-400 mt-2 -mb-6">S1</span>
+                </div>
+                <div class="velocity-bar flex-1 bg-gradient-to-t from-blue-600 to-blue-400 rounded-t-md transition-all duration-700 ease-out" style="height: 78%;">
+                  <span class="block text-center text-xs text-gray-400 mt-2 -mb-6">S2</span>
+                </div>
+                <div class="velocity-bar flex-1 bg-gradient-to-t from-blue-600 to-blue-400 rounded-t-md transition-all duration-700 ease-out" style="height: 55%;">
+                  <span class="block text-center text-xs text-gray-400 mt-2 -mb-6">S3</span>
+                </div>
+                <div class="velocity-bar flex-1 bg-gradient-to-t from-blue-600 to-blue-400 rounded-t-md transition-all duration-700 ease-out" style="height: 88%;">
+                  <span class="block text-center text-xs text-gray-400 mt-2 -mb-6">S4</span>
+                </div>
+                <div class="velocity-bar flex-1 bg-gradient-to-t from-blue-600 to-blue-400 rounded-t-md transition-all duration-700 ease-out" style="height: 72%;">
+                  <span class="block text-center text-xs text-gray-400 mt-2 -mb-6">S5</span>
+                </div>
+                <div class="velocity-bar flex-1 bg-gradient-to-t from-blue-600 to-blue-400 rounded-t-md transition-all duration-700 ease-out" style="height: 95%;">
+                  <span class="block text-center text-xs text-gray-400 mt-2 -mb-6">S6</span>
+                </div>
+                <div class="velocity-bar flex-1 bg-gradient-to-t from-blue-600 to-blue-400 rounded-t-md transition-all duration-700 ease-out" style="height: 82%;">
+                  <span class="block text-center text-xs text-gray-400 mt-2 -mb-6">S7</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Metric Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <!-- Automation Rate -->
+              <div class="bg-white/5 backdrop-blur-sm border border-blue-600/20 rounded-xl p-4">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-gray-400 text-xs uppercase tracking-wide">Automation Rate</span>
+                  <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                  </svg>
+                </div>
+                <div class="text-2xl font-bold text-white">94%</div>
+              </div>
+
+              <!-- Time Saved -->
+              <div class="bg-white/5 backdrop-blur-sm border border-blue-600/20 rounded-xl p-4">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-gray-400 text-xs uppercase tracking-wide">Time Saved</span>
+                </div>
+                <div class="text-2xl font-bold text-white">18h<span class="text-sm font-normal text-gray-400"> /sprint</span></div>
+              </div>
+
+              <!-- AI Actions -->
+              <div class="bg-white/5 backdrop-blur-sm border border-blue-600/20 rounded-xl p-4">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-gray-400 text-xs uppercase tracking-wide">AI Actions</span>
+                  <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                  </span>
+                </div>
+                <div class="text-2xl font-bold text-white">247<span class="text-sm font-normal text-gray-400"> active</span></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -458,3 +545,27 @@ const base = import.meta.env.BASE_URL;
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  // Animated bar chart - updates every 2 seconds
+  function animateVelocityChart() {
+    const bars = document.querySelectorAll('.velocity-bar');
+
+    function updateBars() {
+      bars.forEach((bar) => {
+        // Generate random height between 40% and 98%
+        const newHeight = Math.floor(Math.random() * 58) + 40;
+        (bar as HTMLElement).style.height = `${newHeight}%`;
+      });
+    }
+
+    // Update bars every 2 seconds
+    setInterval(updateBars, 2000);
+  }
+
+  // Initialize when DOM is ready
+  document.addEventListener('DOMContentLoaded', animateVelocityChart);
+
+  // Also handle Astro view transitions
+  document.addEventListener('astro:page-load', animateVelocityChart);
+</script>
