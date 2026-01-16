@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import DarkModeToggle from './DarkModeToggle.astro';
+import logo from '../assets/images/Agiletactix-logo.png';
 
 const currentPath = Astro.url.pathname;
 const base = import.meta.env.BASE_URL;
@@ -19,7 +21,7 @@ const navLinks = [
       <!-- Logo -->
       <div class="flex-shrink-0">
         <a href={base} class="focus-visible-ring rounded">
-          <img src="/images/Agiletactix-logo.png" alt="Agile Tactix" class="h-12 sm:h-14 w-auto" />
+          <Image src={logo} alt="Agile Tactix" class="h-12 sm:h-14 w-auto" />
         </a>
       </div>
 
