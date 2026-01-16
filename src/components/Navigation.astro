@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import DarkModeToggle from './DarkModeToggle.astro';
+import logoDark from '../assets/images/Agiletactix-logo-dark-mode.png';
 
 const currentPath = Astro.url.pathname;
 const base = import.meta.env.BASE_URL;
@@ -13,13 +15,13 @@ const navLinks = [
 ];
 ---
 
-<nav class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50 shadow-sm backdrop-blur-sm bg-white/95 dark:bg-gray-900/95 transition-colors duration-300">
+<nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
   <div class="section-container py-6">
     <div class="flex items-center justify-between">
       <!-- Logo -->
       <div class="flex-shrink-0">
         <a href={base} class="focus-visible-ring rounded">
-          <img src="/images/Agiletactix-logo.png" alt="Agile Tactix" class="h-12 sm:h-14 w-auto" />
+          <Image src={logoDark} alt="Agile Tactix" class="h-12 sm:h-14 w-auto" />
         </a>
       </div>
 
@@ -28,10 +30,10 @@ const navLinks = [
         {navLinks.map((link) => (
           <a
             href={link.href}
-            class={`text-sm font-semibold transition-colors duration-200 focus-visible-ring rounded px-3 py-2 ${
+            class={`nav-link text-sm font-semibold transition-colors duration-200 focus-visible-ring rounded px-3 py-2 ${
               currentPath === link.href
-                ? 'text-primary-600 dark:text-primary-400'
-                : 'text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400'
+                ? 'text-primary-400'
+                : 'text-gray-200 hover:text-white'
             }`}
           >
             {link.label}
@@ -51,7 +53,7 @@ const navLinks = [
         <button
           id="mobile-menu-button"
           type="button"
-          class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-primary-600 hover:bg-gray-100 focus-visible-ring"
+          class="inline-flex items-center justify-center p-2 rounded-md text-gray-200 hover:text-white hover:bg-white/10 focus-visible-ring"
           aria-expanded="false"
           aria-label="Toggle navigation menu"
         >
@@ -64,15 +66,15 @@ const navLinks = [
   </div>
 
   <!-- Mobile Navigation Menu -->
-  <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-gray-700">
+  <div id="mobile-menu" class="hidden md:hidden border-t border-white/10">
     <div class="section-container py-6 space-y-2">
       {navLinks.map((link) => (
         <a
           href={link.href}
           class={`block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${
             currentPath === link.href
-              ? 'text-primary-600 bg-primary-50'
-              : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
+              ? 'text-primary-400 bg-white/10'
+              : 'text-gray-200 hover:text-white hover:bg-white/10'
           }`}
         >
           {link.label}
@@ -88,6 +90,9 @@ const navLinks = [
   </div>
 </nav>
 
+<!-- Spacer to account for fixed nav -->
+<div class="h-[88px] sm:h-[96px]"></div>
+
 <script>
   // Mobile menu toggle
   const mobileMenuButton = document.getElementById('mobile-menu-button');
@@ -100,4 +105,29 @@ const navLinks = [
       mobileMenu.classList.toggle('hidden');
     });
   }
+
+  // Scroll-based nav background
+  const nav = document.getElementById('main-nav');
+
+  function updateNavBackground() {
+    if (!nav) return;
+
+    // Get hero section height (90vh minus nav height)
+    const heroHeight = window.innerHeight * 0.9 - 96;
+    const scrollY = window.scrollY;
+
+    if (scrollY > heroHeight) {
+      // Past hero - add dark semi-transparent background
+      nav.classList.add('bg-gray-900/90', 'backdrop-blur-md', 'shadow-lg');
+    } else {
+      // Over hero - fully transparent
+      nav.classList.remove('bg-gray-900/90', 'backdrop-blur-md', 'shadow-lg');
+    }
+  }
+
+  // Initial check
+  updateNavBackground();
+
+  // Listen for scroll
+  window.addEventListener('scroll', updateNavBackground, { passive: true });
 </script>

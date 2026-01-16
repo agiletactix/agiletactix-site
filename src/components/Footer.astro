@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import logoDark from '../assets/images/Agiletactix-logo-dark-mode.png';
+
 const currentYear = new Date().getFullYear();
 
 const footerLinks = {
@@ -37,7 +40,7 @@ const footerLinks = {
       <!-- Logo and Tagline -->
       <div class="md:col-span-1">
         <a href="/" class="inline-block focus-visible-ring rounded">
-          <img src="/images/Agiletactix-logo-dark-mode.png" alt="Agile Tactix" class="h-12 w-auto" />
+          <Image src={logoDark} alt="Agile Tactix" class="h-12 w-auto" />
         </a>
         <p class="mt-3 text-sm text-gray-400 max-w-xs">
           Real-World Agility. AI-Powered. Career-Focused.
