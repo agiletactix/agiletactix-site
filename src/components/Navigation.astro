@@ -66,15 +66,15 @@ const navLinks = [
   </div>
 
   <!-- Mobile Navigation Menu -->
-  <div id="mobile-menu" class="hidden md:hidden border-t border-white/10">
-    <div class="section-container py-6 space-y-2">
+  <div id="mobile-menu" class="hidden md:hidden fixed inset-0 top-[88px] sm:top-[96px] bg-gray-950/95 backdrop-blur-xl z-40">
+    <div class="section-container py-8 space-y-3 h-full">
       {navLinks.map((link) => (
         <a
           href={link.href}
-          class={`block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${
+          class={`block px-4 py-3 rounded-lg text-lg font-medium transition-colors duration-200 ${
             currentPath === link.href
               ? 'text-primary-400 bg-white/10'
-              : 'text-gray-200 hover:text-white hover:bg-white/10'
+              : 'text-white hover:text-white hover:bg-white/10'
           }`}
         >
           {link.label}
@@ -82,7 +82,7 @@ const navLinks = [
       ))}
       <a
         href="/blueprint/"
-        class="block px-3 py-2 btn-primary text-center mt-4 relative"
+        class="block px-4 py-3 btn-primary text-center mt-6 relative"
       >
         <span class="relative z-10">Get the Blueprint</span>
       </a>
