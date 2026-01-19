@@ -15,7 +15,7 @@ const navLinks = [
 ];
 ---
 
-<nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+<nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-gray-950 lg:bg-transparent">
   <div class="section-container py-6">
     <div class="flex items-center justify-between">
       <!-- Logo -->
@@ -117,11 +117,11 @@ const navLinks = [
     const scrollY = window.scrollY;
 
     if (scrollY > heroHeight) {
-      // Past hero - add dark semi-transparent background
-      nav.classList.add('bg-gray-900/90', 'backdrop-blur-md', 'shadow-lg');
+      // Past hero - add dark semi-transparent background (desktop only)
+      nav.classList.add('lg:bg-gray-900/90', 'lg:backdrop-blur-md', 'lg:shadow-lg');
     } else {
-      // Over hero - fully transparent
-      nav.classList.remove('bg-gray-900/90', 'backdrop-blur-md', 'shadow-lg');
+      // Over hero - fully transparent (desktop only)
+      nav.classList.remove('lg:bg-gray-900/90', 'lg:backdrop-blur-md', 'lg:shadow-lg');
     }
   }
 
