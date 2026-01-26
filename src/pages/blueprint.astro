@@ -6,34 +6,27 @@ const pageDescription = 'How I got rehired in 2 weeks after being laid off with 
 ---
 
 <LandingLayout title={pageTitle} description={pageDescription}>
-  <!-- Hero Section - Two Column Layout Like FirstMovers -->
-  <section class="bg-[#1a1a1a] min-h-screen">
-    <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-24 pb-16 sm:pt-32 sm:pb-24 lg:pt-40 lg:pb-32">
-      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+  <!-- Hero Section - Compact, ~523px height -->
+  <section class="bg-[#1a1a1a] py-16 lg:py-20">
+    <div class="max-w-[1350px] mx-auto px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
         <!-- Left Column - Text Content -->
-        <div class="order-2 lg:order-1">
-          <!-- Personal intro -->
-          <p class="text-lg sm:text-xl text-white/90 font-medium mb-6">
-            Hi, I'm Danny.
-          </p>
-
-          <!-- Main Headline with "2 Weeks" highlighted -->
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-[1.1] mb-8" style="letter-spacing: -0.02em;">
-            <span class="text-white">How I Got Rehired in</span>
-            <br />
+        <div>
+          <!-- Main Headline -->
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-4 mt-[50px]">
+            <span class="text-white">How I Got Rehired in </span>
             <span class="text-[#294bf3]">2 Weeks</span>
-            <br />
-            <span class="text-white">After Being Laid Off With Thousands of Other Scrum Masters</span>
+            <span class="text-white"> After Being Laid Off With Thousands of Other Scrum Masters</span>
           </h1>
 
           <!-- Hook statement -->
-          <p class="text-lg sm:text-xl lg:text-2xl text-white/80 leading-relaxed mb-8 max-w-xl">
+          <p class="text-lg text-gray-200 leading-relaxed mt-4">
             When companies started cutting "ceremony-only" agile roles in January 2023, I built automation systems that proved I was technical—not "just a facilitator."
           </p>
 
           <!-- Value proposition -->
-          <p class="text-lg sm:text-xl text-white mb-10">
+          <p class="text-base lg:text-lg text-white mt-3">
             This <span class="text-[#294bf3] font-semibold">free blueprint</span> is my exact 3-phase roadmap.
           </p>
 
@@ -41,36 +34,28 @@ const pageDescription = 'How I got rehired in 2 weeks after being laid off with 
           <button
             type="button"
             data-modal-trigger="blueprint"
-            class="inline-flex items-center justify-center px-12 sm:px-16 py-5 text-lg font-bold text-white bg-[#294bf3] rounded-full transition-all duration-300 hover:bg-[#3d5af5] hover:shadow-[0_10px_40px_-10px_rgba(41,75,243,0.5)] focus:outline-none focus:ring-4 focus:ring-[#294bf3]/50"
+            class="inline-flex items-center justify-center px-8 py-4 mt-6 text-lg font-semibold text-white bg-[#294bf3] rounded-full transition-all duration-300 hover:bg-[#1e3acc] focus:outline-none focus:ring-4 focus:ring-[#294bf3]/50"
           >
             Get The Blueprint
-            <svg class="w-5 h-5 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
           </button>
         </div>
 
-        <!-- Right Column - Image/Visual -->
-        <div class="order-1 lg:order-2 flex justify-center lg:justify-end">
-          <div class="relative w-full max-w-md lg:max-w-lg">
-            <!-- Photo placeholder with professional styling -->
-            <div class="aspect-[4/5] bg-gradient-to-br from-[#294bf3]/20 to-[#1a1a1a] rounded-2xl border-2 border-white/10 shadow-2xl overflow-hidden">
-              <!-- Placeholder for Danny's photo -->
-              <div class="w-full h-full flex items-center justify-center">
-                <div class="text-center p-8">
-                  <div class="w-32 h-32 mx-auto mb-6 rounded-full bg-[#294bf3]/30 flex items-center justify-center">
-                    <svg class="w-16 h-16 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                  </div>
-                  <p class="text-white/40 text-sm">Photo of Danny</p>
-                  <p class="text-white/30 text-xs mt-1">Replace with actual image</p>
-                </div>
-              </div>
-            </div>
-            <!-- Decorative elements -->
-            <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-[#294bf3]/20 rounded-full blur-2xl"></div>
-            <div class="absolute -top-4 -left-4 w-32 h-32 bg-[#294bf3]/10 rounded-full blur-3xl"></div>
+        <!-- Right Column - YouTube Video -->
+        <div>
+          <div class="aspect-video rounded-lg overflow-hidden shadow-2xl">
+            <iframe
+              width="100%"
+              height="100%"
+              src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+              title="Danny's Agile Automation Story"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              class="w-full h-full"
+            ></iframe>
           </div>
         </div>
       </div>
@@ -78,79 +63,66 @@ const pageDescription = 'How I got rehired in 2 weeks after being laid off with 
   </section>
 
   <!-- Crisis Story Section -->
-  <section class="bg-white">
-    <div class="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 py-20 sm:py-28 lg:py-32">
-      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#1a1a1a] leading-tight mb-12" style="letter-spacing: -0.02em;">
+  <section class="bg-white py-16 lg:py-20">
+    <div class="max-w-[1350px] mx-auto px-6 lg:px-8 text-center">
+      <h2 class="text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-8">
         My Layoff Should Have Been Career-Ending. Instead, I Was Back at Work in 2 Weeks.
       </h2>
 
-      <div class="prose prose-lg max-w-none text-[#1a1a1a]/80 space-y-6">
-        <p class="text-xl leading-relaxed">
-          In January 2023, companies made a choice:
-        </p>
-        <p class="text-xl leading-relaxed">
-          Keep the agile professionals who "just facilitated meetings" or keep the ones who "built technical systems."
-        </p>
-        <p class="text-xl leading-relaxed">
-          I was laid off along with thousands of other Scrum Masters. My peers spent months searching for interviews. Some are still looking.
-        </p>
-        <p class="text-xl leading-relaxed font-semibold text-[#1a1a1a]">
-          But I was back at work within two weeks—landing a Fortune 500 pharmaceutical role.
-        </p>
-        <p class="text-xl leading-relaxed font-bold text-[#1a1a1a]">
-          The difference?
-        </p>
-        <p class="text-xl leading-relaxed">
-          In every interview, I could say:
-        </p>
-        <blockquote class="border-l-4 border-[#294bf3] pl-6 py-2 my-8 bg-[#f0f7ff] rounded-r-lg">
-          <p class="text-xl text-[#1a1a1a] italic">
-            "I've built Jira automation systems that saved my last team 12 hours per sprint. I don't just coordinate work—I architect solutions that create measurable value."
-          </p>
+      <div class="text-lg text-[#1a1a1a] leading-relaxed space-y-6">
+        <p>In January 2023, companies made a choice:</p>
+
+        <p>Keep the agile professionals who "just facilitated meetings" or keep the ones who "built technical systems."</p>
+
+        <p>I was laid off along with thousands of other Scrum Masters. My peers spent months searching for interviews. Some are still looking.</p>
+
+        <p class="font-semibold">But I was back at work within two weeks—landing a Fortune 500 pharmaceutical role.</p>
+
+        <p class="font-bold">The difference?</p>
+
+        <p>In every interview, I could say:</p>
+
+        <blockquote class="inline-block text-left border-l-4 border-[#294bf3] pl-6 py-2 bg-[#f0f7ff] rounded-r-lg italic max-w-2xl">
+          "I've built Jira automation systems that saved my last team 12 hours per sprint. I don't just coordinate work—I architect solutions that create measurable value."
         </blockquote>
-        <p class="text-xl leading-relaxed">
-          That's not facilitation. That's technical proof.
-        </p>
-        <p class="text-xl leading-relaxed font-bold text-[#294bf3]">
-          So I made a different choice. I built systems that made me indispensable.
-        </p>
+
+        <p>That's not facilitation. That's technical proof.</p>
+
+        <p class="font-bold text-[#294bf3]">So I made a different choice. I built systems that made me indispensable.</p>
       </div>
     </div>
   </section>
 
   <!-- Inline Email Form Section -->
-  <section class="bg-[#f0f7ff]">
-    <div class="max-w-3xl mx-auto px-6 sm:px-8 lg:px-12 py-20 sm:py-24">
-      <div class="bg-white rounded-2xl p-8 sm:p-12 shadow-xl">
-        <div class="text-center mb-8">
-          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1a1a1a] mb-4" style="letter-spacing: -0.01em;">
-            Get The AI-Powered Agile Blueprint
-          </h2>
-          <p class="text-lg text-[#1a1a1a]/70">
-            The 3-Phase Transformation: From Manual Coordinator to AI-Powered Architect
-          </p>
-        </div>
+  <section class="bg-[#f0f7ff] py-16 lg:py-20">
+    <div class="max-w-[1350px] mx-auto px-6 lg:px-8 text-center">
+      <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8 lg:p-12">
+        <h2 class="text-3xl lg:text-4xl font-bold text-[#1a1a1a] text-center mb-4">
+          Get The AI-Powered Agile Blueprint
+        </h2>
 
-        <!-- Email Form - Pill style like FirstMovers -->
-        <form class="mb-6">
-          <div class="flex flex-col sm:flex-row gap-4 sm:gap-0 sm:border-2 sm:border-[#1a1a1a]/10 sm:rounded-full sm:p-2">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              class="flex-1 px-6 py-4 border-2 border-[#1a1a1a]/10 sm:border-0 rounded-full sm:rounded-l-full text-lg text-[#1a1a1a] placeholder-[#1a1a1a]/40 focus:outline-none focus:ring-2 focus:ring-[#294bf3] sm:focus:ring-0"
-              required
-            />
-            <button
-              type="submit"
-              class="px-8 py-4 text-lg font-bold text-white bg-[#294bf3] rounded-full transition-all duration-300 hover:bg-[#3d5af5] whitespace-nowrap"
-            >
-              Download The Blueprint
-            </button>
-          </div>
+        <p class="text-xl text-gray-600 text-center mb-8">
+          The 3-Phase Transformation: From Manual Coordinator to AI-Powered Architect
+        </p>
+
+        <!-- Email Form -->
+        <form class="space-y-4">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            class="w-full px-6 py-4 text-lg border border-gray-300 rounded-lg text-[#1a1a1a] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#294bf3] focus:border-transparent"
+            required
+          />
+          <button
+            type="submit"
+            class="w-full px-8 py-4 text-lg font-semibold text-white bg-[#294bf3] rounded-full transition-all duration-300 hover:bg-[#1e3acc]"
+          >
+            Download The Blueprint
+          </button>
         </form>
 
         <!-- Social Proof -->
-        <p class="text-center text-[#1a1a1a]/60 text-sm leading-relaxed">
+        <p class="text-sm text-gray-600 text-center mt-6">
           I've trained <strong class="text-[#1a1a1a]">15,000+ agile professionals</strong> across 130 countries. This is the exact roadmap that creates career optionality—not just certifications.
         </p>
       </div>
@@ -158,255 +130,195 @@ const pageDescription = 'How I got rehired in 2 weeks after being laid off with 
   </section>
 
   <!-- Proof Statement Section -->
-  <section class="bg-white">
-    <div class="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 py-20 sm:py-28 lg:py-32">
-      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#1a1a1a] leading-tight mb-12 text-center" style="letter-spacing: -0.02em;">
+  <section class="bg-white py-16 lg:py-20">
+    <div class="max-w-[1350px] mx-auto px-6 lg:px-8 text-center">
+      <h2 class="text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-8">
         My Automation Systems Never Stop Working. They Don't Take Sick Days. They Just Create Value.
       </h2>
 
-      <p class="text-xl text-[#1a1a1a]/80 leading-relaxed mb-10 text-center">
-        While other Scrum Masters were updating Jira tickets manually, my automation systems were:
-      </p>
+      <div class="text-lg text-[#1a1a1a] leading-relaxed">
+        <p class="mb-6">While other Scrum Masters were updating Jira tickets manually, my automation systems were:</p>
 
-      <div class="grid sm:grid-cols-2 gap-4 mb-12">
-        <div class="flex items-start gap-4 bg-[#f0f7ff] rounded-xl p-6">
-          <div class="flex-shrink-0 w-8 h-8 bg-[#294bf3] rounded-full flex items-center justify-center">
-            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+        <ul class="space-y-3 mb-8 inline-block text-left">
+          <li class="flex items-start gap-3">
+            <svg class="w-6 h-6 text-[#294bf3] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
-          </div>
-          <span class="text-[#1a1a1a] font-medium text-lg">Syncing sprint dates automatically</span>
-        </div>
-        <div class="flex items-start gap-4 bg-[#f0f7ff] rounded-xl p-6">
-          <div class="flex-shrink-0 w-8 h-8 bg-[#294bf3] rounded-full flex items-center justify-center">
-            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <span>Syncing sprint dates automatically</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg class="w-6 h-6 text-[#294bf3] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
-          </div>
-          <span class="text-[#1a1a1a] font-medium text-lg">Prepping standup updates before meetings</span>
-        </div>
-        <div class="flex items-start gap-4 bg-[#f0f7ff] rounded-xl p-6">
-          <div class="flex-shrink-0 w-8 h-8 bg-[#294bf3] rounded-full flex items-center justify-center">
-            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <span>Prepping standup updates before meetings</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg class="w-6 h-6 text-[#294bf3] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
-          </div>
-          <span class="text-[#1a1a1a] font-medium text-lg">Flagging blockers 3 days before they became crises</span>
-        </div>
-        <div class="flex items-start gap-4 bg-[#f0f7ff] rounded-xl p-6">
-          <div class="flex-shrink-0 w-8 h-8 bg-[#294bf3] rounded-full flex items-center justify-center">
-            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <span>Flagging blockers 3 days before they became crises</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg class="w-6 h-6 text-[#294bf3] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
-          </div>
-          <span class="text-[#1a1a1a] font-medium text-lg">Sending stakeholder reports without human intervention</span>
-        </div>
-      </div>
+            <span>Sending stakeholder reports without human intervention</span>
+          </li>
+        </ul>
 
-      <div class="bg-[#1a1a1a] rounded-2xl p-8 sm:p-12 text-center">
-        <p class="text-xl text-white/80 leading-relaxed mb-4">
-          I quickly realized this wasn't just about efficiency—it was about separating your value from your hours.
-        </p>
-        <p class="text-2xl sm:text-3xl font-bold text-white">
-          Companies don't want coordinators anymore. They want architects who build systems.
-        </p>
+        <p class="mb-4">I quickly realized this wasn't just about efficiency—it was about separating your value from your hours.</p>
+
+        <p class="font-bold text-xl">Companies don't want coordinators anymore. They want architects who build systems.</p>
       </div>
     </div>
   </section>
 
   <!-- What's Inside Section -->
-  <section class="bg-[#f0f7ff]">
-    <div class="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-20 sm:py-28 lg:py-32">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#1a1a1a] mb-4" style="letter-spacing: -0.02em;">
-          Get My Career Survival Blueprint.
-        </h2>
-        <p class="text-xl text-[#1a1a1a]/70 max-w-2xl mx-auto">
-          This blueprint gives you the exact frameworks I built when my career was on the line. Inside, you'll get:
-        </p>
-      </div>
+  <section class="bg-[#f0f7ff] py-16 lg:py-20">
+    <div class="max-w-[1350px] mx-auto px-6 lg:px-8 text-center">
+      <h2 class="text-3xl lg:text-4xl font-bold text-[#1a1a1a] text-center mb-4">
+        Get My Career Survival Blueprint.
+      </h2>
 
-      <!-- CTA above frameworks -->
-      <div class="text-center mb-16">
+      <p class="text-xl text-gray-600 text-center mb-8">
+        This blueprint gives you the exact frameworks I built when my career was on the line. Inside, you'll get:
+      </p>
+
+      <!-- CTA Button -->
+      <div class="text-center mb-12">
         <button
           type="button"
           data-modal-trigger="blueprint"
-          class="inline-flex items-center justify-center px-12 sm:px-16 py-5 text-lg font-bold text-white bg-[#294bf3] rounded-full transition-all duration-300 hover:bg-[#3d5af5] hover:shadow-[0_10px_40px_-10px_rgba(41,75,243,0.5)] focus:outline-none focus:ring-4 focus:ring-[#294bf3]/50"
+          class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-[#294bf3] rounded-full transition-all duration-300 hover:bg-[#1e3acc] focus:outline-none focus:ring-4 focus:ring-[#294bf3]/50"
         >
           I Need This Blueprint
-          <svg class="w-5 h-5 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
           </svg>
         </button>
       </div>
 
-      <!-- 6 Framework Cards - 2x3 grid -->
-      <div class="grid md:grid-cols-2 gap-6 lg:gap-8 mb-16">
+      <!-- 6 Framework Cards -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <!-- Framework 1 -->
-        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-[#1a1a1a]/5">
-          <div class="flex items-start gap-5">
-            <div class="flex-shrink-0 w-14 h-14 bg-[#294bf3] rounded-xl flex items-center justify-center">
-              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-              </svg>
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-[#1a1a1a] mb-3">
-                The 3-Phase Transformation Path
-              </h3>
-              <p class="text-[#1a1a1a]/70 leading-relaxed">
-                The exact career progression from Manual Coordinator → Automation Builder → Agentic Strategist → AI-Powered Architect. Includes time investment for each phase, skills to develop, and career impact at every stage.
-              </p>
-            </div>
+        <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md text-left">
+          <div class="w-12 h-12 bg-[#294bf3] rounded-lg flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+            </svg>
           </div>
+          <h3 class="text-xl lg:text-2xl font-bold text-gray-900 mb-3">
+            The 3-Phase Transformation Path
+          </h3>
+          <p class="text-base text-gray-700 leading-relaxed">
+            The exact career progression from Manual Coordinator → Automation Builder → Agentic Strategist → AI-Powered Architect. Includes time investment for each phase, skills to develop, and career impact at every stage.
+          </p>
         </div>
 
         <!-- Framework 2 -->
-        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-[#1a1a1a]/5">
-          <div class="flex items-start gap-5">
-            <div class="flex-shrink-0 w-14 h-14 bg-[#294bf3] rounded-xl flex items-center justify-center">
-              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-[#1a1a1a] mb-3">
-                The 5 Automation Patterns That Prove You're Technical
-              </h3>
-              <p class="text-[#1a1a1a]/70 leading-relaxed">
-                The Sprint Sync Engine, 12-Minute Standup, Stale Ticket Radar, and automated reporting systems that saved my teams 12+ hours per sprint—and got me hired in 2 weeks.
-              </p>
-            </div>
+        <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md text-left">
+          <div class="w-12 h-12 bg-[#294bf3] rounded-lg flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
           </div>
+          <h3 class="text-xl lg:text-2xl font-bold text-gray-900 mb-3">
+            The 5 Automation Patterns That Prove You're Technical
+          </h3>
+          <p class="text-base text-gray-700 leading-relaxed">
+            The Sprint Sync Engine, 12-Minute Standup, Stale Ticket Radar, and automated reporting systems that saved my teams 12+ hours per sprint—and got me hired in 2 weeks.
+          </p>
         </div>
 
         <!-- Framework 3 -->
-        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-[#1a1a1a]/5">
-          <div class="flex items-start gap-5">
-            <div class="flex-shrink-0 w-14 h-14 bg-[#294bf3] rounded-xl flex items-center justify-center">
-              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-              </svg>
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-[#1a1a1a] mb-3">
-                The Interview Answer Framework
-              </h3>
-              <p class="text-[#1a1a1a]/70 leading-relaxed">
-                The exact responses I used when interviewers asked "How do you ensure data accuracy?" and "How do you identify blockers early?" You'll sound technical, not like a meeting facilitator.
-              </p>
-            </div>
+        <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md text-left">
+          <div class="w-12 h-12 bg-[#294bf3] rounded-lg flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
           </div>
+          <h3 class="text-xl lg:text-2xl font-bold text-gray-900 mb-3">
+            The Interview Answer Framework
+          </h3>
+          <p class="text-base text-gray-700 leading-relaxed">
+            The exact responses I used when interviewers asked "How do you ensure data accuracy?" and "How do you identify blockers early?" You'll sound technical, not like a meeting facilitator.
+          </p>
         </div>
 
         <!-- Framework 4 -->
-        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-[#1a1a1a]/5">
-          <div class="flex items-start gap-5">
-            <div class="flex-shrink-0 w-14 h-14 bg-[#294bf3] rounded-xl flex items-center justify-center">
-              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-              </svg>
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-[#1a1a1a] mb-3">
-                The Self-Assessment Quiz
-              </h3>
-              <p class="text-[#1a1a1a]/70 leading-relaxed">
-                Identify where you are right now: Manual Coordinator, Automation Builder, Agentic Strategist, or AI-Powered Architect. Know your starting point to plan your path forward.
-              </p>
-            </div>
+        <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md text-left">
+          <div class="w-12 h-12 bg-[#294bf3] rounded-lg flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+            </svg>
           </div>
+          <h3 class="text-xl lg:text-2xl font-bold text-gray-900 mb-3">
+            The Self-Assessment Quiz
+          </h3>
+          <p class="text-base text-gray-700 leading-relaxed">
+            Identify where you are right now: Manual Coordinator, Automation Builder, Agentic Strategist, or AI-Powered Architect. Know your starting point to plan your path forward.
+          </p>
         </div>
 
         <!-- Framework 5 -->
-        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-[#1a1a1a]/5">
-          <div class="flex items-start gap-5">
-            <div class="flex-shrink-0 w-14 h-14 bg-[#294bf3] rounded-xl flex items-center justify-center">
-              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-[#1a1a1a] mb-3">
-                The Career Insurance Checklist
-              </h3>
-              <p class="text-[#1a1a1a]/70 leading-relaxed">
-                The 10 technical skills that make you layoff-resistant in 2026. Plus: which skills to prioritize based on your current role (Scrum Master, Product Owner, RTE, Agile Coach).
-              </p>
-            </div>
+        <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md text-left">
+          <div class="w-12 h-12 bg-[#294bf3] rounded-lg flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
           </div>
+          <h3 class="text-xl lg:text-2xl font-bold text-gray-900 mb-3">
+            The Career Insurance Checklist
+          </h3>
+          <p class="text-base text-gray-700 leading-relaxed">
+            The 10 technical skills that make you layoff-resistant in 2026. Plus: which skills to prioritize based on your current role (Scrum Master, Product Owner, RTE, Agile Coach).
+          </p>
         </div>
 
         <!-- Framework 6 -->
-        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-[#1a1a1a]/5">
-          <div class="flex items-start gap-5">
-            <div class="flex-shrink-0 w-14 h-14 bg-[#294bf3] rounded-xl flex items-center justify-center">
-              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-[#1a1a1a] mb-3">
-                The First 30 Days Roadmap
-              </h3>
-              <p class="text-[#1a1a1a]/70 leading-relaxed">
-                Week-by-week action plan to build your first automation system, prove technical value to your team, and start repositioning yourself as an architect (not just a facilitator).
-              </p>
-            </div>
+        <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md text-left">
+          <div class="w-12 h-12 bg-[#294bf3] rounded-lg flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
           </div>
-        </div>
-      </div>
-
-      <!-- PDF Visual -->
-      <div class="max-w-sm mx-auto">
-        <div class="bg-white rounded-2xl p-6 shadow-2xl">
-          <div class="aspect-[3/4] bg-gradient-to-br from-[#294bf3] to-[#1e3a8a] rounded-xl flex items-center justify-center">
-            <div class="text-center text-white p-6">
-              <svg class="w-16 h-16 mx-auto mb-4 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              <p class="text-xl font-bold">AI-Powered Agile Blueprint</p>
-              <p class="text-sm opacity-80 mt-2">The 3-Phase Transformation</p>
-            </div>
-          </div>
-          <p class="text-center text-[#1a1a1a]/50 text-sm mt-4">Free PDF Guide • Instant Download</p>
+          <h3 class="text-xl lg:text-2xl font-bold text-gray-900 mb-3">
+            The First 30 Days Roadmap
+          </h3>
+          <p class="text-base text-gray-700 leading-relaxed">
+            Week-by-week action plan to build your first automation system, prove technical value to your team, and start repositioning yourself as an architect (not just a facilitator).
+          </p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Final Closer Section -->
-  <section class="bg-white">
-    <div class="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 py-20 sm:py-28 lg:py-32 text-center">
-      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#1a1a1a] leading-tight mb-8" style="letter-spacing: -0.02em;">
+  <section class="bg-white py-16 lg:py-20">
+    <div class="max-w-[1350px] mx-auto px-6 lg:px-8 text-center">
+      <h2 class="text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-8">
         Your Career Is Too Important to Be Limited by Facilitation Skills.
       </h2>
 
-      <div class="max-w-2xl mx-auto mb-12">
-        <p class="text-xl text-[#1a1a1a]/80 leading-relaxed mb-6">
-          Whether you've been laid off, fear being replaced by AI, or simply want career optionality instead of job dependency—the path is the same.
-        </p>
-        <p class="text-xl text-[#1a1a1a]/80 leading-relaxed mb-6">
-          Companies aren't cutting agile roles because agile is dead. They're cutting roles that "just coordinate."
-        </p>
-        <p class="text-xl sm:text-2xl text-[#1a1a1a] font-semibold leading-relaxed">
-          The professionals who survive and thrive are the ones who can prove they build systems, architect solutions, and create technical value.
-        </p>
-      </div>
+      <div class="max-w-3xl mx-auto text-lg text-gray-700 leading-relaxed mb-8 space-y-4">
+        <p>Whether you've been laid off, fear being replaced by AI, or simply want career optionality instead of job dependency—the path is the same.</p>
 
-      <p class="text-xl text-[#294bf3] font-bold mb-10">
-        This blueprint is your first step.
-      </p>
+        <p>Companies aren't cutting agile roles because agile is dead. They're cutting roles that "just coordinate."</p>
+
+        <p class="font-semibold text-[#1a1a1a]">The professionals who survive and thrive are the ones who can prove they build systems, architect solutions, and create technical value.</p>
+
+        <p class="text-[#294bf3] font-bold">This blueprint is your first step.</p>
+      </div>
 
       <!-- Final CTA -->
       <button
         type="button"
         data-modal-trigger="blueprint"
-        class="inline-flex items-center justify-center px-14 sm:px-20 py-6 text-xl font-bold text-white bg-[#294bf3] rounded-full transition-all duration-300 hover:bg-[#3d5af5] hover:shadow-[0_10px_40px_-10px_rgba(41,75,243,0.5)] focus:outline-none focus:ring-4 focus:ring-[#294bf3]/50"
+        class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-[#294bf3] rounded-full transition-all duration-300 hover:bg-[#1e3acc] focus:outline-none focus:ring-4 focus:ring-[#294bf3]/50"
       >
         Send Me The Blueprint
-        <svg class="w-6 h-6 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
         </svg>
       </button>
@@ -424,22 +336,22 @@ const pageDescription = 'How I got rehired in 2 weeks after being laid off with 
     <!-- Backdrop -->
     <div
       id="modal-backdrop"
-      class="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity"
+      class="fixed inset-0 bg-black/70 transition-opacity"
       aria-hidden="true"
     ></div>
 
-    <!-- Modal Panel -->
+    <!-- Modal Container -->
     <div class="fixed inset-0 overflow-y-auto">
-      <div class="flex min-h-full items-center justify-center p-4 sm:p-6">
+      <div class="flex min-h-full items-center justify-center p-4">
         <div
           id="modal-panel"
-          class="relative w-full max-w-lg transform overflow-hidden rounded-2xl bg-white shadow-2xl transition-all"
+          class="relative w-full max-w-2xl bg-white rounded-xl shadow-2xl transition-all p-8 lg:p-12"
         >
           <!-- Close Button -->
           <button
             id="modal-close-button"
             type="button"
-            class="absolute top-4 right-4 text-[#1a1a1a]/40 hover:text-[#1a1a1a] transition-colors focus:outline-none focus:ring-2 focus:ring-[#294bf3] rounded-lg p-2 z-10"
+            class="absolute top-4 right-4 text-gray-500 hover:text-gray-900 transition-colors focus:outline-none"
             aria-label="Close modal"
           >
             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -448,50 +360,40 @@ const pageDescription = 'How I got rehired in 2 weeks after being laid off with 
           </button>
 
           <!-- Modal Content -->
-          <div class="px-6 py-10 sm:px-10 sm:py-12">
-            <!-- Header -->
-            <div class="text-center mb-8">
-              <h2 id="modal-title" class="text-2xl sm:text-3xl font-extrabold text-[#1a1a1a] mb-3">
-                Your Blueprint is Almost Ready...
-              </h2>
-              <p class="text-[#1a1a1a]/70 leading-relaxed">
-                Enter your email below to get the complete guide and discover the 3-phase transformation that took me from layoff to Fortune 500 in 2 weeks.
-              </p>
-            </div>
-
-            <!-- PDF Visual -->
-            <div class="flex justify-center mb-8">
-              <div class="w-28 h-36 bg-gradient-to-br from-[#294bf3] to-[#1e3a8a] rounded-lg shadow-lg flex items-center justify-center transform -rotate-3 hover:rotate-0 transition-transform">
-                <div class="text-center text-white p-3">
-                  <svg class="w-8 h-8 mx-auto mb-2 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  <p class="text-[10px] font-bold leading-tight">AI-Powered<br/>Blueprint</p>
-                </div>
+          <div class="text-center">
+            <!-- PDF Visual Placeholder -->
+            <div class="flex justify-center mb-6">
+              <div class="w-24 h-32 bg-gradient-to-br from-[#294bf3] to-[#1e3a8a] rounded-lg shadow-lg flex items-center justify-center">
+                <svg class="w-10 h-10 text-white opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
               </div>
             </div>
 
+            <h2 id="modal-title" class="text-2xl lg:text-3xl font-bold text-[#1a1a1a] mb-4">
+              Your Blueprint is Almost Ready...
+            </h2>
+
+            <p class="text-base text-gray-600 mb-8">
+              Enter your email below to get the complete guide and discover the 3-phase transformation that took me from layoff to Fortune 500 in 2 weeks. By subscribing, you'll also get exclusive automation tactics and AI integration tips.
+            </p>
+
             <!-- Email Form -->
-            <form class="space-y-4 mb-6">
+            <form class="space-y-4">
               <input
                 type="email"
                 id="modal-email-input"
                 placeholder="Enter your email"
-                class="w-full px-5 py-4 border-2 border-[#1a1a1a]/10 rounded-full text-lg text-[#1a1a1a] placeholder-[#1a1a1a]/40 focus:outline-none focus:ring-2 focus:ring-[#294bf3] focus:border-transparent transition-all"
+                class="w-full px-6 py-4 border border-gray-300 rounded-lg text-lg text-[#1a1a1a] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#294bf3] focus:border-transparent"
                 required
               />
               <button
                 type="submit"
-                class="w-full px-8 py-4 text-lg font-bold text-white bg-[#294bf3] rounded-full transition-all duration-300 hover:bg-[#3d5af5]"
+                class="w-full px-8 py-4 text-lg font-semibold text-white bg-[#294bf3] rounded-full transition-all duration-300 hover:bg-[#1e3acc]"
               >
                 Send Me the Blueprint
               </button>
             </form>
-
-            <!-- Fine print -->
-            <p class="text-xs text-[#1a1a1a]/50 text-center">
-              By subscribing, you'll also get exclusive automation tactics and AI integration tips. Unsubscribe anytime.
-            </p>
           </div>
         </div>
       </div>
@@ -521,21 +423,19 @@ const pageDescription = 'How I got rehired in 2 weeks after being laid off with 
       document.body.style.overflow = 'hidden';
 
       modalPanel.style.opacity = '0';
-      modalPanel.style.transform = 'scale(0.95) translateY(10px)';
+      modalPanel.style.transform = 'scale(0.95)';
       backdrop.style.opacity = '0';
 
       setTimeout(() => {
         if (!backdrop || !modalPanel) return;
         backdrop.style.opacity = '1';
         modalPanel.style.opacity = '1';
-        modalPanel.style.transform = 'scale(1) translateY(0)';
+        modalPanel.style.transform = 'scale(1)';
       }, 10);
 
       setTimeout(() => {
         if (emailInput) emailInput.focus();
       }, 100);
-
-      trapFocus(modal);
     }
 
     function closeModal() {
@@ -543,7 +443,7 @@ const pageDescription = 'How I got rehired in 2 weeks after being laid off with 
 
       backdrop.style.opacity = '0';
       modalPanel.style.opacity = '0';
-      modalPanel.style.transform = 'scale(0.95) translateY(10px)';
+      modalPanel.style.transform = 'scale(0.95)';
 
       setTimeout(() => {
         if (!modal) return;
@@ -571,30 +471,6 @@ const pageDescription = 'How I got rehired in 2 weeks after being laid off with 
         closeModal();
       }
     });
-
-    function trapFocus(element: HTMLElement) {
-      const focusableElements = element.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      const firstFocusable = focusableElements[0] as HTMLElement;
-      const lastFocusable = focusableElements[focusableElements.length - 1] as HTMLElement;
-
-      element.addEventListener('keydown', (e) => {
-        if (e.key !== 'Tab') return;
-
-        if (e.shiftKey) {
-          if (document.activeElement === firstFocusable) {
-            e.preventDefault();
-            lastFocusable.focus();
-          }
-        } else {
-          if (document.activeElement === lastFocusable) {
-            e.preventDefault();
-            firstFocusable.focus();
-          }
-        }
-      });
-    }
   });
 </script>
 
@@ -604,6 +480,6 @@ const pageDescription = 'How I got rehired in 2 weeks after being laid off with 
   }
 
   #modal-panel {
-    transition: opacity 300ms ease-out, transform 300ms ease-out;
+    transition: opacity 200ms ease-out, transform 200ms ease-out;
   }
 </style>
