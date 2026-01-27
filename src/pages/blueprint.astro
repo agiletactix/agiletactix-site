@@ -363,6 +363,37 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
         id="modal-panel"
         class="relative bg-gradient-to-br from-[#294bf3] via-[#1e3acc] to-[#00a8cc] rounded-2xl max-w-5xl w-full shadow-2xl overflow-hidden"
       >
+        <!-- Animated stars background -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+          <div class="stars-container">
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+          </div>
+        </div>
+
         <!-- Close button -->
         <button
           id="modal-close"
@@ -600,5 +631,70 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
 
   #modal-panel {
     transition: opacity 200ms ease-out, transform 200ms ease-out;
+  }
+
+  /* Animated stars */
+  .stars-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    animation: twinkle 4s infinite ease-in-out;
+  }
+
+  /* Position stars randomly across the modal */
+  .star:nth-child(1) { top: 8%; left: 12%; animation-delay: 0s; }
+  .star:nth-child(2) { top: 15%; left: 85%; animation-delay: 0.3s; }
+  .star:nth-child(3) { top: 25%; left: 45%; animation-delay: 0.8s; }
+  .star:nth-child(4) { top: 35%; left: 72%; animation-delay: 1.2s; }
+  .star:nth-child(5) { top: 45%; left: 18%; animation-delay: 1.6s; }
+  .star:nth-child(6) { top: 55%; left: 92%; animation-delay: 2s; }
+  .star:nth-child(7) { top: 65%; left: 38%; animation-delay: 2.4s; }
+  .star:nth-child(8) { top: 75%; left: 65%; animation-delay: 2.8s; }
+  .star:nth-child(9) { top: 85%; left: 8%; animation-delay: 3.2s; }
+  .star:nth-child(10) { top: 92%; left: 55%; animation-delay: 3.6s; }
+  .star:nth-child(11) { top: 12%; left: 32%; animation-delay: 0.5s; }
+  .star:nth-child(12) { top: 22%; left: 68%; animation-delay: 1s; }
+  .star:nth-child(13) { top: 38%; left: 5%; animation-delay: 1.5s; }
+  .star:nth-child(14) { top: 48%; left: 78%; animation-delay: 2s; }
+  .star:nth-child(15) { top: 58%; left: 25%; animation-delay: 2.5s; }
+  .star:nth-child(16) { top: 68%; left: 88%; animation-delay: 3s; }
+  .star:nth-child(17) { top: 78%; left: 42%; animation-delay: 3.5s; }
+  .star:nth-child(18) { top: 88%; left: 75%; animation-delay: 0.2s; }
+  .star:nth-child(19) { top: 5%; left: 58%; animation-delay: 0.7s; }
+  .star:nth-child(20) { top: 30%; left: 95%; animation-delay: 1.3s; }
+  .star:nth-child(21) { top: 50%; left: 52%; animation-delay: 1.8s; }
+  .star:nth-child(22) { top: 70%; left: 15%; animation-delay: 2.3s; }
+  .star:nth-child(23) { top: 82%; left: 35%; animation-delay: 2.9s; }
+  .star:nth-child(24) { top: 18%; left: 3%; animation-delay: 3.3s; }
+  .star:nth-child(25) { top: 42%; left: 62%; animation-delay: 3.8s; }
+
+  /* Vary star sizes */
+  .star:nth-child(3n) { width: 3px; height: 3px; }
+  .star:nth-child(5n) { width: 1.5px; height: 1.5px; }
+  .star:nth-child(7n) { width: 2.5px; height: 2.5px; }
+
+  /* Add subtle glow to some stars */
+  .star:nth-child(4n) {
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+  }
+
+  @keyframes twinkle {
+    0%, 100% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    50% {
+      opacity: 0.25;
+      transform: scale(1.1);
+    }
   }
 </style>
