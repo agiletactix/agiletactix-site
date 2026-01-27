@@ -90,36 +90,40 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
     </div>
   </section>
 
-  <!-- Opt-in Section with Kit.com Form -->
-  <section class="py-16 lg:py-20 bg-white">
-    <div class="max-w-[1350px] mx-auto px-6 lg:px-8">
-      <div class="max-w-2xl mx-auto">
+  <!-- SECTION 3: OPT-IN -->
+  <section class="blueprint-optin py-20 lg:py-28 relative overflow-hidden">
 
-        <!-- Opt-in Card -->
-        <div class="formkit-card bg-[#f0f7ff] rounded-2xl p-8 lg:p-12 shadow-lg border border-[#294bf3]/10">
-
-          <!-- Headline -->
-          <h2 class="text-2xl lg:text-3xl xl:text-4xl font-bold text-[#1a1a1a] leading-tight text-center mb-4">
-            Not sure which side you're on?
-          </h2>
-
-          <!-- Subhead -->
-          <p class="text-lg lg:text-xl text-[#1a1a1a]/80 text-center mb-8">
-            Get my free Agile AI Prompt Playbook — and start proving technical value before your next interview.
-          </p>
-
-          <!-- Kit.com Clare Form -->
-          <script async data-uid="fb2e1ff944" src="https://agiletactix.kit.com/fb2e1ff944/index.js"></script>
-
-          <!-- Privacy note -->
-          <p class="text-sm text-[#1a1a1a]/60 text-center mt-6">
-            Free instant access. No spam. Unsubscribe anytime.
-          </p>
-
-        </div>
-
-      </div>
+    <!-- Dark Grid Background -->
+    <div class="absolute inset-0 bg-[#0a1628]">
+      <div class="absolute inset-0 opacity-30 grid-pattern"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#294bf3]/5 to-transparent"></div>
     </div>
+
+    <!-- Content -->
+    <div class="relative z-10 max-w-[900px] mx-auto px-6 lg:px-8 text-center">
+
+      <!-- Headline -->
+      <h2 class="text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight mb-4">
+        Not sure which side you're on?
+      </h2>
+
+      <!-- Subheadline -->
+      <p class="text-lg lg:text-xl text-white/90 font-medium mb-8">
+        Get my free Agile AI Prompt Playbook — and start proving technical value before your next interview.
+      </p>
+
+      <!-- Kit.com Clare Form Embed -->
+      <div class="max-w-3xl mx-auto mb-6">
+        <script async data-uid="fb2e1ff944" src="https://agiletactix.kit.com/fb2e1ff944/index.js"></script>
+      </div>
+
+      <!-- Privacy note -->
+      <p class="text-sm text-white/60 max-w-xl mx-auto">
+        Free instant access. No spam. Unsubscribe anytime.
+      </p>
+
+    </div>
+
   </section>
 
   <!-- Proof Statement Section -->
@@ -733,158 +737,159 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
     }
   }
 
+  /* Grid dot pattern */
+  .grid-pattern {
+    background-image: radial-gradient(circle at 1px 1px, rgba(41, 75, 243, 0.5) 1px, transparent 0);
+    background-size: 40px 40px;
+  }
+
   /* ========================================
-     Kit.com Clare Form - Agile Tactix Styling
+     Kit.com Clare Form - Dark Theme Overrides
      ======================================== */
 
-  /* Form container */
-  .formkit-form {
+  .blueprint-optin .formkit-form {
     background: transparent !important;
     border: none !important;
     padding: 0 !important;
     max-width: 100% !important;
   }
 
-  .formkit-form[data-sv-form] {
+  .blueprint-optin .formkit-form[data-sv-form] {
     background: transparent !important;
   }
 
-  /* Remove any default backgrounds */
-  .formkit-background {
+  .blueprint-optin .formkit-background {
     background: transparent !important;
   }
 
-  /* Form fields container */
-  .formkit-fields {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  /* Form fields container - horizontal layout */
+  .blueprint-optin .formkit-fields {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(41, 75, 243, 0.3) !important;
+    border-radius: 0.75rem !important;
+    padding: 0.75rem !important;
+    max-width: 700px !important;
+    margin: 0 auto !important;
   }
 
   /* Input fields */
-  .formkit-input,
-  .formkit-form input[type="text"],
-  .formkit-form input[type="email"] {
-    width: 100% !important;
+  .blueprint-optin .formkit-input,
+  .blueprint-optin .formkit-form input[type="text"],
+  .blueprint-optin .formkit-form input[type="email"] {
+    flex: 1 !important;
+    min-width: 0 !important;
     padding: 1rem 1.25rem !important;
-    font-size: 1.125rem !important;
+    font-size: 1rem !important;
     line-height: 1.5 !important;
-    color: #1a1a1a !important;
-    background-color: #ffffff !important;
-    border: 2px solid #e5e7eb !important;
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
     border-radius: 0.75rem !important;
     outline: none !important;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+    transition: border-color 0.2s ease, background-color 0.2s ease !important;
   }
 
-  .formkit-input:focus,
-  .formkit-form input[type="text"]:focus,
-  .formkit-form input[type="email"]:focus {
+  .blueprint-optin .formkit-input::placeholder,
+  .blueprint-optin .formkit-form input::placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  .blueprint-optin .formkit-input:focus,
+  .blueprint-optin .formkit-form input:focus {
+    outline: none !important;
     border-color: #294bf3 !important;
-    box-shadow: 0 0 0 3px rgba(41, 75, 243, 0.1) !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
   }
 
-  .formkit-input::placeholder,
-  .formkit-form input::placeholder {
-    color: #9ca3af !important;
-  }
-
-  /* Submit button */
-  .formkit-submit,
-  .formkit-form button[type="submit"],
-  .formkit-submit span {
-    width: 100% !important;
-    padding: 1rem 2rem !important;
-    font-size: 1.125rem !important;
+  /* Submit button - Electric Blue */
+  .blueprint-optin .formkit-submit,
+  .blueprint-optin .formkit-form button[type="submit"] {
+    flex-shrink: 0 !important;
+    padding: 1rem 1.75rem !important;
+    font-size: 1rem !important;
     font-weight: 700 !important;
     color: #ffffff !important;
     background-color: #294bf3 !important;
     border: none !important;
     border-radius: 0.75rem !important;
     cursor: pointer !important;
-    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease !important;
-    box-shadow: 0 4px 14px 0 rgba(41, 75, 243, 0.3) !important;
+    transition: all 0.2s ease !important;
+    white-space: nowrap !important;
+    box-shadow: 0 4px 14px 0 rgba(41, 75, 243, 0.4) !important;
   }
 
-  .formkit-submit:hover,
-  .formkit-form button[type="submit"]:hover {
+  .blueprint-optin .formkit-submit:hover,
+  .blueprint-optin .formkit-form button[type="submit"]:hover {
     background-color: #1e3acc !important;
-    box-shadow: 0 6px 20px 0 rgba(41, 75, 243, 0.4) !important;
+    box-shadow: 0 6px 20px 0 rgba(41, 75, 243, 0.5) !important;
     transform: translateY(-1px) !important;
   }
 
-  .formkit-submit:active,
-  .formkit-form button[type="submit"]:active {
-    transform: translateY(0) !important;
-  }
-
-  /* Button text/span inside button */
-  .formkit-submit span {
+  .blueprint-optin .formkit-submit span {
     background: transparent !important;
     padding: 0 !important;
+    color: inherit !important;
   }
 
-  /* Labels - hide and use placeholders */
-  .formkit-label {
+  /* Hide labels */
+  .blueprint-optin .formkit-label {
     display: none !important;
   }
 
-  /* Error states */
-  .formkit-alert,
-  .formkit-alert-error {
-    background-color: #fef2f2 !important;
-    border: 1px solid #fecaca !important;
-    color: #dc2626 !important;
+  /* Success state */
+  .blueprint-optin .formkit-alert-success {
+    background-color: rgba(41, 75, 243, 0.1) !important;
+    border: 1px solid rgba(41, 75, 243, 0.3) !important;
+    color: #ffffff !important;
+    padding: 1rem 1.5rem !important;
+    border-radius: 0.75rem !important;
+    text-align: center !important;
+    font-size: 1rem !important;
+  }
+
+  /* Error state */
+  .blueprint-optin .formkit-alert-error {
+    background-color: rgba(239, 68, 68, 0.1) !important;
+    border: 1px solid rgba(239, 68, 68, 0.3) !important;
+    color: #ef4444 !important;
     padding: 0.75rem 1rem !important;
     border-radius: 0.5rem !important;
     font-size: 0.875rem !important;
     margin-top: 0.5rem !important;
   }
 
-  /* Success state */
-  .formkit-alert-success {
-    background-color: #f0fdf4 !important;
-    border: 1px solid #bbf7d0 !important;
-    color: #16a34a !important;
-    padding: 1rem !important;
-    border-radius: 0.75rem !important;
-    text-align: center !important;
-    font-size: 1rem !important;
-  }
-
-  /* Hide Powered by Kit badge */
-  .formkit-powered-by,
-  .formkit-powered-by-convertkit {
+  /* Hide powered by badge */
+  .blueprint-optin .formkit-powered-by,
+  .blueprint-optin .formkit-powered-by-convertkit {
     display: none !important;
   }
 
-  /* Spinner/loading state */
-  .formkit-spinner {
+  /* Spinner */
+  .blueprint-optin .formkit-spinner {
     border-color: rgba(255, 255, 255, 0.3) !important;
     border-top-color: #ffffff !important;
   }
 
-  /* Guarantee text / fine print */
-  .formkit-guarantee {
-    font-size: 0.875rem !important;
-    color: rgba(26, 26, 26, 0.6) !important;
-    text-align: center !important;
-    margin-top: 1rem !important;
-  }
-
-  /* Responsive adjustments */
-  @media (max-width: 640px) {
-    .formkit-input,
-    .formkit-form input[type="text"],
-    .formkit-form input[type="email"] {
-      padding: 0.875rem 1rem !important;
-      font-size: 1rem !important;
+  /* Mobile: Stack vertically */
+  @media (max-width: 768px) {
+    .blueprint-optin .formkit-fields {
+      flex-direction: column !important;
+      gap: 0.75rem !important;
     }
 
-    .formkit-submit,
-    .formkit-form button[type="submit"] {
-      padding: 0.875rem 1.5rem !important;
-      font-size: 1rem !important;
+    .blueprint-optin .formkit-input,
+    .blueprint-optin .formkit-form input[type="text"],
+    .blueprint-optin .formkit-form input[type="email"] {
+      width: 100% !important;
+    }
+
+    .blueprint-optin .formkit-submit,
+    .blueprint-optin .formkit-form button[type="submit"] {
+      width: 100% !important;
     }
   }
 </style>
