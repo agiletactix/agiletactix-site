@@ -1,50 +1,69 @@
 ---
 import LandingLayout from '../layouts/LandingLayout.astro';
+import ParticleNetwork from '../components/ParticleNetwork.astro';
 
 const pageTitle = 'Free Agile AI Prompt Playbook';
 const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technical in sprint planning, refinement, and retrospectives—even if you\'ve never touched ChatGPT before.';
 ---
 
 <LandingLayout title={pageTitle} description={pageDescription}>
-  <!-- Hero Section - Compact, ~523px height -->
-  <section class="bg-[#1a1a1a] py-16 lg:py-20">
-    <div class="max-w-[1350px] mx-auto px-6 lg:px-8">
+  <!-- Hero Section with Particle Network Background (matches homepage) -->
+  <section class="relative bg-black overflow-hidden min-h-[600px] lg:min-h-[700px] flex items-center">
+    <!-- Particle Animation Background -->
+    <ParticleNetwork />
+
+    <!-- Content -->
+    <div class="relative z-10 py-16 lg:py-24 mx-auto px-6 sm:px-8 lg:px-16 xl:px-24 max-w-[1600px] w-full">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
         <!-- Left Column - Text Content -->
-        <div>
-          <!-- Main Headline -->
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-4 mt-[50px]">
+        <div class="max-w-2xl animate-fade-in">
+          <!-- Pre-headline Badge (matches homepage) -->
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary-600/20 border border-primary-500/30 rounded-full mb-8 animate-slide-up">
+            <svg class="w-4 h-4 text-primary-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+            <span class="text-sm font-bold text-primary-300 uppercase tracking-wide">
+              Free Playbook
+            </span>
+          </div>
+
+          <!-- Main Headline (matches homepage h1 styling) -->
+          <h1 class="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight mb-8 animate-slide-up" style="animation-delay: 0.1s; letter-spacing: -0.03em;">
             <span class="text-white">How I Got Rehired in </span>
-            <span class="text-[#294bf3]">2 Weeks</span>
+            <span class="text-primary-400">2 Weeks</span>
             <span class="text-white"> After Being Laid Off With Thousands of Other Scrum Masters</span>
           </h1>
 
-          <!-- Hook statement -->
-          <p class="text-lg text-gray-200 leading-relaxed mt-4">
+          <!-- Subheadline (matches homepage) -->
+          <p class="text-xl sm:text-2xl text-gray-300 mb-6 max-w-2xl leading-relaxed font-medium animate-slide-up" style="animation-delay: 0.2s;">
             When companies started cutting "ceremony-only" agile roles in January 2023, I built automation systems that proved I was technical—not "just a facilitator."
           </p>
 
           <!-- Value proposition -->
-          <p class="text-base lg:text-lg text-white mt-3">
-            This <span class="text-[#294bf3] font-semibold">free playbook</span> is your first step to proving technical value.
+          <p class="text-lg text-gray-300 mb-8 animate-slide-up" style="animation-delay: 0.25s;">
+            This <span class="text-primary-400 font-semibold">free playbook</span> is your first step to proving technical value.
           </p>
 
-          <!-- CTA Button - scrolls to email form -->
-          <a
-            href="#get-playbook"
-            class="inline-flex items-center justify-center px-8 py-4 mt-6 text-lg font-semibold text-white bg-[#294bf3] rounded-full transition-all duration-300 hover:bg-[#1e3acc] focus:outline-none focus:ring-4 focus:ring-[#294bf3]/50 scroll-to-form"
-          >
-            Download the Free Playbook
-            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-            </svg>
-          </a>
+          <!-- CTA Button (matches homepage btn-primary) -->
+          <div class="animate-slide-up" style="animation-delay: 0.3s;">
+            <a
+              href="#get-playbook"
+              class="btn-primary text-lg px-10 py-4 scroll-to-form"
+            >
+              <span class="relative z-10">
+                Download the Free Playbook
+                <svg class="w-5 h-5 ml-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+              </span>
+            </a>
+          </div>
         </div>
 
         <!-- Right Column - YouTube Video -->
-        <div>
-          <div class="aspect-video rounded-lg overflow-hidden shadow-2xl">
+        <div class="animate-fade-in lg:animate-slide-left" style="animation-delay: 0.3s;">
+          <div class="aspect-video rounded-2xl overflow-hidden shadow-2xl bg-white/5 backdrop-blur-sm border border-primary-600/20">
             <iframe
               width="100%"
               height="100%"
@@ -61,53 +80,38 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
     </div>
   </section>
 
-  <!-- Crisis Story Section - Target ~562px height on desktop -->
-  <section class="bg-white py-10 lg:py-0 lg:h-[562px] lg:flex lg:items-center">
-    <div class="max-w-[1350px] mx-auto px-6 lg:px-8 text-center w-full">
-      <h2 class="text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-6">
-        My Layoff Should Have Been Career-Ending. Instead, I Was Back at Work in 2 Weeks.
-      </h2>
+  <!-- Crisis Story Section -->
+  <section class="bg-white">
+    <div class="section-container section-spacing">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="heading-lg text-gray-900 mb-12">
+          My Layoff Should Have Been Career-Ending. Instead, I Was Back at Work in 2 Weeks.
+        </h2>
 
-      <div class="text-base lg:text-lg text-[#1a1a1a] leading-normal lg:leading-relaxed space-y-4">
-        <p>In January 2023, companies made a choice:</p>
+        <div class="prose prose-lg max-w-none text-gray-700 space-y-6">
+          <p>In January 2023, I was laid off along with thousands of other Scrum Masters.</p>
 
-        <p>Keep the agile professionals who "just facilitated meetings" or keep the ones who "built technical systems."</p>
+          <p>My peers spent months searching for interviews. Some are still looking.</p>
 
-        <p>I was laid off along with thousands of other Scrum Masters. My peers spent months searching for interviews. Some are still looking.</p>
+          <p>I was back at work within two weeks—landing a Fortune 500 pharmaceutical role.</p>
 
-        <p class="font-semibold">But I was back at work within two weeks—landing a Fortune 500 pharmaceutical role.</p>
+          <p class="font-semibold text-gray-900">The difference?</p>
 
-        <p class="font-bold">The difference?</p>
+          <p>In every interview, I could prove I built technical systems—not just facilitated meetings.</p>
 
-        <p>In every interview, I could say:</p>
+          <p>I had Jira automation that saved 12 hours per sprint. I had architecture decisions I could defend. I had measurable impact I could demonstrate.</p>
 
-        <blockquote class="inline-block text-left border-l-4 border-[#294bf3] pl-6 py-2 bg-[#f0f7ff] rounded-r-lg italic max-w-2xl">
-          "I've built Jira automation systems that saved my last team 12 hours per sprint. I don't just coordinate work—I architect solutions that create measurable value."
-        </blockquote>
-
-        <p>That's not facilitation. That's technical proof.</p>
-
-        <p class="font-bold text-[#294bf3]">So I made a different choice. I built systems that made me indispensable.</p>
-
-        <!-- CTA Button -->
-        <a
-          href="#get-playbook"
-          class="inline-flex items-center justify-center px-8 py-4 mt-4 text-lg font-semibold text-white bg-[#294bf3] rounded-full transition-all duration-300 hover:bg-[#1e3acc] focus:outline-none focus:ring-4 focus:ring-[#294bf3]/50 scroll-to-form"
-        >
-          Get the Free Playbook
-          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        </a>
+          <p class="text-xl lg:text-2xl font-semibold text-primary-600">That's not coordination. That's engineering.</p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Inline Email Form Section -->
-  <section id="get-playbook" class="bg-[#f0f7ff] py-16 lg:py-20 scroll-mt-8">
-    <div class="max-w-[1350px] mx-auto px-6 lg:px-8 text-center">
-      <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8 lg:p-12">
-        <h2 class="text-3xl lg:text-4xl font-bold text-[#1a1a1a] text-center mb-4">
+  <section id="get-playbook" class="bg-gray-50 scroll-mt-8">
+    <div class="section-container section-spacing">
+      <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-medium p-8 lg:p-12">
+        <h2 class="heading-md text-gray-900 text-center mb-4">
           Start Phase 1: Get the FREE Agile AI Prompt Playbook
         </h2>
 
@@ -118,34 +122,34 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
         <!-- What's Inside the Playbook -->
         <ul class="text-left space-y-4 mb-8">
           <li class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-[#294bf3] flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-5 h-5 text-primary-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
-            <span><strong class="text-[#1a1a1a]">The Story Improver Prompt</strong> — Turn vague requirements into crystal-clear user stories with acceptance criteria in 30 seconds</span>
+            <span class="text-gray-700"><strong class="text-gray-900">The Story Improver Prompt</strong> — Turn vague requirements into crystal-clear user stories with acceptance criteria in 30 seconds</span>
           </li>
           <li class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-[#294bf3] flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-5 h-5 text-primary-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
-            <span><strong class="text-[#1a1a1a]">The Acceptance Criteria Builder</strong> — Generate testable, specific acceptance criteria that developers actually understand</span>
+            <span class="text-gray-700"><strong class="text-gray-900">The Acceptance Criteria Builder</strong> — Generate testable, specific acceptance criteria that developers actually understand</span>
           </li>
           <li class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-[#294bf3] flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-5 h-5 text-primary-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
-            <span><strong class="text-[#1a1a1a]">The Refinement Prep Assistant</strong> — Prepare for refinement in 5 minutes instead of 2 hours—with all edge cases covered</span>
+            <span class="text-gray-700"><strong class="text-gray-900">The Refinement Prep Assistant</strong> — Prepare for refinement in 5 minutes instead of 2 hours—with all edge cases covered</span>
           </li>
           <li class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-[#294bf3] flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-5 h-5 text-primary-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
-            <span><strong class="text-[#1a1a1a]">The Sprint Summary Generator</strong> — Auto-summarize sprint outcomes for stakeholders without manual report writing</span>
+            <span class="text-gray-700"><strong class="text-gray-900">The Sprint Summary Generator</strong> — Auto-summarize sprint outcomes for stakeholders without manual report writing</span>
           </li>
           <li class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-[#294bf3] flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-5 h-5 text-primary-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
-            <span><strong class="text-[#1a1a1a]">The Retrospective Theme Analyzer</strong> — Identify patterns from retro notes instantly—spot what's working and what needs attention</span>
+            <span class="text-gray-700"><strong class="text-gray-900">The Retrospective Theme Analyzer</strong> — Identify patterns from retro notes instantly—spot what's working and what needs attention</span>
           </li>
         </ul>
 
@@ -155,195 +159,201 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
             type="email"
             name="email_address"
             placeholder="Enter your email"
-            class="w-full px-6 py-4 text-lg border border-gray-300 rounded-lg text-[#1a1a1a] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#294bf3] focus:border-transparent"
+            class="w-full px-6 py-4 text-lg border-2 border-gray-300 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-primary-500/50 focus:border-primary-500 transition-all duration-200"
             required
           />
           <button
             type="submit"
-            class="w-full mt-4 px-8 py-4 text-lg font-semibold text-white bg-[#294bf3] rounded-full transition-all duration-300 hover:bg-[#1e3acc]"
+            class="btn-primary w-full mt-4 text-lg"
           >
-            Download the Free Playbook
+            <span class="relative z-10">Download the Free Playbook</span>
           </button>
         </form>
 
         <!-- Social Proof -->
         <p class="text-sm text-gray-600 text-center mt-6">
-          Join <strong class="text-[#1a1a1a]">15,000+ agile professionals</strong> who've downloaded this playbook. Takes 2 minutes to read, saves hours every sprint.
+          Join <strong class="text-gray-900">15,000+ agile professionals</strong> who've downloaded this playbook. Takes 2 minutes to read, saves hours every sprint.
         </p>
       </div>
     </div>
   </section>
 
   <!-- Proof Statement Section -->
-  <section class="bg-white py-16 lg:py-20">
-    <div class="max-w-[1350px] mx-auto px-6 lg:px-8 text-center">
-      <h2 class="text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-8">
-        My Automation Systems Never Stop Working. They Don't Take Sick Days. They Just Create Value.
-      </h2>
+  <section class="bg-white">
+    <div class="section-container section-spacing">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="heading-lg text-gray-900 mb-12">
+          My Automation Systems Never Stop Working. They Don't Take Sick Days. They Just Create Value.
+        </h2>
 
-      <div class="text-lg text-[#1a1a1a] leading-relaxed">
-        <p class="mb-6">While other Scrum Masters were updating Jira tickets manually, my automation systems were:</p>
+        <div class="text-lg text-gray-700 leading-relaxed">
+          <p class="mb-8">While other Scrum Masters were updating Jira tickets manually, my automation systems were:</p>
 
-        <ul class="space-y-3 mb-8 inline-block text-left">
-          <li class="flex items-start gap-3">
-            <svg class="w-6 h-6 text-[#294bf3] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-            </svg>
-            <span>Syncing sprint dates automatically</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <svg class="w-6 h-6 text-[#294bf3] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-            </svg>
-            <span>Prepping standup updates before meetings</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <svg class="w-6 h-6 text-[#294bf3] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-            </svg>
-            <span>Flagging blockers 3 days before they became crises</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <svg class="w-6 h-6 text-[#294bf3] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-            </svg>
-            <span>Sending stakeholder reports without human intervention</span>
-          </li>
-        </ul>
+          <ul class="space-y-4 mb-10 inline-block text-left">
+            <li class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-primary-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span>Syncing sprint dates automatically</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-primary-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span>Prepping standup updates before meetings</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-primary-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span>Flagging blockers 3 days before they became crises</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-primary-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span>Sending stakeholder reports without human intervention</span>
+            </li>
+          </ul>
 
-        <p class="mb-4">I quickly realized this wasn't just about efficiency—it was about separating your value from your hours.</p>
+          <p class="mb-4">I quickly realized this wasn't just about efficiency—it was about separating your value from your hours.</p>
 
-        <p class="font-bold text-xl mb-8">Companies don't want coordinators anymore. They want architects who build systems.</p>
+          <p class="font-bold text-xl text-gray-900 mb-10">Companies don't want coordinators anymore. They want architects who build systems.</p>
 
-        <!-- CTA Button -->
-        <a
-          href="#get-playbook"
-          class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-[#294bf3] rounded-full transition-all duration-300 hover:bg-[#1e3acc] focus:outline-none focus:ring-4 focus:ring-[#294bf3]/50 scroll-to-form"
-        >
-          Start with the Free Playbook
-          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        </a>
+          <!-- CTA Button -->
+          <a
+            href="#get-playbook"
+            class="btn-primary text-lg px-10 py-4 scroll-to-form"
+          >
+            <span class="relative z-10">
+              Start with the Free Playbook
+              <svg class="w-5 h-5 ml-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
+            </span>
+          </a>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- What Comes After Section - Teaser -->
-  <section class="bg-[#f8fafc] py-16 lg:py-20">
-    <div class="max-w-[1350px] mx-auto px-6 lg:px-8 text-center">
-      <p class="text-sm font-semibold text-[#294bf3] uppercase tracking-wider mb-3">After the Playbook</p>
-      <h2 class="text-3xl lg:text-4xl font-bold text-[#1a1a1a] text-center mb-4">
-        The Complete Transformation System
-      </h2>
-
-      <!-- Intro paragraph -->
-      <p class="text-lg text-gray-600 text-center mb-4 max-w-2xl mx-auto">
-        The Prompt Playbook teaches you to <strong>sound</strong> technical. The complete system (available after you opt-in) teaches you to <strong>BE</strong> technical with:
-      </p>
-
-      <!-- CTA Button - Above cards -->
+  <section class="bg-gray-50">
+    <div class="section-container section-spacing">
       <div class="text-center mb-12">
+        <p class="text-sm font-semibold text-primary-600 uppercase tracking-wider mb-3">After the Playbook</p>
+        <h2 class="heading-lg text-gray-900 mb-4">
+          The Complete Transformation System
+        </h2>
+
+        <!-- Intro paragraph -->
+        <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+          The Prompt Playbook teaches you to <strong class="text-gray-900">sound</strong> technical. The complete system (available after you opt-in) teaches you to <strong class="text-gray-900">BE</strong> technical with:
+        </p>
+
+        <!-- CTA Button - Above cards -->
         <a
           href="#get-playbook"
-          class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-[#294bf3] rounded-full transition-all duration-300 hover:bg-[#1e3acc] focus:outline-none focus:ring-4 focus:ring-[#294bf3]/50 scroll-to-form"
+          class="btn-primary text-lg px-10 py-4 scroll-to-form"
         >
-          Start with the Free Playbook
-          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
+          <span class="relative z-10">
+            Start with the Free Playbook
+            <svg class="w-5 h-5 ml-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </span>
         </a>
       </div>
 
-      <!-- 6 Framework Cards -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- 6 Framework Cards (matches homepage card styling) -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12">
         <!-- Framework 1 -->
-        <div class="bg-white/70 p-6 lg:p-8 rounded-lg shadow-sm text-left border border-gray-100">
-          <div class="w-12 h-12 bg-[#294bf3] rounded-lg flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-white rounded-xl p-8 shadow-soft hover:shadow-medium transition-shadow duration-300">
+          <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-6">
+            <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
             </svg>
           </div>
-          <h3 class="text-xl lg:text-2xl font-bold text-gray-900 mb-3">
+          <h3 class="heading-sm text-gray-900 mb-4">
             The 3-Phase Transformation Path
           </h3>
-          <p class="text-base text-gray-700 leading-relaxed">
+          <p class="text-gray-600 leading-relaxed">
             The exact career progression from Manual Coordinator → Automation Builder → Agentic Strategist → AI-Powered Architect. Includes time investment for each phase, skills to develop, and career impact at every stage.
           </p>
         </div>
 
         <!-- Framework 2 -->
-        <div class="bg-white/70 p-6 lg:p-8 rounded-lg shadow-sm text-left border border-gray-100">
-          <div class="w-12 h-12 bg-[#294bf3] rounded-lg flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-white rounded-xl p-8 shadow-soft hover:shadow-medium transition-shadow duration-300">
+          <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-6">
+            <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
           </div>
-          <h3 class="text-xl lg:text-2xl font-bold text-gray-900 mb-3">
+          <h3 class="heading-sm text-gray-900 mb-4">
             The 5 Automation Patterns That Prove You're Technical
           </h3>
-          <p class="text-base text-gray-700 leading-relaxed">
+          <p class="text-gray-600 leading-relaxed">
             The Sprint Sync Engine, 12-Minute Standup, Stale Ticket Radar, and automated reporting systems that saved my teams 12+ hours per sprint—and got me hired in 2 weeks.
           </p>
         </div>
 
         <!-- Framework 3 -->
-        <div class="bg-white/70 p-6 lg:p-8 rounded-lg shadow-sm text-left border border-gray-100">
-          <div class="w-12 h-12 bg-[#294bf3] rounded-lg flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-white rounded-xl p-8 shadow-soft hover:shadow-medium transition-shadow duration-300">
+          <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-6">
+            <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
           </div>
-          <h3 class="text-xl lg:text-2xl font-bold text-gray-900 mb-3">
+          <h3 class="heading-sm text-gray-900 mb-4">
             The Interview Answer Framework
           </h3>
-          <p class="text-base text-gray-700 leading-relaxed">
+          <p class="text-gray-600 leading-relaxed">
             The exact responses I used when interviewers asked "How do you ensure data accuracy?" and "How do you identify blockers early?" You'll sound technical, not like a meeting facilitator.
           </p>
         </div>
 
         <!-- Framework 4 -->
-        <div class="bg-white/70 p-6 lg:p-8 rounded-lg shadow-sm text-left border border-gray-100">
-          <div class="w-12 h-12 bg-[#294bf3] rounded-lg flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-white rounded-xl p-8 shadow-soft hover:shadow-medium transition-shadow duration-300">
+          <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-6">
+            <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
             </svg>
           </div>
-          <h3 class="text-xl lg:text-2xl font-bold text-gray-900 mb-3">
+          <h3 class="heading-sm text-gray-900 mb-4">
             The Self-Assessment Quiz
           </h3>
-          <p class="text-base text-gray-700 leading-relaxed">
+          <p class="text-gray-600 leading-relaxed">
             Identify where you are right now: Manual Coordinator, Automation Builder, Agentic Strategist, or AI-Powered Architect. Know your starting point to plan your path forward.
           </p>
         </div>
 
         <!-- Framework 5 -->
-        <div class="bg-white/70 p-6 lg:p-8 rounded-lg shadow-sm text-left border border-gray-100">
-          <div class="w-12 h-12 bg-[#294bf3] rounded-lg flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-white rounded-xl p-8 shadow-soft hover:shadow-medium transition-shadow duration-300">
+          <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-6">
+            <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
             </svg>
           </div>
-          <h3 class="text-xl lg:text-2xl font-bold text-gray-900 mb-3">
+          <h3 class="heading-sm text-gray-900 mb-4">
             The Career Insurance Checklist
           </h3>
-          <p class="text-base text-gray-700 leading-relaxed">
+          <p class="text-gray-600 leading-relaxed">
             The 10 technical skills that make you layoff-resistant in 2026. Plus: which skills to prioritize based on your current role (Scrum Master, Product Owner, RTE, Agile Coach).
           </p>
         </div>
 
         <!-- Framework 6 -->
-        <div class="bg-white/70 p-6 lg:p-8 rounded-lg shadow-sm text-left border border-gray-100">
-          <div class="w-12 h-12 bg-[#294bf3] rounded-lg flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-white rounded-xl p-8 shadow-soft hover:shadow-medium transition-shadow duration-300">
+          <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-6">
+            <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
           </div>
-          <h3 class="text-xl lg:text-2xl font-bold text-gray-900 mb-3">
+          <h3 class="heading-sm text-gray-900 mb-4">
             The First 30 Days Roadmap
           </h3>
-          <p class="text-base text-gray-700 leading-relaxed">
+          <p class="text-gray-600 leading-relaxed">
             Week-by-week action plan to build your first automation system, prove technical value to your team, and start repositioning yourself as an architect (not just a facilitator).
           </p>
         </div>
@@ -352,32 +362,36 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
   </section>
 
   <!-- Final Closer Section -->
-  <section class="bg-white py-16 lg:py-20">
-    <div class="max-w-[1350px] mx-auto px-6 lg:px-8 text-center">
-      <h2 class="text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-8">
-        Your Career Is Too Important to Be Limited by Facilitation Skills.
-      </h2>
+  <section class="bg-white">
+    <div class="section-container section-spacing">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="heading-lg text-gray-900 mb-12">
+          Your Career Is Too Important to Be Limited by Facilitation Skills.
+        </h2>
 
-      <div class="max-w-3xl mx-auto text-lg text-gray-700 leading-relaxed mb-8 space-y-4">
-        <p>Whether you've been laid off, fear being replaced by AI, or simply want career optionality instead of job dependency—the path is the same.</p>
+        <div class="prose prose-lg max-w-none text-gray-700 space-y-6 mb-10">
+          <p>Whether you've been laid off, fear being replaced by AI, or simply want career optionality instead of job dependency—the path is the same.</p>
 
-        <p>Companies aren't cutting agile roles because agile is dead. They're cutting roles that "just coordinate."</p>
+          <p>Companies aren't cutting agile roles because agile is dead. They're cutting roles that "just coordinate."</p>
 
-        <p class="font-semibold text-[#1a1a1a]">The professionals who survive and thrive are the ones who can prove they build systems, architect solutions, and create technical value.</p>
+          <p class="font-semibold text-gray-900">The professionals who survive and thrive are the ones who can prove they build systems, architect solutions, and create technical value.</p>
 
-        <p class="text-[#294bf3] font-bold">The free playbook is your first step.</p>
+          <p class="text-primary-600 font-bold text-xl">The free playbook is your first step.</p>
+        </div>
+
+        <!-- Final CTA -->
+        <a
+          href="#get-playbook"
+          class="btn-primary text-lg px-10 py-4 scroll-to-form"
+        >
+          <span class="relative z-10">
+            Get Your Free Playbook Now
+            <svg class="w-5 h-5 ml-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </span>
+        </a>
       </div>
-
-      <!-- Final CTA -->
-      <a
-        href="#get-playbook"
-        class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-[#294bf3] rounded-full transition-all duration-300 hover:bg-[#1e3acc] focus:outline-none focus:ring-4 focus:ring-[#294bf3]/50 scroll-to-form"
-      >
-        Get Your Free Playbook Now
-        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
-      </a>
     </div>
   </section>
 
@@ -401,13 +415,13 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
       <div class="flex min-h-full items-center justify-center p-4">
         <div
           id="modal-panel"
-          class="relative w-full max-w-2xl bg-white rounded-xl shadow-2xl transition-all p-8 lg:p-12"
+          class="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl transition-all p-8 lg:p-12"
         >
           <!-- Close Button -->
           <button
             id="modal-close-button"
             type="button"
-            class="absolute top-4 right-4 text-gray-500 hover:text-gray-900 transition-colors focus:outline-none"
+            class="absolute top-4 right-4 text-gray-500 hover:text-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-lg p-1"
             aria-label="Close modal"
           >
             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -417,45 +431,45 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
 
           <!-- Modal Content -->
           <div class="text-center">
-            <h2 id="modal-title" class="text-2xl lg:text-3xl font-bold text-[#1a1a1a] mb-4">
+            <h2 id="modal-title" class="heading-md text-gray-900 mb-4">
               Get the FREE Agile AI Prompt Playbook
             </h2>
 
-            <p class="text-base text-gray-600 mb-6">
+            <p class="text-lg text-gray-600 mb-6">
               5 copy-paste AI prompts that make you sound technical in sprint planning, refinement, and retrospectives—even if you've never touched ChatGPT before.
             </p>
 
             <!-- 5 Prompts List -->
             <ul class="text-left text-sm space-y-2 mb-6">
               <li class="flex items-start gap-2">
-                <svg class="w-4 h-4 text-[#294bf3] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="w-4 h-4 text-primary-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                 </svg>
-                <span><strong>The Story Improver Prompt</strong></span>
+                <span class="text-gray-700"><strong class="text-gray-900">The Story Improver Prompt</strong></span>
               </li>
               <li class="flex items-start gap-2">
-                <svg class="w-4 h-4 text-[#294bf3] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="w-4 h-4 text-primary-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                 </svg>
-                <span><strong>The Acceptance Criteria Builder</strong></span>
+                <span class="text-gray-700"><strong class="text-gray-900">The Acceptance Criteria Builder</strong></span>
               </li>
               <li class="flex items-start gap-2">
-                <svg class="w-4 h-4 text-[#294bf3] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="w-4 h-4 text-primary-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                 </svg>
-                <span><strong>The Refinement Prep Assistant</strong></span>
+                <span class="text-gray-700"><strong class="text-gray-900">The Refinement Prep Assistant</strong></span>
               </li>
               <li class="flex items-start gap-2">
-                <svg class="w-4 h-4 text-[#294bf3] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="w-4 h-4 text-primary-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                 </svg>
-                <span><strong>The Sprint Summary Generator</strong></span>
+                <span class="text-gray-700"><strong class="text-gray-900">The Sprint Summary Generator</strong></span>
               </li>
               <li class="flex items-start gap-2">
-                <svg class="w-4 h-4 text-[#294bf3] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="w-4 h-4 text-primary-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                 </svg>
-                <span><strong>The Retrospective Theme Analyzer</strong></span>
+                <span class="text-gray-700"><strong class="text-gray-900">The Retrospective Theme Analyzer</strong></span>
               </li>
             </ul>
 
@@ -466,14 +480,14 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
                 name="email_address"
                 id="modal-email-input"
                 placeholder="Enter your email"
-                class="w-full px-6 py-4 border border-gray-300 rounded-lg text-lg text-[#1a1a1a] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#294bf3] focus:border-transparent"
+                class="w-full px-6 py-4 border-2 border-gray-300 rounded-xl text-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-primary-500/50 focus:border-primary-500 transition-all duration-200"
                 required
               />
               <button
                 type="submit"
-                class="w-full px-8 py-4 text-lg font-semibold text-white bg-[#294bf3] rounded-full transition-all duration-300 hover:bg-[#1e3acc]"
+                class="btn-primary w-full text-lg"
               >
-                Send Me the Playbook
+                <span class="relative z-10">Send Me the Playbook</span>
               </button>
             </form>
           </div>
