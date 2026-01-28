@@ -40,7 +40,7 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
           <div class="animate-slide-up" style="animation-delay: 0.3s;">
             <button
               type="button"
-              onclick="openModal()"
+              data-modal-trigger="playbook"
               class="btn-primary text-lg px-10 py-4"
             >
               <span class="relative z-10">Get the Free Playbook</span>
@@ -226,7 +226,7 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
         <!-- Final CTA -->
         <button
           type="button"
-          onclick="openModal()"
+          data-modal-trigger="playbook"
           class="btn-primary text-lg px-10 py-4"
         >
           <span class="relative z-10">
@@ -240,45 +240,320 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
     </div>
   </section>
 
-  <!-- Playbook Modal -->
-  <div id="playbook-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
-    <!-- Backdrop -->
-    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
+  <!-- Playbook Popup Modal (FirstMovers.ai style) -->
+  <div
+    id="playbook-modal"
+    class="fixed inset-0 z-50 hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+  >
+    <!-- Dark overlay with blur -->
+    <div
+      id="modal-overlay"
+      class="fixed inset-0 bg-black/70 backdrop-blur-sm"
+      aria-hidden="true"
+    ></div>
 
-    <!-- Modal Content -->
-    <div class="relative bg-[#0a1628] border border-white/10 rounded-xl p-8 mx-4 max-w-xl w-full shadow-2xl">
-      <!-- Close Button -->
-      <button onclick="closeModal()" class="absolute top-4 right-4 text-white/60 hover:text-white text-2xl">&times;</button>
+    <!-- Modal Container -->
+    <div class="fixed inset-0 overflow-y-auto flex items-center justify-center p-2 sm:p-4">
+      <!-- Modal Panel -->
+      <div
+        id="modal-panel"
+        class="relative bg-gradient-to-br from-[#294bf3] via-[#1e3acc] to-[#00a8cc] rounded-2xl max-w-5xl w-full shadow-2xl overflow-y-auto max-h-[95vh] sm:max-h-[90vh]"
+      >
+        <!-- Animated stars background -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+          <div class="stars-container">
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+          </div>
+        </div>
 
-      <!-- Modal Header -->
-      <h2 class="text-2xl font-bold text-white text-center mb-2">Get the Agile AI Prompt Playbook</h2>
-      <p class="text-white/70 text-center mb-6">Free instant access. No spam.</p>
+        <!-- Vertical sharp sparkle decorations -->
+        <div class="absolute inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
+          <!-- Sparkle Group 1: Upper left (primary) -->
+          <div class="absolute top-[10%] left-[8%] scale-75 lg:scale-100">
+            <!-- Large sparkle - vertical with slight left tilt -->
+            <svg width="64" height="64" viewBox="0 0 100 100" fill="none" class="transform -rotate-[102deg]">
+              <path d="M50 0 C50 20 40 40 0 50 C40 60 50 80 50 100 C50 80 60 60 100 50 C60 40 50 20 50 0 Z" fill="white" opacity="0.2"/>
+            </svg>
+            <!-- Small companion sparkle -->
+            <svg width="24" height="24" viewBox="0 0 100 100" fill="none" class="absolute -top-2 -right-3 transform -rotate-[75deg]">
+              <path d="M50 0 C50 20 40 40 0 50 C40 60 50 80 50 100 C50 80 60 60 100 50 C60 40 50 20 50 0 Z" fill="white" opacity="0.15"/>
+            </svg>
+          </div>
 
-      <!-- Kit.com Inline Form -->
-      <script async data-uid="4252f254d4" src="https://agiletactix.kit.com/4252f254d4/index.js"></script>
+          <!-- Sparkle Group 2: Upper left (secondary) -->
+          <div class="absolute top-[22%] left-[18%] scale-75 lg:scale-100">
+            <!-- Medium sparkle - vertical tilted right -->
+            <svg width="48" height="48" viewBox="0 0 100 100" fill="none" class="transform -rotate-[65deg]">
+              <path d="M50 0 C50 20 40 40 0 50 C40 60 50 80 50 100 C50 80 60 60 100 50 C60 40 50 20 50 0 Z" fill="white" opacity="0.15"/>
+            </svg>
+            <!-- Small companion sparkle -->
+            <svg width="20" height="20" viewBox="0 0 100 100" fill="none" class="absolute -top-1 -right-2 transform -rotate-[100deg]">
+              <path d="M50 0 C50 20 40 40 0 50 C40 60 50 80 50 100 C50 80 60 60 100 50 C60 40 50 20 50 0 Z" fill="white" opacity="0.12"/>
+            </svg>
+          </div>
+
+          <!-- Sparkle Group 3: Upper right (balance) -->
+          <div class="absolute top-[12%] right-[10%] hidden sm:block">
+            <svg width="40" height="40" viewBox="0 0 100 100" fill="none" class="transform -rotate-[45deg]">
+              <path d="M50 0 C50 20 40 40 0 50 C40 60 50 80 50 100 C50 80 60 60 100 50 C60 40 50 20 50 0 Z" fill="white" opacity="0.12"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Close button -->
+        <button
+          id="modal-close"
+          type="button"
+          class="absolute top-2 right-2 sm:top-4 sm:right-4 text-white/80 hover:text-white z-20 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg p-2 transition-colors bg-black/20 sm:bg-transparent"
+          aria-label="Close modal"
+        >
+          <svg class="w-6 h-6 sm:w-8 sm:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        <!-- Content grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 p-4 pt-12 sm:p-8 lg:p-12 relative z-10">
+
+          <!-- Left column: Form (3 cols) -->
+          <div class="lg:col-span-3">
+            <!-- Headline -->
+            <h2 id="modal-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4">
+              Your Playbook is Almost Ready...
+            </h2>
+
+            <!-- Subheadline -->
+            <p class="text-base sm:text-lg text-white/90 mb-6">
+              Enter your details below to get the 5-prompt playbook and start sounding technical in every sprint ceremony.
+            </p>
+
+            <!-- Benefits List -->
+            <ul class="space-y-3 mb-8 text-white/90">
+              <li class="flex items-start">
+                <svg class="w-6 h-6 mr-3 flex-shrink-0 text-[#00a8cc]" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <span><strong class="text-white">5 AI prompts</strong> for sprint planning, refinement & retros</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-6 h-6 mr-3 flex-shrink-0 text-[#00a8cc]" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <span><strong class="text-white">Copy-paste ready</strong> — works with ChatGPT, Claude, or any AI</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-6 h-6 mr-3 flex-shrink-0 text-[#00a8cc]" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <span><strong class="text-white">Sound technical</strong> in interviews and sprint ceremonies</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-6 h-6 mr-3 flex-shrink-0 text-[#00a8cc]" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <span><strong class="text-white">Takes 2 minutes</strong> to read, saves hours every sprint</span>
+              </li>
+            </ul>
+
+            <!-- Form -->
+            <form id="playbook-form" class="space-y-4">
+              <!-- First Name -->
+              <div>
+                <input
+                  type="text"
+                  name="first_name"
+                  id="modal-first-name"
+                  placeholder="First name"
+                  required
+                  class="w-full px-6 py-4 text-lg bg-white/10 backdrop-blur-sm border-2 border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:border-white/80 transition-colors"
+                />
+              </div>
+
+              <!-- Email -->
+              <div>
+                <input
+                  type="email"
+                  name="email"
+                  id="modal-email"
+                  placeholder="Enter your email"
+                  required
+                  class="w-full px-6 py-4 text-lg bg-white/10 backdrop-blur-sm border-2 border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:border-white/80 transition-colors"
+                />
+              </div>
+
+              <!-- Submit Button -->
+              <button
+                type="submit"
+                class="w-full px-8 py-4 text-lg font-bold text-[#294bf3] bg-white hover:bg-gray-100 rounded-full transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+              >
+                Send Me the Playbook
+              </button>
+            </form>
+
+            <!-- Privacy Note -->
+            <p class="text-sm text-white/70 mt-4">
+              By subscribing, you'll also get exclusive automation tactics and AI tips.
+            </p>
+          </div>
+
+          <!-- Right column: PDF mockup (2 cols) - hidden on mobile -->
+          <div class="hidden lg:flex lg:col-span-2 items-center justify-center">
+            <div class="bg-white rounded-lg shadow-2xl p-4 sm:p-6 transform rotate-2 hover:rotate-0 transition-transform duration-300 max-w-[280px] w-full">
+              <!-- PDF Cover Design -->
+              <div class="bg-gradient-to-br from-[#294bf3] to-[#00a8cc] text-white p-6 sm:p-8 rounded-lg text-center">
+                <div class="mb-4 sm:mb-6">
+                  <svg class="w-12 h-12 sm:w-16 sm:h-16 mx-auto text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                  </svg>
+                </div>
+
+                <h3 class="text-lg sm:text-xl font-bold mb-2">
+                  Agile AI Prompt Playbook
+                </h3>
+
+                <p class="text-xs sm:text-sm text-white/80 mb-4">
+                  5 Copy-Paste Prompts for Agile Professionals
+                </p>
+
+                <div class="border-t border-white/20 pt-4 mt-4">
+                  <p class="text-xs text-white/70">
+                    By Danny Liu<br/>
+                    Fortune 500 Agile Analytics Architect
+                  </p>
+                </div>
+              </div>
+
+              <!-- Simulated pages -->
+              <div class="mt-4 space-y-2">
+                <div class="h-2 bg-gray-200 rounded w-full"></div>
+                <div class="h-2 bg-gray-200 rounded w-5/6"></div>
+                <div class="h-2 bg-gray-200 rounded w-4/6"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
   </div>
 </LandingLayout>
 
 <!-- Modal JavaScript -->
 <script is:inline>
-  function openModal() {
-    const modal = document.getElementById('playbook-modal');
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-  }
+  document.addEventListener('DOMContentLoaded', function() {
+    var modal = document.getElementById('playbook-modal');
+    var modalPanel = document.getElementById('modal-panel');
+    var overlay = document.getElementById('modal-overlay');
+    var closeBtn = document.getElementById('modal-close');
+    var firstNameInput = document.getElementById('modal-first-name');
+    var form = document.getElementById('playbook-form');
+    var triggers = document.querySelectorAll('[data-modal-trigger="playbook"]');
 
-  function closeModal() {
-    const modal = document.getElementById('playbook-modal');
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-    document.body.style.overflow = '';
-  }
+    if (!modal || !modalPanel || !overlay || !closeBtn) return;
 
-  // Close on Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeModal();
+    var lastFocusedElement = null;
+
+    function openModal() {
+      lastFocusedElement = document.activeElement;
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+
+      // Animate in
+      modalPanel.style.opacity = '0';
+      modalPanel.style.transform = 'scale(0.95)';
+      overlay.style.opacity = '0';
+
+      requestAnimationFrame(function() {
+        overlay.style.opacity = '1';
+        modalPanel.style.opacity = '1';
+        modalPanel.style.transform = 'scale(1)';
+      });
+
+      // Focus first input after animation
+      setTimeout(function() {
+        if (firstNameInput) firstNameInput.focus();
+      }, 150);
+    }
+
+    function closeModal() {
+      // Animate out
+      overlay.style.opacity = '0';
+      modalPanel.style.opacity = '0';
+      modalPanel.style.transform = 'scale(0.95)';
+
+      setTimeout(function() {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+        if (lastFocusedElement) lastFocusedElement.focus();
+      }, 200);
+    }
+
+    // Open modal on trigger click
+    triggers.forEach(function(trigger) {
+      trigger.addEventListener('click', function(e) {
+        e.preventDefault();
+        openModal();
+      });
+    });
+
+    // Close on X button click
+    closeBtn.addEventListener('click', closeModal);
+
+    // Close on overlay click
+    overlay.addEventListener('click', closeModal);
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeModal();
+      }
+    });
+
+    // Form submission
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        var formData = new FormData(form);
+        var firstName = formData.get('first_name');
+        var email = formData.get('email');
+
+        // TODO: Connect to ConvertKit API
+        // For now, show success message
+        console.log('Form submitted:', { firstName: firstName, email: email });
+
+        alert('Thanks! Check your email for the playbook.');
+        closeModal();
+        form.reset();
+      });
+    }
   });
 </script>
 
@@ -519,11 +794,6 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
 <style is:global>
   form.formkit-form[data-uid="fb2e1ff944"] {
     max-width: 923px !important;
-    width: 100% !important;
-  }
-
-  #playbook-modal .formkit-form[data-uid="4252f254d4"] {
-    max-width: 100% !important;
     width: 100% !important;
   }
 </style>
