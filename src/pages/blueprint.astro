@@ -1,6 +1,7 @@
 ---
 import LandingLayout from '../layouts/LandingLayout.astro';
 import ParticleNetwork from '../components/ParticleNetwork.astro';
+import youtubeThumb from '../assets/images/YouTube-Thumb.jpg';
 
 const pageTitle = 'Free Agile AI Prompt Playbook';
 const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technical in sprint planning, refinement, and retrospectives—even if you\'ve never touched ChatGPT before.';
@@ -49,16 +50,36 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
 
         <!-- Right Column - YouTube Video -->
         <div class="animate-fade-in lg:animate-slide-left" style="animation-delay: 0.3s;">
-          <div class="aspect-video rounded-2xl overflow-hidden shadow-2xl bg-white/5 backdrop-blur-sm border border-primary-600/20">
+          <div
+            id="youtube-container"
+            class="aspect-video rounded-2xl overflow-hidden shadow-2xl bg-white/5 backdrop-blur-sm border border-primary-600/20 relative cursor-pointer group"
+          >
+            <!-- Custom Thumbnail -->
+            <img
+              id="youtube-thumb"
+              src={youtubeThumb.src}
+              alt="Watch Danny's Agile Automation Story"
+              class="w-full h-full object-cover"
+            />
+            <!-- Play Button Overlay -->
+            <div id="play-button" class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
+              <div class="w-16 h-16 sm:w-20 sm:h-20 bg-red-600 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                <svg class="w-8 h-8 sm:w-10 sm:h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </div>
+            </div>
+            <!-- Iframe (hidden until clicked) -->
             <iframe
+              id="youtube-iframe"
               width="100%"
               height="100%"
-              src="https://www.youtube.com/embed/9n6UGRKqMjk"
+              src=""
               title="Danny's Agile Automation Story"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen
-              class="w-full h-full"
+              class="w-full h-full absolute inset-0 hidden"
             ></iframe>
           </div>
         </div>
@@ -555,6 +576,27 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
         alert('Thanks! Check your email for the playbook.');
         closeModal();
         form.reset();
+      });
+    }
+  });
+</script>
+
+<!-- YouTube Thumbnail Click Handler -->
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function() {
+    var container = document.getElementById('youtube-container');
+    var thumb = document.getElementById('youtube-thumb');
+    var playBtn = document.getElementById('play-button');
+    var iframe = document.getElementById('youtube-iframe');
+
+    if (container && iframe) {
+      container.addEventListener('click', function() {
+        // Load and autoplay the video
+        iframe.src = 'https://www.youtube.com/embed/9n6UGRKqMjk?autoplay=1';
+        iframe.classList.remove('hidden');
+        if (thumb) thumb.classList.add('hidden');
+        if (playBtn) playBtn.classList.add('hidden');
+        container.classList.remove('cursor-pointer');
       });
     }
   });
