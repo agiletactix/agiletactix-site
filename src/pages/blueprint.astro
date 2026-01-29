@@ -382,40 +382,10 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
               </li>
             </ul>
 
-            <!-- Form -->
-            <form id="playbook-form" class="space-y-4">
-              <!-- First Name -->
-              <div>
-                <input
-                  type="text"
-                  name="first_name"
-                  id="modal-first-name"
-                  placeholder="First name"
-                  required
-                  class="w-full px-6 py-4 text-lg bg-white/10 backdrop-blur-sm border-2 border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:border-white/80 transition-colors"
-                />
-              </div>
-
-              <!-- Email -->
-              <div>
-                <input
-                  type="email"
-                  name="email"
-                  id="modal-email"
-                  placeholder="Enter your email"
-                  required
-                  class="w-full px-6 py-4 text-lg bg-white/10 backdrop-blur-sm border-2 border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:border-white/80 transition-colors"
-                />
-              </div>
-
-              <!-- Submit Button -->
-              <button
-                type="submit"
-                class="w-full px-8 py-4 text-lg font-bold text-[#294bf3] bg-white hover:bg-gray-100 rounded-full transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-              >
-                Send Me the Playbook
-              </button>
-            </form>
+            <!-- Kit.com Form -->
+            <div id="modal-kit-form" class="kit-form-container">
+              <script async data-uid="4252f254d4" src="https://agiletactix.kit.com/4252f254d4/index.js"></script>
+            </div>
 
             <!-- Privacy Note -->
             <p class="text-sm text-white/70 mt-4">
@@ -472,8 +442,6 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
     var modalPanel = document.getElementById('modal-panel');
     var overlay = document.getElementById('modal-overlay');
     var closeBtn = document.getElementById('modal-close');
-    var firstNameInput = document.getElementById('modal-first-name');
-    var form = document.getElementById('playbook-form');
     var triggers = document.querySelectorAll('[data-modal-trigger="playbook"]');
 
     if (!modal || !modalPanel || !overlay || !closeBtn) return;
@@ -496,10 +464,11 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
         modalPanel.style.transform = 'scale(1)';
       });
 
-      // Focus first input after animation
+      // Focus first input in Kit form after animation
       setTimeout(function() {
-        if (firstNameInput) firstNameInput.focus();
-      }, 150);
+        var kitInput = modal.querySelector('.formkit-form input[type="email"], .formkit-form input[type="text"]');
+        if (kitInput) kitInput.focus();
+      }, 300);
     }
 
     function closeModal() {
@@ -536,24 +505,6 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
       }
     });
 
-    // Form submission
-    if (form) {
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        var formData = new FormData(form);
-        var firstName = formData.get('first_name');
-        var email = formData.get('email');
-
-        // TODO: Connect to ConvertKit API
-        // For now, show success message
-        console.log('Form submitted:', { firstName: firstName, email: email });
-
-        alert('Thanks! Check your email for the playbook.');
-        closeModal();
-        form.reset();
-      });
-    }
   });
 </script>
 
@@ -795,5 +746,134 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
   form.formkit-form[data-uid="fb2e1ff944"] {
     max-width: 923px !important;
     width: 100% !important;
+  }
+
+  /* ========================================
+     Modal Kit.com Form - Dark Theme Overrides
+     ======================================== */
+
+  #playbook-modal .kit-form-container {
+    width: 100%;
+  }
+
+  #playbook-modal .formkit-form,
+  #playbook-modal .formkit-form[data-uid="4252f254d4"] {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  #playbook-modal .formkit-background {
+    background: transparent !important;
+  }
+
+  /* Form fields container - vertical stacked layout */
+  #playbook-modal .formkit-fields {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Input fields */
+  #playbook-modal .formkit-input,
+  #playbook-modal .formkit-form input[type="text"],
+  #playbook-modal .formkit-form input[type="email"] {
+    width: 100% !important;
+    padding: 1rem 1.5rem !important;
+    font-size: 1.125rem !important;
+    line-height: 1.5 !important;
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(8px) !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 0.5rem !important;
+    outline: none !important;
+    transition: border-color 0.2s ease, background-color 0.2s ease !important;
+  }
+
+  #playbook-modal .formkit-input::placeholder,
+  #playbook-modal .formkit-form input::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+
+  #playbook-modal .formkit-input:focus,
+  #playbook-modal .formkit-form input:focus {
+    outline: none !important;
+    border-color: rgba(255, 255, 255, 0.8) !important;
+    background-color: rgba(255, 255, 255, 0.15) !important;
+  }
+
+  /* Submit button - White with blue text */
+  #playbook-modal .formkit-submit,
+  #playbook-modal .formkit-form button[type="submit"] {
+    width: 100% !important;
+    padding: 1rem 2rem !important;
+    font-size: 1.125rem !important;
+    font-weight: 700 !important;
+    color: #294bf3 !important;
+    background-color: #ffffff !important;
+    border: none !important;
+    border-radius: 9999px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  }
+
+  #playbook-modal .formkit-submit:hover,
+  #playbook-modal .formkit-form button[type="submit"]:hover {
+    background-color: #f3f4f6 !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+    transform: translateY(-2px) !important;
+  }
+
+  #playbook-modal .formkit-submit span {
+    background: transparent !important;
+    padding: 0 !important;
+    color: inherit !important;
+  }
+
+  /* Hide labels */
+  #playbook-modal .formkit-label {
+    display: none !important;
+  }
+
+  /* Success state */
+  #playbook-modal .formkit-alert-success {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: #ffffff !important;
+    padding: 1rem 1.5rem !important;
+    border-radius: 0.5rem !important;
+    text-align: center !important;
+    font-size: 1rem !important;
+  }
+
+  /* Error state */
+  #playbook-modal .formkit-alert-error {
+    background-color: rgba(239, 68, 68, 0.1) !important;
+    border: 1px solid rgba(239, 68, 68, 0.3) !important;
+    color: #ef4444 !important;
+    padding: 0.75rem 1rem !important;
+    border-radius: 0.5rem !important;
+    font-size: 0.875rem !important;
+    margin-top: 0.5rem !important;
+  }
+
+  /* Hide powered by badge */
+  #playbook-modal .formkit-powered-by,
+  #playbook-modal .formkit-powered-by-convertkit {
+    display: none !important;
+  }
+
+  /* Spinner */
+  #playbook-modal .formkit-spinner {
+    border-color: rgba(41, 75, 243, 0.3) !important;
+    border-top-color: #294bf3 !important;
   }
 </style>
