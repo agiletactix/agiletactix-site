@@ -9,9 +9,9 @@ const base = import.meta.env.BASE_URL;
   description="Thank you for downloading the Agile AI Prompt Playbook. Check your inbox for instant access."
   noIndex={true}
 >
-  <section class="min-h-screen bg-[#0a1628] pt-32 pb-20 px-6 relative overflow-hidden">
+  <section class="h-screen bg-[#0a1628] relative overflow-hidden">
     <!-- Constellation pattern with gradient mask - hidden at top, reveals toward bottom -->
-    <div class="absolute inset-0 pointer-events-none" style="mask-image: linear-gradient(to bottom, transparent 0%, transparent 30%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,1) 100%); -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 30%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,1) 100%);">
+    <div class="absolute inset-0 pointer-events-none" style="mask-image: linear-gradient(to bottom, transparent 0%, transparent 20%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,1) 100%); -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 20%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,1) 100%);">
       <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
         <!-- Connection lines -->
         <g stroke="rgba(41, 75, 243, 0.3)" stroke-width="1" fill="none">
@@ -117,69 +117,73 @@ const base = import.meta.env.BASE_URL;
       </svg>
     </div>
 
-    <div class="max-w-[700px] mx-auto relative z-10">
+    <!-- Content - fills viewport, no scroll -->
+    <div class="relative z-10 h-full flex flex-col justify-between px-6 py-6 sm:py-8 max-w-2xl mx-auto">
 
-      <!-- Success Banner -->
-      <div class="bg-emerald-900/30 border border-emerald-700/50 rounded-lg px-6 py-4 mb-12">
-        <p class="text-emerald-400 text-center flex items-center justify-center gap-2">
-          <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-          </svg>
-          <span>Your Agile AI Prompt Playbook is on the way. Check your inbox.</span>
+      <!-- Top: Success banner + Headline + Subhead -->
+      <div class="pt-16 sm:pt-20">
+        <!-- Success Banner -->
+        <div class="bg-emerald-900/30 border border-emerald-700/50 rounded-lg px-4 py-2 sm:px-6 sm:py-3 mb-4 sm:mb-6">
+          <p class="text-emerald-400 text-center flex items-center justify-center gap-2 text-sm sm:text-base">
+            <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span>Your Agile AI Prompt Playbook is on the way. Check your inbox.</span>
+          </p>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2 sm:mb-3 leading-tight">
+          Still doing sprint work manually?
+        </h1>
+
+        <!-- Subhead -->
+        <p class="text-base sm:text-lg text-white/80 leading-relaxed">
+          You now know how to think and prompt like a builder.
+          This next step removes the repetitive sprint work that still lands on you every cycle.
         </p>
       </div>
 
-      <!-- Headline -->
-      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
-        Still doing sprint work manually?
-      </h1>
-
-      <!-- Subhead -->
-      <p class="text-lg sm:text-xl text-white/80 mb-10 leading-relaxed">
-        You now know how to think and prompt like a builder.<br class="hidden sm:block" />
-        This next step removes the repetitive sprint work that still lands on you every cycle.
-      </p>
-
-      <!-- Bullets Section -->
-      <div class="mb-10">
-        <p class="text-lg text-white font-semibold mb-4">
+      <!-- Middle: Bullets + Description -->
+      <div class="text-center">
+        <p class="text-base sm:text-lg text-white font-semibold mb-3">
           With the 5-Step Sprint Automation Kit, you'll:
         </p>
-        <ul class="space-y-3 text-white/80">
-          <li class="flex items-start gap-3">
-            <span class="text-[#294bf3] mt-1.5">
+        <ul class="space-y-1.5 sm:space-y-2 text-white/80 text-sm sm:text-base text-left max-w-md mx-auto mb-4">
+          <li class="flex items-start gap-2">
+            <span class="text-[#294bf3] mt-0.5 flex-shrink-0">
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
               </svg>
             </span>
             <span>Keep Jira due dates aligned automatically as sprints change</span>
           </li>
-          <li class="flex items-start gap-3">
-            <span class="text-[#294bf3] mt-1.5">
+          <li class="flex items-start gap-2">
+            <span class="text-[#294bf3] mt-0.5 flex-shrink-0">
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
               </svg>
             </span>
             <span>Reduce standup time with async prep reminders</span>
           </li>
-          <li class="flex items-start gap-3">
-            <span class="text-[#294bf3] mt-1.5">
+          <li class="flex items-start gap-2">
+            <span class="text-[#294bf3] mt-0.5 flex-shrink-0">
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
               </svg>
             </span>
             <span>Surface stalled work before it becomes a problem</span>
           </li>
-          <li class="flex items-start gap-3">
-            <span class="text-[#294bf3] mt-1.5">
+          <li class="flex items-start gap-2">
+            <span class="text-[#294bf3] mt-0.5 flex-shrink-0">
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
               </svg>
             </span>
             <span>Automatically align stakeholders at sprint start</span>
           </li>
-          <li class="flex items-start gap-3">
-            <span class="text-[#294bf3] mt-1.5">
+          <li class="flex items-start gap-2">
+            <span class="text-[#294bf3] mt-0.5 flex-shrink-0">
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
               </svg>
@@ -187,54 +191,37 @@ const base = import.meta.env.BASE_URL;
             <span>Generate executive-ready sprint summaries at close</span>
           </li>
         </ul>
-        <p class="text-white/80 mt-4">
-          All using real Jira automations.<br />
-          No coding required.
+        <p class="text-white/70 text-sm italic">
+          A practical kit with five Jira automation systems. No coding required. Includes video walkthroughs.
         </p>
       </div>
 
-      <!-- What It Is -->
-      <p class="text-white/80 mb-6 leading-relaxed">
-        A practical Phase 2 kit with five Jira automation systems that handle coordination and reporting work for you every sprint.
-      </p>
-
-      <!-- Bonus -->
-      <p class="text-white/70 italic mb-10">
-        Includes short video walkthroughs so you can set each automation up without guesswork.
-      </p>
-
-      <!-- Price + Guarantee -->
-      <div class="text-center mb-8">
-        <p class="text-2xl sm:text-3xl font-bold text-white mb-4">
+      <!-- Bottom: Price + CTA + Footer -->
+      <div class="text-center pb-2">
+        <!-- Price + Guarantee -->
+        <p class="text-xl sm:text-2xl font-bold text-white mb-1">
           $27 one-time
         </p>
-        <p class="text-white/70 text-sm sm:text-base max-w-lg mx-auto">
-          If this doesn't meaningfully reduce the manual sprint work you do in your next sprint, email me for a full refund — no questions asked.
+        <p class="text-white/60 text-xs sm:text-sm mb-4 max-w-sm mx-auto">
+          If this doesn't reduce your manual sprint work, email me for a full refund — no questions asked.
         </p>
-      </div>
 
-      <!-- CTA Button -->
-      <div class="mb-6">
+        <!-- CTA Button -->
         <a
           href="#"
-          class="block w-full text-center px-8 py-4 text-lg font-bold text-white bg-[#294bf3] hover:bg-[#1e3acc] rounded-[0.75rem] transition-all duration-200 shadow-lg hover:shadow-xl"
+          class="block w-full text-center px-6 py-3 sm:py-4 text-base sm:text-lg font-bold text-white bg-[#294bf3] hover:bg-[#1e3acc] rounded-[0.75rem] transition-all duration-200 shadow-lg hover:shadow-xl mb-3"
         >
           Continue to the 5-Step Sprint Automation Kit →
         </a>
-      </div>
 
-      <!-- Skip Link -->
-      <div class="text-center mb-16">
-        <a href={base} class="text-sm text-white/50 hover:text-white/70 transition-colors">
+        <!-- Skip Link -->
+        <a href={base} class="text-xs sm:text-sm text-white/50 hover:text-white/70 transition-colors">
           No thanks, take me to the homepage
         </a>
-      </div>
 
-      <!-- Footer -->
-      <div class="border-t border-white/10 pt-8">
-        <p class="text-sm text-white/40 text-center leading-relaxed">
-          You don't need to automate everything.<br />
-          You just need the repeat work to stop landing on you.
+        <!-- Footer -->
+        <p class="text-xs text-white/40 mt-4 leading-relaxed">
+          You don't need to automate everything. You just need the repeat work to stop landing on you.
         </p>
       </div>
 
