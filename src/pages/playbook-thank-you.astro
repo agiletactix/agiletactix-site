@@ -13,106 +13,149 @@ const base = import.meta.env.BASE_URL;
     <!-- Constellation pattern with gradient mask - hidden at top, reveals toward bottom -->
     <div class="absolute inset-0 pointer-events-none" style="mask-image: linear-gradient(to bottom, transparent 0%, transparent 20%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,1) 100%); -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 20%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,1) 100%);">
       <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-        <!-- Connection lines -->
-        <g stroke="rgba(41, 75, 243, 0.3)" stroke-width="1" fill="none">
-          <!-- Top left cluster -->
+        <defs>
+          <!-- Glow filter for foreground elements -->
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="2" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+
+        <!-- ========== BACKGROUND LAYER (far, dim, small) ========== -->
+        <g stroke="rgba(41, 75, 243, 0.12)" stroke-width="0.5" fill="none">
+          <line x1="2%" y1="12%" x2="7%" y2="18%" />
+          <line x1="7%" y1="18%" x2="4%" y2="28%" />
+          <line x1="15%" y1="5%" x2="20%" y2="10%" />
+          <line x1="20%" y1="10%" x2="18%" y2="18%" />
+          <line x1="80%" y1="8%" x2="87%" y2="5%" />
+          <line x1="87%" y1="5%" x2="93%" y2="12%" />
+          <line x1="6%" y1="38%" x2="12%" y2="42%" />
+          <line x1="12%" y1="42%" x2="8%" y2="50%" />
+          <line x1="88%" y1="35%" x2="94%" y2="40%" />
+          <line x1="94%" y1="40%" x2="90%" y2="48%" />
+          <line x1="4%" y1="65%" x2="10%" y2="70%" />
+          <line x1="10%" y1="70%" x2="6%" y2="78%" />
+          <line x1="85%" y1="62%" x2="92%" y2="58%" />
+          <line x1="92%" y1="58%" x2="96%" y2="65%" />
+          <line x1="15%" y1="85%" x2="8%" y2="90%" />
+          <line x1="75%" y1="88%" x2="82%" y2="92%" />
+        </g>
+        <g fill="rgba(41, 75, 243, 0.15)">
+          <circle cx="2%" cy="12%" r="1.5" />
+          <circle cx="7%" cy="18%" r="1" />
+          <circle cx="4%" cy="28%" r="1.5" />
+          <circle cx="15%" cy="5%" r="1" />
+          <circle cx="20%" cy="10%" r="1.5" />
+          <circle cx="18%" cy="18%" r="1" />
+          <circle cx="80%" cy="8%" r="1.5" />
+          <circle cx="87%" cy="5%" r="1" />
+          <circle cx="93%" cy="12%" r="1.5" />
+          <circle cx="6%" cy="38%" r="1" />
+          <circle cx="12%" cy="42%" r="1.5" />
+          <circle cx="8%" cy="50%" r="1" />
+          <circle cx="88%" cy="35%" r="1.5" />
+          <circle cx="94%" cy="40%" r="1" />
+          <circle cx="90%" cy="48%" r="1.5" />
+          <circle cx="4%" cy="65%" r="1" />
+          <circle cx="10%" cy="70%" r="1.5" />
+          <circle cx="6%" cy="78%" r="1" />
+          <circle cx="85%" cy="62%" r="1.5" />
+          <circle cx="92%" cy="58%" r="1" />
+          <circle cx="96%" cy="65%" r="1.5" />
+          <circle cx="15%" cy="85%" r="1" />
+          <circle cx="8%" cy="90%" r="1.5" />
+          <circle cx="75%" cy="88%" r="1" />
+          <circle cx="82%" cy="92%" r="1.5" />
+        </g>
+
+        <!-- ========== MID-GROUND LAYER (medium distance) ========== -->
+        <g stroke="rgba(41, 75, 243, 0.25)" stroke-width="1" fill="none">
+          <!-- Top clusters -->
           <line x1="5%" y1="8%" x2="12%" y2="15%" />
           <line x1="12%" y1="15%" x2="8%" y2="25%" />
           <line x1="12%" y1="15%" x2="22%" y2="12%" />
           <line x1="22%" y1="12%" x2="28%" y2="22%" />
-          <line x1="8%" y1="25%" x2="18%" y2="32%" />
-
-          <!-- Top right cluster -->
           <line x1="75%" y1="5%" x2="85%" y2="12%" />
           <line x1="85%" y1="12%" x2="92%" y2="8%" />
           <line x1="85%" y1="12%" x2="78%" y2="22%" />
-          <line x1="78%" y1="22%" x2="88%" y2="28%" />
-          <line x1="92%" y1="8%" x2="95%" y2="18%" />
-
-          <!-- Middle left -->
+          <!-- Middle clusters -->
           <line x1="3%" y1="45%" x2="10%" y2="52%" />
-          <line x1="10%" y1="52%" x2="5%" y2="62%" />
           <line x1="10%" y1="52%" x2="18%" y2="48%" />
-          <line x1="18%" y1="48%" x2="25%" y2="55%" />
-
-          <!-- Middle right -->
           <line x1="82%" y1="42%" x2="90%" y2="48%" />
-          <line x1="90%" y1="48%" x2="95%" y2="42%" />
           <line x1="90%" y1="48%" x2="85%" y2="58%" />
-          <line x1="85%" y1="58%" x2="92%" y2="65%" />
-
-          <!-- Bottom left cluster -->
+          <!-- Bottom connections -->
           <line x1="8%" y1="72%" x2="15%" y2="78%" />
-          <line x1="15%" y1="78%" x2="10%" y2="88%" />
           <line x1="15%" y1="78%" x2="25%" y2="75%" />
-          <line x1="25%" y1="75%" x2="22%" y2="85%" />
-          <line x1="22%" y1="85%" x2="12%" y2="92%" />
-
-          <!-- Bottom right cluster -->
           <line x1="78%" y1="75%" x2="88%" y2="80%" />
           <line x1="88%" y1="80%" x2="92%" y2="72%" />
+        </g>
+        <g fill="rgba(41, 75, 243, 0.3)">
+          <circle cx="5%" cy="8%" r="2" />
+          <circle cx="12%" cy="15%" r="2.5" />
+          <circle cx="8%" cy="25%" r="2" />
+          <circle cx="22%" cy="12%" r="2" />
+          <circle cx="28%" cy="22%" r="2.5" />
+          <circle cx="75%" cy="5%" r="2" />
+          <circle cx="85%" cy="12%" r="2.5" />
+          <circle cx="92%" cy="8%" r="2" />
+          <circle cx="78%" cy="22%" r="2.5" />
+          <circle cx="3%" cy="45%" r="2" />
+          <circle cx="10%" cy="52%" r="2.5" />
+          <circle cx="18%" cy="48%" r="2" />
+          <circle cx="82%" cy="42%" r="2" />
+          <circle cx="90%" cy="48%" r="2.5" />
+          <circle cx="85%" cy="58%" r="2" />
+          <circle cx="8%" cy="72%" r="2.5" />
+          <circle cx="15%" cy="78%" r="2" />
+          <circle cx="25%" cy="75%" r="2.5" />
+          <circle cx="78%" cy="75%" r="2" />
+          <circle cx="88%" cy="80%" r="2.5" />
+          <circle cx="92%" cy="72%" r="2" />
+        </g>
+
+        <!-- ========== FOREGROUND LAYER (close, bright, large, with glow) ========== -->
+        <g stroke="rgba(41, 75, 243, 0.45)" stroke-width="1.5" fill="none">
+          <!-- Key foreground connections -->
+          <line x1="8%" y1="25%" x2="18%" y2="32%" />
+          <line x1="78%" y1="22%" x2="88%" y2="28%" />
+          <line x1="10%" y1="52%" x2="5%" y2="62%" />
+          <line x1="18%" y1="48%" x2="25%" y2="55%" />
+          <line x1="90%" y1="48%" x2="95%" y2="42%" />
+          <line x1="85%" y1="58%" x2="92%" y2="65%" />
+          <line x1="15%" y1="78%" x2="10%" y2="88%" />
+          <line x1="25%" y1="75%" x2="22%" y2="85%" />
+          <line x1="22%" y1="85%" x2="12%" y2="92%" />
           <line x1="88%" y1="80%" x2="82%" y2="90%" />
           <line x1="82%" y1="90%" x2="90%" y2="95%" />
           <line x1="92%" y1="72%" x2="96%" y2="82%" />
-
           <!-- Cross connections -->
           <line x1="28%" y1="22%" x2="18%" y2="32%" />
-          <line x1="25%" y1="55%" x2="18%" y2="48%" />
-          <line x1="25%" y1="75%" x2="18%" y2="68%" />
+          <line x1="25%" y1="55%" x2="18%" y2="68%" />
           <line x1="78%" y1="22%" x2="72%" y2="35%" />
           <line x1="85%" y1="58%" x2="78%" y2="68%" />
         </g>
-
-        <!-- Nodes -->
-        <g fill="rgba(41, 75, 243, 0.3)">
-          <!-- Top left cluster -->
-          <circle cx="5%" cy="8%" r="2" />
-          <circle cx="12%" cy="15%" r="2" />
-          <circle cx="8%" cy="25%" r="2" />
-          <circle cx="22%" cy="12%" r="2" />
-          <circle cx="28%" cy="22%" r="2" />
-          <circle cx="18%" cy="32%" r="2" />
-
-          <!-- Top right cluster -->
-          <circle cx="75%" cy="5%" r="2" />
-          <circle cx="85%" cy="12%" r="2" />
-          <circle cx="92%" cy="8%" r="2" />
-          <circle cx="78%" cy="22%" r="2" />
-          <circle cx="88%" cy="28%" r="2" />
-          <circle cx="95%" cy="18%" r="2" />
-
-          <!-- Middle left -->
-          <circle cx="3%" cy="45%" r="2" />
-          <circle cx="10%" cy="52%" r="2" />
-          <circle cx="5%" cy="62%" r="2" />
-          <circle cx="18%" cy="48%" r="2" />
-          <circle cx="25%" cy="55%" r="2" />
-
-          <!-- Middle right -->
-          <circle cx="82%" cy="42%" r="2" />
-          <circle cx="90%" cy="48%" r="2" />
-          <circle cx="95%" cy="42%" r="2" />
-          <circle cx="85%" cy="58%" r="2" />
-          <circle cx="92%" cy="65%" r="2" />
-
-          <!-- Bottom left cluster -->
-          <circle cx="8%" cy="72%" r="2" />
-          <circle cx="15%" cy="78%" r="2" />
-          <circle cx="10%" cy="88%" r="2" />
-          <circle cx="25%" cy="75%" r="2" />
-          <circle cx="22%" cy="85%" r="2" />
-          <circle cx="12%" cy="92%" r="2" />
-          <circle cx="18%" cy="68%" r="2" />
-
-          <!-- Bottom right cluster -->
-          <circle cx="78%" cy="75%" r="2" />
-          <circle cx="88%" cy="80%" r="2" />
-          <circle cx="92%" cy="72%" r="2" />
-          <circle cx="82%" cy="90%" r="2" />
-          <circle cx="90%" cy="95%" r="2" />
-          <circle cx="96%" cy="82%" r="2" />
-          <circle cx="78%" cy="68%" r="2" />
-          <circle cx="72%" cy="35%" r="2" />
+        <g fill="rgba(41, 75, 243, 0.5)" filter="url(#glow)">
+          <circle cx="18%" cy="32%" r="3.5" />
+          <circle cx="88%" cy="28%" r="3" />
+          <circle cx="5%" cy="62%" r="3" />
+          <circle cx="25%" cy="55%" r="3.5" />
+          <circle cx="95%" cy="42%" r="3" />
+          <circle cx="92%" cy="65%" r="3.5" />
+          <circle cx="18%" cy="68%" r="3" />
+          <circle cx="72%" cy="35%" r="3" />
+          <circle cx="78%" cy="68%" r="3.5" />
+        </g>
+        <g fill="rgba(41, 75, 243, 0.55)" filter="url(#glow)">
+          <!-- Largest foreground nodes - bottom area for CTA focus -->
+          <circle cx="10%" cy="88%" r="4" />
+          <circle cx="22%" cy="85%" r="4.5" />
+          <circle cx="12%" cy="92%" r="3.5" />
+          <circle cx="82%" cy="90%" r="4" />
+          <circle cx="90%" cy="95%" r="4.5" />
+          <circle cx="96%" cy="82%" r="4" />
         </g>
       </svg>
     </div>
