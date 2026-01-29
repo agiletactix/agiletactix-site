@@ -9,8 +9,13 @@ const base = import.meta.env.BASE_URL;
   description="Thank you for downloading the Agile AI Prompt Playbook. Check your inbox for instant access."
   noIndex={true}
 >
-  <section class="min-h-screen bg-[#0a1628] pt-32 pb-20 px-6">
-    <div class="max-w-[700px] mx-auto">
+  <section class="min-h-screen bg-[#0a1628] pt-32 pb-20 px-6 relative overflow-hidden">
+    <!-- Grid dot pattern overlay -->
+    <div class="absolute inset-0 grid-pattern pointer-events-none"></div>
+    <!-- Focus gradient overlay - draws eye toward CTA -->
+    <div class="absolute inset-0 focus-gradient pointer-events-none"></div>
+
+    <div class="max-w-[700px] mx-auto relative z-10">
 
       <!-- Success Banner -->
       <div class="bg-emerald-900/30 border border-emerald-700/50 rounded-lg px-6 py-4 mb-12">
@@ -134,3 +139,22 @@ const base = import.meta.env.BASE_URL;
     </div>
   </section>
 </LandingLayout>
+
+<style>
+  /* Grid dot pattern - same as homepage */
+  .grid-pattern {
+    background-image: radial-gradient(circle at 1px 1px, rgba(41, 75, 243, 0.5) 1px, transparent 0);
+    background-size: 40px 40px;
+  }
+
+  /* Gradient overlay - transparent top, visible bottom to focus on CTA */
+  .focus-gradient {
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 40%,
+      rgba(41, 75, 243, 0.05) 70%,
+      rgba(41, 75, 243, 0.1) 100%
+    );
+  }
+</style>
