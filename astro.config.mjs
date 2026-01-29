@@ -7,7 +7,9 @@ export default defineConfig({
   site: 'https://agiletactix.ai',
   integrations: [
     tailwind(),
-    sitemap()
+    sitemap({
+      filter: (page) => !page.includes('playbook-thank-you')
+    })
   ],
   output: 'static',
   build: {
