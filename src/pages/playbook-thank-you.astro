@@ -165,41 +165,38 @@ const base = import.meta.env.BASE_URL;
 
       <!-- Top: Success banner + Headline + Subhead -->
       <div class="pt-16 sm:pt-20">
-        <!-- Success Banner -->
-        <div class="bg-emerald-900/30 border border-emerald-700/50 rounded-lg px-4 py-2 sm:px-6 sm:py-3 mb-4 sm:mb-6">
-          <p class="text-emerald-400 text-center flex items-center justify-center gap-2 text-sm sm:text-base">
-            <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-            </svg>
-            <span>Your Agile AI Prompt Playbook is on the way. Check your inbox.</span>
-          </p>
-        </div>
+        <!-- Success Banner - Slim and muted -->
+        <p class="text-sm text-emerald-400/70 text-center mb-4 sm:mb-5 flex items-center justify-center gap-1.5">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+          </svg>
+          <span>Your Agile AI Prompt Playbook is on the way. Check your inbox.</span>
+        </p>
 
-        <!-- Headline -->
+        <!-- Headline - Statement, not question -->
         <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2 sm:mb-3 leading-tight">
-          Still doing sprint work manually?
+          Stop Doing Sprint Work Manually—Automate the Repeats for Good
         </h1>
 
-        <!-- Subhead -->
+        <!-- Subhead - Reframed as next step -->
         <p class="text-base sm:text-lg text-white/80 leading-relaxed">
-          You now know how to think and prompt like a builder.
-          This next step removes the repetitive sprint work that still lands on you every cycle.
+          Here's the kit that turns prompts into "set-it-and-forget-it" Jira automations—so the repeat work stops landing on you every sprint.
         </p>
       </div>
 
-      <!-- Middle: Bullets + Description -->
+      <!-- Middle: Bullets - Tightened for scan speed -->
       <div class="text-center">
         <p class="text-base sm:text-lg text-white font-semibold mb-3">
-          With the 5-Step Sprint Automation Kit, you'll:
+          Five real Jira automations that handle:
         </p>
-        <ul class="space-y-1.5 sm:space-y-2 text-white/80 text-sm sm:text-base text-left max-w-md mx-auto mb-4">
+        <ul class="space-y-1.5 text-white/80 text-sm sm:text-base text-left max-w-md mx-auto mb-4">
           <li class="flex items-start gap-2">
             <span class="text-[#294bf3] mt-0.5 flex-shrink-0">
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
               </svg>
             </span>
-            <span>Keep Jira due dates aligned automatically as sprints change</span>
+            <span>Auto-sync due dates when sprints shift</span>
           </li>
           <li class="flex items-start gap-2">
             <span class="text-[#294bf3] mt-0.5 flex-shrink-0">
@@ -207,7 +204,7 @@ const base = import.meta.env.BASE_URL;
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
               </svg>
             </span>
-            <span>Reduce standup time with async prep reminders</span>
+            <span>Async standup prep reminders</span>
           </li>
           <li class="flex items-start gap-2">
             <span class="text-[#294bf3] mt-0.5 flex-shrink-0">
@@ -215,7 +212,7 @@ const base = import.meta.env.BASE_URL;
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
               </svg>
             </span>
-            <span>Surface stalled work before it becomes a problem</span>
+            <span>Stalled work alerts before they escalate</span>
           </li>
           <li class="flex items-start gap-2">
             <span class="text-[#294bf3] mt-0.5 flex-shrink-0">
@@ -223,7 +220,7 @@ const base = import.meta.env.BASE_URL;
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
               </svg>
             </span>
-            <span>Automatically align stakeholders at sprint start</span>
+            <span>Stakeholder alignment at sprint start</span>
           </li>
           <li class="flex items-start gap-2">
             <span class="text-[#294bf3] mt-0.5 flex-shrink-0">
@@ -231,30 +228,32 @@ const base = import.meta.env.BASE_URL;
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
               </svg>
             </span>
-            <span>Generate executive-ready sprint summaries at close</span>
+            <span>Executive-ready sprint summaries at close</span>
           </li>
         </ul>
-        <p class="text-white/70 text-sm italic">
-          A practical kit with five Jira automation systems. No coding required. Includes video walkthroughs.
+        <p class="text-white/60 text-sm">
+          No coding required. Includes video walkthroughs.
         </p>
       </div>
 
-      <!-- Bottom: Price + CTA + Footer -->
+      <!-- Bottom: Offer + CTA + Footer -->
       <div class="text-center pb-2">
-        <!-- Price + Guarantee -->
-        <p class="text-xl sm:text-2xl font-bold text-white mb-1">
-          $27 one-time
-        </p>
-        <p class="text-white/60 text-xs sm:text-sm mb-4 max-w-sm mx-auto">
-          If this doesn't reduce your manual sprint work, email me for a full refund — no questions asked.
+        <!-- Offer Line - Isolated and prominent -->
+        <p class="text-lg sm:text-xl font-bold text-white mb-2">
+          Get the 5-Step Sprint Automation Kit — $27 One-Time
         </p>
 
-        <!-- CTA Button -->
+        <!-- Guarantee - Short and simple -->
+        <p class="text-white/60 text-xs sm:text-sm mb-4">
+          Full refund if it doesn't reduce your manual sprint work. No questions asked.
+        </p>
+
+        <!-- CTA Button - Action-oriented -->
         <a
           href="#"
           class="block w-full text-center px-6 py-3 sm:py-4 text-base sm:text-lg font-bold text-white bg-[#294bf3] hover:bg-[#1e3acc] rounded-[0.75rem] transition-all duration-200 shadow-lg hover:shadow-xl mb-3"
         >
-          Continue to the 5-Step Sprint Automation Kit →
+          Get the Automation Kit Now
         </a>
 
         <!-- Skip Link -->
