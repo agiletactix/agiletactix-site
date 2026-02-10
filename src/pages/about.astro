@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ParticleNetwork from '../components/ParticleNetwork.astro';
 
 const pageTitle = 'About';
 const pageDescription = 'Learn about AgileTactix and Danny, the agile professional with 15+ years experience teaching real-world AI and automation skills to agile professionals.';
@@ -7,13 +8,14 @@ const pageDescription = 'Learn about AgileTactix and Danny, the agile profession
 
 <BaseLayout title={pageTitle} description={pageDescription}>
   <!-- Hero Section -->
-  <section class="bg-gradient-to-br from-gray-50 via-white to-primary-50">
-    <div class="section-container py-16 sm:py-20">
+  <section class="relative bg-black overflow-hidden -mt-[88px] sm:-mt-[96px] pt-[88px] sm:pt-[96px]">
+    <ParticleNetwork />
+    <div class="relative z-10 section-container py-16 sm:py-24">
       <div class="max-w-4xl mx-auto text-center">
-        <h1 class="heading-xl text-gray-900 mb-6">
+        <h1 class="heading-xl text-white mb-6">
           About AgileTactix
         </h1>
-        <p class="text-xl sm:text-2xl text-gray-600 max-w-3xl mx-auto">
+        <p class="text-xl sm:text-2xl text-gray-300 max-w-3xl mx-auto">
           Real-world practitioner teaching agile professionals the technical skills they need to thrive in the AI era
         </p>
       </div>
