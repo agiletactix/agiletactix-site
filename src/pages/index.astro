@@ -592,42 +592,46 @@ const pageDescription = 'Transform from theory-chaser to AI-powered partner. Lea
           </div>
         </div>
 
-        <script>
-          document.getElementById('waitlist-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('waitlist-email').value;
-            const btn = document.getElementById('waitlist-btn');
-            const form = document.getElementById('waitlist-form');
-            const success = document.getElementById('waitlist-success');
-            const error = document.getElementById('waitlist-error');
+        <script is:inline>
+          var waitlistForm = document.getElementById('waitlist-form');
+          if (waitlistForm) {
+            waitlistForm.addEventListener('submit', function(e) {
+              e.preventDefault();
+              var emailEl = document.getElementById('waitlist-email');
+              var btn = document.getElementById('waitlist-btn');
+              var form = document.getElementById('waitlist-form');
+              var success = document.getElementById('waitlist-success');
+              var errorEl = document.getElementById('waitlist-error');
 
-            btn.disabled = true;
-            btn.textContent = 'Joining...';
-            error.classList.add('hidden');
+              if (!emailEl || !btn || !form || !success || !errorEl) return;
 
-            try {
-              const data = new URLSearchParams();
+              var email = emailEl.value;
+              btn.setAttribute('disabled', 'true');
+              btn.textContent = 'Joining...';
+              errorEl.classList.add('hidden');
+
+              var data = new URLSearchParams();
               data.append('email_address', email);
 
-              const res = await fetch('https://app.kit.com/forms/9074654/subscriptions', {
+              fetch('https://app.kit.com/forms/9074654/subscriptions', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: data,
                 redirect: 'manual'
+              }).then(function(res) {
+                if (res.ok || res.status === 302 || res.type === 'opaqueredirect') {
+                  form.classList.add('hidden');
+                  success.classList.remove('hidden');
+                } else {
+                  throw new Error('Failed');
+                }
+              }).catch(function() {
+                errorEl.classList.remove('hidden');
+                btn.removeAttribute('disabled');
+                btn.textContent = 'Join the Waitlist!';
               });
-
-              if (res.ok || res.status === 302 || res.type === 'opaqueredirect') {
-                form.classList.add('hidden');
-                success.classList.remove('hidden');
-              } else {
-                throw new Error('Failed');
-              }
-            } catch (err) {
-              error.classList.remove('hidden');
-              btn.disabled = false;
-              btn.textContent = 'Join the Waitlist!';
-            }
-          });
+            });
+          }
         </script>
 
         <p class="text-sm text-gray-400">
