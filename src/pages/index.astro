@@ -297,39 +297,89 @@ const pageDescription = 'Transform from theory-chaser to AI-powered partner. Lea
     </div>
   </section>
 
-  <!-- Credibility/Social Proof Section -->
-  <section class="bg-white">
+  <!-- Social Proof Section -->
+  <section class="bg-[#f0f7ff]">
     <div class="section-container section-spacing">
       <div class="text-center mb-16">
         <h2 class="heading-lg text-gray-900 mb-4">
-          Proven Track Record: 13,000+ Students Trained
+          What 13,000+ Students Are Saying
         </h2>
         <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-          Real practitioner, not corporate trainer
+          Real reviews from professionals who've trained with Danny.
         </p>
       </div>
 
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-16">
-        <div class="text-center p-6">
-          <div class="text-4xl font-bold text-primary-600 mb-2">13,000+</div>
-          <p class="text-xl text-gray-600">Professionals trained on Jira mastery (via Udemy)</p>
+      <!-- Top row: 3 cards -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-6 lg:mb-8">
+
+        <!-- Review 1: Victor — 4.5 stars -->
+        <div class="bg-white rounded-xl p-8 border-l-4 border-[#294bf3] shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+          <div class="flex items-center mb-4">
+            <div class="flex text-[#294bf3]">
+              {[...Array(4)].map(() => (
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              ))}
+              <svg class="w-5 h-5" viewBox="0 0 20 20">
+                <defs>
+                  <linearGradient id="half-star-blue">
+                    <stop offset="50%" stop-color="#294bf3" />
+                    <stop offset="50%" stop-color="#d1d5db" />
+                  </linearGradient>
+                </defs>
+                <path fill="url(#half-star-blue)" d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            </div>
+          </div>
+          <p class="text-[#1a1a1a] mb-6 leading-relaxed">
+            "This learning experience strengthened my understanding of Agile and how to use Jira as a practical decision-making tool, not just a task tracker. I now have clearer criteria to structure workflows, choose between Scrum and Kanban, and use metrics to improve visibility and flow. Special thanks to Danny Liu for such a clear, direct, and practical approach—focused on what truly matters to achieve the objective."
+          </p>
+          <p class="font-bold text-[#1a1a1a]">Victor Emilio Moreno Leon</p>
         </div>
-        <div class="text-center p-6">
-          <div class="text-4xl font-bold text-primary-600 mb-2">15+</div>
-          <p class="text-xl text-gray-600">Years hands-on experience in agile transformation</p>
+
+        <!-- Review 2: Roy — 5 stars -->
+        <div class="bg-white rounded-xl p-8 border-l-4 border-[#294bf3] shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+          <div class="flex items-center mb-4">
+            <div class="flex text-[#294bf3]">
+              {[...Array(5)].map(() => (
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              ))}
+            </div>
+          </div>
+          <p class="text-[#1a1a1a] mb-6 leading-relaxed">
+            "Very good training. I was able to learn JQL without any prior knowledge. I am now confident that I can apply customizable filters and create new dashboards for the teams I am managing. Thanks again."
+          </p>
+          <p class="font-bold text-[#1a1a1a]">Roy Reuben Sundaram</p>
         </div>
-        <div class="text-center p-6">
-          <div class="text-4xl font-bold text-primary-600 mb-2">100%</div>
-          <p class="text-xl text-gray-600">Currently employed full-time using these exact tools</p>
+
+        <!-- Review 3: Munis — 5 stars -->
+        <div class="bg-white rounded-xl p-8 border-l-4 border-[#294bf3] shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 sm:col-span-2 lg:col-span-1">
+          <div class="flex items-center mb-4">
+            <div class="flex text-[#294bf3]">
+              {[...Array(5)].map(() => (
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              ))}
+            </div>
+          </div>
+          <p class="text-[#1a1a1a] mb-6 leading-relaxed">
+            "Thank you for summarizing Jira in a simple and easy-to-use way. The course is clear, it removes the noise and jargon and focuses on the use of the product. I am looking forward to advanced courses. Thanks Danny!"
+          </p>
+          <p class="font-bold text-[#1a1a1a]">Munis Shawaf</p>
         </div>
       </div>
 
-      <!-- Testimonial Placeholders -->
-      <div class="grid md:grid-cols-3 gap-8">
-        <!-- Testimonial 1 -->
-        <div class="bg-gray-50 rounded-xl p-8 border border-gray-200">
+      <!-- Bottom row: 2 cards centered -->
+      <div class="grid sm:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto mb-12">
+
+        <!-- Review 4: Kevin — 5 stars -->
+        <div class="bg-white rounded-xl p-8 border-l-4 border-[#294bf3] shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
           <div class="flex items-center mb-4">
-            <div class="flex text-primary-500">
+            <div class="flex text-[#294bf3]">
               {[...Array(5)].map(() => (
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -337,21 +387,16 @@ const pageDescription = 'Transform from theory-chaser to AI-powered partner. Lea
               ))}
             </div>
           </div>
-          <p class="text-xl text-gray-700 mb-4 italic">
-            "Finally, someone teaching what actually works. The Jira automation examples alone saved me 10 hours a week."
+          <p class="text-[#1a1a1a] mb-6 leading-relaxed">
+            "Danny knows how to organize, design and deliver instruction. It's very apparent. He has a great voice; he's clear, concise and easily understood. All of your instructors should be held to this standard. Not all of them are in this strata."
           </p>
-          <p class="text-sm text-gray-500">
-            — [Example Testimonial] Sarah K., Scrum Master
-          </p>
-          <p class="text-xs text-amber-600 mt-2">
-            Note: Placeholder for future real testimonial
-          </p>
+          <p class="font-bold text-[#1a1a1a]">Kevin Meyer</p>
         </div>
 
-        <!-- Testimonial 2 -->
-        <div class="bg-gray-50 rounded-xl p-8 border border-gray-200">
+        <!-- Review 5: Derrick — 5 stars -->
+        <div class="bg-white rounded-xl p-8 border-l-4 border-[#294bf3] shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
           <div class="flex items-center mb-4">
-            <div class="flex text-primary-500">
+            <div class="flex text-[#294bf3]">
               {[...Array(5)].map(() => (
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -359,38 +404,18 @@ const pageDescription = 'Transform from theory-chaser to AI-powered partner. Lea
               ))}
             </div>
           </div>
-          <p class="text-xl text-gray-700 mb-4 italic">
-            "I went from fearing layoffs to getting recruited by companies specifically for my Jira + AI skills. Game changer."
+          <p class="text-[#1a1a1a] mb-6 leading-relaxed">
+            "This course was excellent, I had little to no experience with Jira, but after this course, I'm extremely confident that I can tackle this program. Thanks, Danny!"
           </p>
-          <p class="text-sm text-gray-500">
-            — [Example Testimonial] Michael T., Agile Coach
-          </p>
-          <p class="text-xs text-amber-600 mt-2">
-            Note: Placeholder for future real testimonial
-          </p>
+          <p class="font-bold text-[#1a1a1a]">Derrick Castleberry</p>
         </div>
+      </div>
 
-        <!-- Testimonial 3 -->
-        <div class="bg-gray-50 rounded-xl p-8 border border-gray-200">
-          <div class="flex items-center mb-4">
-            <div class="flex text-primary-500">
-              {[...Array(5)].map(() => (
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              ))}
-            </div>
-          </div>
-          <p class="text-xl text-gray-700 mb-4 italic">
-            "The technical skills opened doors I didn't know existed. Now I'm the go-to person for AI integration in our org."
-          </p>
-          <p class="text-sm text-gray-500">
-            — [Example Testimonial] Jennifer L., Product Owner
-          </p>
-          <p class="text-xs text-amber-600 mt-2">
-            Note: Placeholder for future real testimonial
-          </p>
-        </div>
+      <!-- Rating badge -->
+      <div class="text-center">
+        <span class="inline-block bg-white px-6 py-3 rounded-full text-sm font-medium text-gray-600 shadow-sm">
+          4.5 average rating across 13,000+ students trained
+        </span>
       </div>
     </div>
   </section>
