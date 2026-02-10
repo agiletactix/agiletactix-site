@@ -50,6 +50,11 @@
   h3 {
     @apply text-2xl sm:text-3xl lg:text-4xl;
   }
+
+  p {
+    font-size: 1.25rem; /* 20px — text-xl equivalent */
+    line-height: 1.7;
+  }
 }
 
 @layer components {

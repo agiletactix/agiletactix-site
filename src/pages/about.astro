@@ -1,5 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ParticleNetwork from '../components/ParticleNetwork.astro';
+import { Image } from 'astro:assets';
+import headshot from '../assets/images/Danny-Liu-headshot.png';
 
 const pageTitle = 'About';
 const pageDescription = 'Learn about AgileTactix and Danny, the agile professional with 15+ years experience teaching real-world AI and automation skills to agile professionals.';
@@ -7,13 +10,14 @@ const pageDescription = 'Learn about AgileTactix and Danny, the agile profession
 
 <BaseLayout title={pageTitle} description={pageDescription}>
   <!-- Hero Section -->
-  <section class="bg-gradient-to-br from-gray-50 via-white to-primary-50">
-    <div class="section-container py-16 sm:py-20">
+  <section class="relative bg-black overflow-hidden -mt-[88px] sm:-mt-[96px] pt-[88px] sm:pt-[96px]">
+    <ParticleNetwork />
+    <div class="relative z-10 section-container py-16 sm:py-24">
       <div class="max-w-4xl mx-auto text-center">
-        <h1 class="heading-xl text-gray-900 mb-6">
+        <h1 class="heading-xl text-white mb-6">
           About AgileTactix
         </h1>
-        <p class="text-xl sm:text-2xl text-gray-600 max-w-3xl mx-auto">
+        <p class="text-xl sm:text-2xl text-gray-300 max-w-3xl mx-auto">
           Real-world practitioner teaching agile professionals the technical skills they need to thrive in the AI era
         </p>
       </div>
@@ -27,14 +31,11 @@ const pageDescription = 'Learn about AgileTactix and Danny, the agile profession
         <div class="grid md:grid-cols-5 gap-12 items-center mb-16">
           <!-- Headshot Placeholder -->
           <div class="md:col-span-2">
-            <div class="w-full aspect-square bg-gray-200 rounded-2xl flex items-center justify-center border-4 border-white shadow-medium">
-              <svg class="w-32 h-32 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-              </svg>
-            </div>
-            <p class="text-center text-sm text-gray-500 mt-4">
-              Professional headshot placeholder
-            </p>
+            <Image
+              src={headshot}
+              alt="Danny Liu"
+              class="w-full aspect-square object-cover rounded-2xl border-4 border-white shadow-medium" style="object-position: center 15%;"
+            />
           </div>
 
           <!-- Intro Text -->
@@ -77,19 +78,19 @@ const pageDescription = 'Learn about AgileTactix and Danny, the agile profession
           </h3>
 
           <p>
-            As I developed my technical skills, I started teaching on Udemy. Over the years, I've trained 13,000+ professionals on Jira mastery—going far beyond the basics to show them how to become Jira power users and automation architects.
+            As I developed my technical skills, I began teaching on Udemy. Over the years, I've trained more than 13,000 professionals in Jira mastery—going far beyond the basics to help them become power users and automation designers.
           </p>
 
           <p>
-            But I kept seeing the same problem: talented agile professionals were getting left behind because the training industry was selling them outdated content. Large organizations like Scrum.org, Agile Alliance, and Scaled Agile were teaching the same generic theory to non-technical audiences, completely ignoring the AI revolution happening right now.
+            But I kept noticing the same pattern: capable Agile practitioners were falling behind, not because they lacked effort, but because the training available to them hadn't evolved. Much of the industry still focuses on generic frameworks and certifications aimed at non-technical audiences, while the way software teams actually operate is rapidly changing.
           </p>
 
           <p>
-            Nobody was teaching agile professionals how to leverage AI agents in sprint planning. Nobody was showing them how to use Atlassian Rovo to transform their workflows. Nobody was preparing them for a future where "ceremony management" isn't enough.
+            Very little guidance exists on applying AI in sprint planning. Few people are shown how modern platform features can reshape workflows. Almost no one is preparing Agile roles for a world where coordinating ceremonies alone is no longer enough.
           </p>
 
           <p>
-            That's why I created AgileTactix.
+            That gap is why I created AgileTactix.
           </p>
         </div>
       </div>

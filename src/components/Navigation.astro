@@ -1,6 +1,5 @@
 ---
 import { Image } from 'astro:assets';
-import DarkModeToggle from './DarkModeToggle.astro';
 import logoDark from '../assets/images/Agiletactix-logo-dark-mode.png';
 
 const currentPath = Astro.url.pathname;
@@ -39,7 +38,6 @@ const navLinks = [
             {link.label}
           </a>
         ))}
-        <DarkModeToggle />
         <a
           href="/blueprint/"
           class="btn-primary text-sm px-6 py-2.5 relative z-10"
