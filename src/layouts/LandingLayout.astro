@@ -32,6 +32,15 @@ const base = import.meta.env.BASE_URL;
     <link rel="apple-touch-icon" href="/favicon.png" />
     <meta name="generator" content={Astro.generator} />
 
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZLC0J5RZ9J" is:inline></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-ZLC0J5RZ9J');
+    </script>
+
     <!-- SEO Meta Tags -->
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
