@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import '../styles/global.css';
 import logoDark from '../assets/images/Agiletactix-logo-dark-mode.png';
+import ogDefaultImage from '../assets/images/og-default.jpg';
 
 interface Props {
   title: string;
@@ -13,7 +14,7 @@ interface Props {
 const {
   title,
   description,
-  ogImage = '/images/og-default.jpg',
+  ogImage = ogDefaultImage.src,
   noIndex = false
 } = Astro.props;
 
