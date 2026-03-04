@@ -10,14 +10,92 @@ const pageDescription = 'Tactical insights on AI-powered agility, Jira automatio
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
+  <style is:global>
+    #main-nav {
+      position: relative !important;
+      background-color: #0a1628 !important;
+    }
+    #main-nav + div {
+      display: none !important;
+    }
+  </style>
+
   <!-- Hero Section -->
-  <section class="bg-gradient-to-br from-gray-50 via-white to-primary-50">
-    <div class="section-container py-16 sm:py-20">
+  <section class="bg-[#0a1628] relative overflow-hidden">
+    <!-- Static constellation pattern -->
+    <div class="absolute inset-0 pointer-events-none" style="mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.2) 30%, rgba(0,0,0,0.5) 70%, rgba(0,0,0,0.8) 100%); -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.2) 30%, rgba(0,0,0,0.5) 70%, rgba(0,0,0,0.8) 100%);">
+      <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <filter id="blog-index-glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="2" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <g stroke="rgba(41, 75, 243, 0.12)" stroke-width="0.5" fill="none">
+          <line x1="5%" y1="15%" x2="12%" y2="25%" />
+          <line x1="12%" y1="25%" x2="8%" y2="40%" />
+          <line x1="82%" y1="10%" x2="90%" y2="20%" />
+          <line x1="90%" y1="20%" x2="95%" y2="35%" />
+          <line x1="3%" y1="60%" x2="10%" y2="72%" />
+          <line x1="88%" y1="65%" x2="95%" y2="55%" />
+        </g>
+        <g fill="rgba(41, 75, 243, 0.15)">
+          <circle cx="5%" cy="15%" r="1.5" />
+          <circle cx="12%" cy="25%" r="1" />
+          <circle cx="8%" cy="40%" r="1.5" />
+          <circle cx="82%" cy="10%" r="1" />
+          <circle cx="90%" cy="20%" r="1.5" />
+          <circle cx="95%" cy="35%" r="1" />
+          <circle cx="3%" cy="60%" r="1.5" />
+          <circle cx="10%" cy="72%" r="1" />
+          <circle cx="88%" cy="65%" r="1.5" />
+          <circle cx="95%" cy="55%" r="1" />
+        </g>
+        <g stroke="rgba(41, 75, 243, 0.25)" stroke-width="1" fill="none">
+          <line x1="8%" y1="20%" x2="18%" y2="30%" />
+          <line x1="18%" y1="30%" x2="25%" y2="22%" />
+          <line x1="75%" y1="15%" x2="85%" y2="25%" />
+          <line x1="85%" y1="25%" x2="80%" y2="40%" />
+          <line x1="5%" y1="70%" x2="15%" y2="80%" />
+          <line x1="15%" y1="80%" x2="22%" y2="72%" />
+          <line x1="80%" y1="75%" x2="92%" y2="82%" />
+        </g>
+        <g fill="rgba(41, 75, 243, 0.3)">
+          <circle cx="8%" cy="20%" r="2" />
+          <circle cx="18%" cy="30%" r="2.5" />
+          <circle cx="25%" cy="22%" r="2" />
+          <circle cx="75%" cy="15%" r="2" />
+          <circle cx="85%" cy="25%" r="2.5" />
+          <circle cx="80%" cy="40%" r="2" />
+          <circle cx="5%" cy="70%" r="2.5" />
+          <circle cx="15%" cy="80%" r="2" />
+          <circle cx="22%" cy="72%" r="2.5" />
+          <circle cx="80%" cy="75%" r="2" />
+          <circle cx="92%" cy="82%" r="2.5" />
+        </g>
+        <g stroke="rgba(41, 75, 243, 0.4)" stroke-width="1.5" fill="none">
+          <line x1="18%" y1="30%" x2="12%" y2="50%" />
+          <line x1="85%" y1="25%" x2="92%" y2="45%" />
+          <line x1="15%" y1="80%" x2="8%" y2="92%" />
+          <line x1="92%" y1="82%" x2="96%" y2="70%" />
+        </g>
+        <g fill="rgba(41, 75, 243, 0.5)" filter="url(#blog-index-glow)">
+          <circle cx="12%" cy="50%" r="3" />
+          <circle cx="92%" cy="45%" r="3.5" />
+          <circle cx="8%" cy="92%" r="3" />
+          <circle cx="96%" cy="70%" r="3.5" />
+        </g>
+      </svg>
+    </div>
+    <div class="relative z-10 section-container py-16 sm:py-20">
       <div class="max-w-4xl mx-auto text-center">
-        <h1 class="heading-xl text-gray-900 mb-6">
+        <h1 class="text-4xl sm:text-5xl font-bold text-white tracking-tight mb-6">
           The AgileTactix Blog
         </h1>
-        <p class="text-xl text-gray-600">
+        <p class="text-xl text-gray-300">
           Tactical insights on AI-powered agility, Jira automation, and career transformation for agile professionals
         </p>
       </div>
