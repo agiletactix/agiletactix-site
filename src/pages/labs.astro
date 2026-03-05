@@ -1,18 +1,36 @@
 ---
 import '../styles/global.css';
+import ogDefaultImage from '../assets/images/og-default.jpg';
+
+const title = 'The Agile Architecture Lab | AgileTactix';
+const description = 'Build delivery systems teams depend on. Learn how automation, communication flow, and reporting structures combine into a process that runs reliably.';
+const canonicalURL = 'https://agiletactix.ai/labs/';
+const ogImage = ogDefaultImage.src;
 ---
 
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Agile Architecture Lab | AgileTactix</title>
-    <meta
-      name="description"
-      content="Build delivery systems teams depend on. Learn how automation, communication flow, and reporting structures combine into a process that runs reliably."
-    />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/favicon.png" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(ogImage, 'https://agiletactix.ai')} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(ogImage, 'https://agiletactix.ai')} />
 
     <!-- Google Analytics (GA4) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZLC0J5RZ9J" is:inline></script>
@@ -22,6 +40,28 @@ import '../styles/global.css';
       gtag('js', new Date());
       gtag('config', 'G-ZLC0J5RZ9J');
     </script>
+
+    <!-- Schema.org Course -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "The Agile Architecture Lab",
+      "description": "Build delivery systems teams depend on. Learn how automation, communication flow, and reporting structures combine into a process that runs reliably.",
+      "provider": {
+        "@type": "Organization",
+        "name": "AgileTactix"
+      },
+      "instructor": {
+        "@type": "Person",
+        "name": "Danny Liu"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "197",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
+      }
+    })} />
   </head>
   <body class="bg-white text-[#1a1a1a] antialiased">
     <main class="max-w-3xl mx-auto px-6 py-16">

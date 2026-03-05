@@ -72,14 +72,32 @@ const fullTitle = title === 'Home' ? siteTitle : `${title} | AgileTactix`;
       "description": "Teaching agile professionals real-world AI and automation skills using Atlassian tools like Jira and Rovo",
       "founder": {
         "@type": "Person",
-        "name": "Danny",
-        "jobTitle": "Agile Professional & Instructor"
+        "name": "Danny Liu",
+        "jobTitle": "Agile Analytics Architect & Instructor"
       },
       "sameAs": [
         "https://www.linkedin.com/company/agiletactix",
         "https://twitter.com/agiletactix",
         "https://www.youtube.com/@agiletactix"
       ]
+    })} />
+
+    <!-- Schema.org Person -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Danny Liu",
+      "jobTitle": "Agile Analytics Architect",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "AgileTactix"
+      },
+      "url": Astro.site,
+      "sameAs": [
+        "https://www.linkedin.com/in/dannyjliu",
+        "https://www.youtube.com/@agiletactix"
+      ],
+      "knowsAbout": ["Agile", "Scrum", "Jira Automation", "AI Agents", "Sprint Planning", "Atlassian Rovo"]
     })} />
   </head>
   <body class="flex flex-col min-h-screen">
