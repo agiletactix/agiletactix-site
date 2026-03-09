@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ParticleNetwork from '../components/ParticleNetwork.astro';
 
 const pageTitle = 'Start Here';
 const pageDescription = 'Tactical training for AI-forward agile professionals. Learn Jira automation, AI integration, and career transformation from a real practitioner.';
@@ -7,13 +8,14 @@ const pageDescription = 'Tactical training for AI-forward agile professionals. L
 
 <BaseLayout title={pageTitle} description={pageDescription}>
   <!-- Hero Section -->
-  <section class="bg-gradient-to-br from-gray-50 via-white to-primary-50">
-    <div class="section-container py-16 sm:py-20">
-      <div class="max-w-4xl mx-auto text-center">
-        <h1 class="heading-xl text-gray-900 mb-6">
+  <section class="relative bg-black overflow-hidden -mt-[88px] sm:-mt-[96px] pt-[88px] sm:pt-[96px]">
+    <ParticleNetwork />
+    <div class="relative z-10 section-container py-20 sm:py-28 text-center">
+      <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6" style="letter-spacing: -0.03em;">
           Tactical Training for AI-Forward Agile Professionals
         </h1>
-        <p class="text-xl sm:text-2xl text-gray-600 max-w-3xl mx-auto">
+        <p class="text-xl sm:text-2xl text-gray-300 max-w-3xl mx-auto">
           Real-world examples, not theory. Technical skills focus. Immediate applicability.
         </p>
       </div>
@@ -218,7 +220,7 @@ const pageDescription = 'Tactical training for AI-forward agile professionals. L
                 Technical Skills Focus
               </h3>
               <p class="text-gray-600">
-                We teach you how to build and implement, not just talk about it. You'll leave with technical capabilities that make you valuable beyond facilitation.
+                I teach you how to build and implement, not just talk about it. You'll leave with technical capabilities that make you valuable beyond facilitation.
               </p>
             </div>
           </div>
