@@ -119,10 +119,8 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
         These are the same prompts I used before building automation — to think like a builder, speak technically in interviews, and prove value fast.
       </p>
 
-      <!-- Kit.com Clare Form Embed -->
-      <div class="max-w-3xl w-full mx-auto mb-10">
-        <script async data-uid="fb2e1ff944" src="https://agiletactix.kit.com/fb2e1ff944/index.js"></script>
-      </div>
+      <!-- Kit.com Clare Form Embed (production only) -->
+      <div id="kit-inline-form" class="max-w-3xl w-full mx-auto mb-10"></div>
 
       <!-- Privacy note -->
       <p class="text-sm text-white/60 max-w-xl mx-auto">
@@ -383,10 +381,8 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
               </li>
             </ul>
 
-            <!-- Kit.com Form -->
-            <div id="modal-kit-form" class="kit-form-container">
-              <script async data-uid="4252f254d4" src="https://agiletactix.kit.com/4252f254d4/index.js"></script>
-            </div>
+            <!-- Kit.com Form (production only) -->
+            <div id="modal-kit-form" class="kit-form-container"></div>
 
             <!-- Privacy Note -->
             <p class="text-sm text-white/70 mt-4">
@@ -458,6 +454,26 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
     }
   })} />
 </LandingLayout>
+
+<!-- Load Kit.com forms only in production -->
+<script is:inline>
+  (function() {
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') return;
+    var forms = [
+      { container: 'kit-inline-form', uid: 'fb2e1ff944' },
+      { container: 'modal-kit-form', uid: '4252f254d4' }
+    ];
+    forms.forEach(function(form) {
+      var el = document.getElementById(form.container);
+      if (!el) return;
+      var script = document.createElement('script');
+      script.async = true;
+      script.setAttribute('data-uid', form.uid);
+      script.src = 'https://agiletactix.kit.com/' + form.uid + '/index.js';
+      el.appendChild(script);
+    });
+  })();
+</script>
 
 <!-- Modal JavaScript -->
 <script is:inline>
