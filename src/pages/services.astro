@@ -1,0 +1,383 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ParticleNetwork from '../components/ParticleNetwork.astro';
+
+const pageTitle = 'Enterprise Consulting Services';
+const pageDescription = 'Enterprise delivery automation and AI architecture. Jira automation, AI integration, and delivery system design from a practitioner currently embedded at Fortune 500 scale.';
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <!-- Hero Section -->
+  <section class="relative bg-black overflow-hidden -mt-[88px] sm:-mt-[96px] pt-[88px] sm:pt-[96px]">
+    <ParticleNetwork />
+    <div class="relative z-10 section-container py-20 sm:py-28 text-center">
+      <div class="max-w-4xl mx-auto">
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary-600/20 border border-primary-500/30 rounded-full mb-8">
+          <svg class="w-4 h-4 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          <span class="text-sm font-bold text-primary-300 uppercase tracking-wide">Enterprise Consulting</span>
+        </div>
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6" style="letter-spacing: -0.03em;">
+          Enterprise Delivery Automation & AI Architecture
+        </h1>
+        <p class="text-xl sm:text-2xl text-gray-300 max-w-3xl mx-auto">
+          From Jira automation to AI agents that run your sprint operations — I build the delivery systems enterprise teams need but can't staff for.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Cards Section -->
+  <section class="bg-white">
+    <div class="section-container section-spacing">
+      <div class="text-center mb-16">
+        <h2 class="heading-lg text-gray-900 mb-4">
+          What I Build With Your Teams
+        </h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          Hands-on architecture and implementation, not slide decks and recommendations
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
+        <!-- Service 1: Jira Automation Architecture -->
+        <div class="bg-gradient-to-br from-white to-gray-50 border-2 border-gray-200 rounded-2xl p-8 hover:border-primary-300 hover:shadow-medium transition-all duration-300">
+          <div class="w-14 h-14 bg-primary-100 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+            </svg>
+          </div>
+          <h3 class="heading-sm text-gray-900 mb-4">
+            Jira Automation Architecture
+          </h3>
+          <p class="text-gray-600 mb-6">
+            Audit your current Jira setup, design automation rules that eliminate manual overhead, build JQL-powered dashboards, and create workflow systems that scale across teams.
+          </p>
+          <ul class="space-y-3">
+            <li class="flex items-start text-gray-700">
+              <svg class="w-5 h-5 text-primary-600 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>Automation rule design and implementation</span>
+            </li>
+            <li class="flex items-start text-gray-700">
+              <svg class="w-5 h-5 text-primary-600 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>JQL-powered analytics dashboards</span>
+            </li>
+            <li class="flex items-start text-gray-700">
+              <svg class="w-5 h-5 text-primary-600 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>Workflow standardization across programs</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Service 2: AI-Powered Delivery Integration -->
+        <div class="bg-gradient-to-br from-white to-gray-50 border-2 border-gray-200 rounded-2xl p-8 hover:border-secondary-300 hover:shadow-medium transition-all duration-300">
+          <div class="w-14 h-14 bg-secondary-100 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-secondary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h3 class="heading-sm text-gray-900 mb-4">
+            AI-Powered Delivery Integration
+          </h3>
+          <p class="text-gray-600 mb-6">
+            Implement Atlassian Rovo agents, AI-assisted sprint planning, and automated reporting that turns your delivery data into executive-ready insights without manual effort.
+          </p>
+          <ul class="space-y-3">
+            <li class="flex items-start text-gray-700">
+              <svg class="w-5 h-5 text-secondary-600 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>Atlassian Rovo agent configuration</span>
+            </li>
+            <li class="flex items-start text-gray-700">
+              <svg class="w-5 h-5 text-secondary-600 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>AI-assisted sprint planning workflows</span>
+            </li>
+            <li class="flex items-start text-gray-700">
+              <svg class="w-5 h-5 text-secondary-600 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>Automated executive reporting</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Service 3: Delivery System Design -->
+        <div class="bg-gradient-to-br from-white to-gray-50 border-2 border-gray-200 rounded-2xl p-8 hover:border-accent-300 hover:shadow-medium transition-all duration-300">
+          <div class="w-14 h-14 bg-accent-100 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+          </div>
+          <h3 class="heading-sm text-gray-900 mb-4">
+            Delivery System Design
+          </h3>
+          <p class="text-gray-600 mb-6">
+            Build the operational infrastructure your delivery org needs: escalation safeguards, stakeholder communication flows, and automated status visibility that keeps leadership informed without chasing updates.
+          </p>
+          <ul class="space-y-3">
+            <li class="flex items-start text-gray-700">
+              <svg class="w-5 h-5 text-accent-600 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>Escalation safeguards and risk triggers</span>
+            </li>
+            <li class="flex items-start text-gray-700">
+              <svg class="w-5 h-5 text-accent-600 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>Stakeholder communication automation</span>
+            </li>
+            <li class="flex items-start text-gray-700">
+              <svg class="w-5 h-5 text-accent-600 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>Real-time delivery visibility dashboards</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Service 4: Team Enablement -->
+        <div class="bg-gradient-to-br from-white to-gray-50 border-2 border-gray-200 rounded-2xl p-8 hover:border-primary-300 hover:shadow-medium transition-all duration-300">
+          <div class="w-14 h-14 bg-primary-100 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          </div>
+          <h3 class="heading-sm text-gray-900 mb-4">
+            Team Enablement
+          </h3>
+          <p class="text-gray-600 mb-6">
+            Train your Scrum Masters and delivery leads to maintain and extend the systems we build together. The goal is self-sufficiency, not long-term dependency on a consultant.
+          </p>
+          <ul class="space-y-3">
+            <li class="flex items-start text-gray-700">
+              <svg class="w-5 h-5 text-primary-600 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>Hands-on training for your delivery team</span>
+            </li>
+            <li class="flex items-start text-gray-700">
+              <svg class="w-5 h-5 text-primary-600 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>Documentation and runbooks for everything built</span>
+            </li>
+            <li class="flex items-start text-gray-700">
+              <svg class="w-5 h-5 text-primary-600 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>Knowledge transfer built into every engagement</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Engagement Model Section -->
+  <section class="bg-gray-50">
+    <div class="section-container section-spacing">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="heading-lg text-gray-900 text-center mb-12">
+          How Engagements Work
+        </h2>
+
+        <div class="space-y-8">
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-12 h-12 bg-primary-600 text-white rounded-full flex items-center justify-center font-bold text-xl">
+              1
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold text-gray-900 mb-2">
+                Discovery
+              </h3>
+              <p class="text-gray-600">
+                A 30-minute call to understand your current delivery setup, pain points, and goals. I'll tell you honestly whether this engagement model is the right fit for your situation.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-12 h-12 bg-primary-600 text-white rounded-full flex items-center justify-center font-bold text-xl">
+              2
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold text-gray-900 mb-2">
+                Architecture
+              </h3>
+              <p class="text-gray-600">
+                I audit your existing systems, map out what needs to change, and deliver an architecture plan with clear priorities. You'll know exactly what we're building and why before we write a single automation rule.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-12 h-12 bg-primary-600 text-white rounded-full flex items-center justify-center font-bold text-xl">
+              3
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold text-gray-900 mb-2">
+                Build
+              </h3>
+              <p class="text-gray-600">
+                I embed with your team 2-3 days per week to implement the systems. This isn't consulting theater -- I'm in your Jira, building your automations, configuring your dashboards, and training your people as we go.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-12 h-12 bg-primary-600 text-white rounded-full flex items-center justify-center font-bold text-xl">
+              4
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold text-gray-900 mb-2">
+                Handoff
+              </h3>
+              <p class="text-gray-600">
+                Full knowledge transfer, documentation, and training so your team owns and maintains everything. The goal is self-sufficiency -- you shouldn't need me long-term to keep the systems running.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Credibility Section -->
+  <section class="bg-white">
+    <div class="section-container section-spacing">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="heading-lg text-gray-900 text-center mb-16">
+          Why Work With Me
+        </h2>
+
+        <div class="grid sm:grid-cols-3 gap-8">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">
+              15+ Years Enterprise Agile
+            </h3>
+            <p class="text-gray-600">
+              Deep experience across multiple organizations and delivery models at scale
+            </p>
+          </div>
+
+          <div class="text-center">
+            <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">
+              Currently Embedded at Fortune 500
+            </h3>
+            <p class="text-gray-600">
+              Doing this work right now at a Fortune 500 company in a regulated industry
+            </p>
+          </div>
+
+          <div class="text-center">
+            <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">
+              13,000+ Professionals Trained
+            </h3>
+            <p class="text-gray-600">
+              Proven ability to teach and transfer knowledge, not just build systems
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section with Lead Form -->
+  <section class="bg-primary-600 text-white">
+    <div class="section-container py-16 sm:py-20">
+      <div class="max-w-2xl mx-auto text-center">
+        <h2 class="heading-lg mb-6">
+          Book a Discovery Call
+        </h2>
+        <p class="text-xl mb-10 text-primary-100">
+          30 minutes to understand your delivery challenges and determine if enterprise delivery automation and AI architecture is the right fit for your team.
+        </p>
+
+        <form id="b2b-lead-form" class="text-left space-y-4 max-w-md mx-auto">
+          <div class="grid sm:grid-cols-2 gap-4">
+            <input type="text" name="first_name" placeholder="First name" required
+              class="w-full px-4 py-3 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-white" />
+            <input type="text" name="last_name" placeholder="Last name"
+              class="w-full px-4 py-3 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-white" />
+          </div>
+          <input type="email" name="email_address" placeholder="Work email" required
+            class="w-full px-4 py-3 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-white" />
+          <input type="text" name="fields[company]" placeholder="Company"
+            class="w-full px-4 py-3 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-white" />
+          <input type="text" name="fields[role]" placeholder="Your role"
+            class="w-full px-4 py-3 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-white" />
+          <textarea name="fields[pain_point]" placeholder="What's your team's biggest delivery challenge?" rows="3"
+            class="w-full px-4 py-3 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-white resize-none"></textarea>
+          <button type="submit"
+            class="w-full bg-white text-primary-600 px-10 py-4 rounded-lg font-bold text-lg shadow-strong hover:shadow-xl hover:bg-gray-50 transform hover:-translate-y-1 transition-all duration-200">
+            Request a Discovery Call
+          </button>
+        </form>
+        <p id="b2b-success" class="text-white text-lg font-semibold mt-6 hidden">Thanks! I'll be in touch within 24 hours to schedule your discovery call.</p>
+        <p id="b2b-error" class="text-red-200 font-medium mt-4 hidden">Something went wrong. Please try again.</p>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    document.getElementById('b2b-lead-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var form = this;
+      var btn = form.querySelector('button');
+      var data = new URLSearchParams(new FormData(form)).toString();
+      btn.textContent = 'Submitting...';
+      btn.disabled = true;
+
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        form.classList.add('hidden');
+        document.getElementById('b2b-success').classList.remove('hidden');
+        return;
+      }
+      fetch('https://app.kit.com/forms/9228885/subscriptions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: data,
+        redirect: 'manual'
+      }).then(function(res) {
+        if (res.ok || res.status === 302 || res.type === 'opaqueredirect') {
+          form.classList.add('hidden');
+          document.getElementById('b2b-success').classList.remove('hidden');
+        } else {
+          document.getElementById('b2b-error').classList.remove('hidden');
+          btn.textContent = 'Request a Discovery Call';
+          btn.disabled = false;
+        }
+      }).catch(function() {
+        document.getElementById('b2b-error').classList.remove('hidden');
+        btn.textContent = 'Request a Discovery Call';
+        btn.disabled = false;
+      });
+    });
+  </script>
+</BaseLayout>
