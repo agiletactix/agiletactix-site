@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import LandingLayout from '../layouts/LandingLayout.astro';
 import ParticleNetwork from '../components/ParticleNetwork.astro';
 import youtubeThumb from '../assets/images/YouTube-Thumb.png';
+import playbookCover from '../assets/images/prompt-playbook-cover.png';
 
 const pageTitle = 'Free Agile AI Prompt Playbook';
 const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technical in sprint planning, refinement, and retrospectives—even if you\'ve never touched ChatGPT before.';
@@ -365,7 +366,7 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
                 <svg class="w-6 h-6 mr-3 flex-shrink-0 text-[#00a8cc]" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                 </svg>
-                <span><strong class="text-white">Copy-paste ready</strong> — works with ChatGPT, Claude, or any AI</span>
+                <span><strong class="text-white">Architect-level</strong> — designed around real sprint data, not generic inputs</span>
               </li>
               <li class="flex items-start">
                 <svg class="w-6 h-6 mr-3 flex-shrink-0 text-[#00a8cc]" fill="currentColor" viewBox="0 0 20 20">
@@ -393,29 +394,7 @@ const pageDescription = 'Get 5 copy-paste AI prompts that make you sound technic
           <!-- Right column: PDF mockup (2 cols) - hidden on mobile -->
           <div class="hidden lg:flex lg:col-span-2 items-center justify-center">
             <div class="bg-white rounded-lg shadow-2xl p-4 sm:p-6 transform rotate-2 hover:rotate-0 transition-transform duration-300 max-w-[280px] w-full">
-              <!-- PDF Cover Design -->
-              <div class="bg-gradient-to-br from-[#294bf3] to-[#00a8cc] text-white p-6 sm:p-8 rounded-lg text-center">
-                <div class="mb-4 sm:mb-6">
-                  <svg class="w-12 h-12 sm:w-16 sm:h-16 mx-auto text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                  </svg>
-                </div>
-
-                <h3 class="text-lg sm:text-xl font-bold mb-2">
-                  Agile AI Prompt Playbook
-                </h3>
-
-                <p class="text-xs sm:text-sm text-white/80 mb-4">
-                  5 Copy-Paste Prompts for Agile Professionals
-                </p>
-
-                <div class="border-t border-white/20 pt-4 mt-4">
-                  <p class="text-xs text-white/70">
-                    By Danny Liu<br/>
-                    Fortune 500 Agile Analytics Architect
-                  </p>
-                </div>
-              </div>
+              <Image src={playbookCover} alt="Agile AI Prompt Playbook Cover" class="rounded-lg w-full h-auto" />
 
               <!-- Simulated pages -->
               <div class="mt-4 space-y-2">
