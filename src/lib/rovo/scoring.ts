@@ -7,8 +7,10 @@ import {
   DIMENSIONS,
   MAX_DIMENSION_SCORE,
   MAX_OVERALL_SCORE,
+  ROVO_INELIGIBLE_DEPLOYMENTS,
   type Dimension,
   type Role,
+  type Deployment,
 } from './questions';
 
 export type Tier = 'ready' | 'close' | 'foundation' | 'notyet';
@@ -30,27 +32,22 @@ export type DimensionScores = Record<Dimension, number>; // percentage 0-100
 
 export interface ScoringResult {
   role: Role;
+  deployment: Deployment;
   overall_score_pct: number;
   tier: Tier;
   tier_label: string;
   dimension_scores: DimensionScores;
   weak_dimensions: Dimension[]; // dimensions scoring below 60%
+  // True when deployment disqualifies Rovo use regardless of readiness score
+  // (Data Center / Server). Result page uses this to lead with migration guidance.
+  deployment_override: boolean;
   kit_tags: string[];
 }
 
 // Input format: { q1: 4, q2: 3, ..., q10: 2 }
 export type QuizAnswers = Record<string, number>;
 
-export function calculateScoring(answers: QuizAnswers, role: Role): ScoringResult {
-  // Validate all 10 questions answered
-  const requiredIds = QUESTIONS.map(q => q.id);
-  for (const id of requiredIds) {
-    if (typeof answers[id] !== 'number') {
-      throw new Error(`Missing answer for ${id}`);
-    }
-  }
-
-  // Sum points per dimension
+export function calculateScoring(answers: QuizAnswers, role: Role, deployment: Deployment): ScoringResult {
   const dimensionPoints: Record<Dimension, number> = {
     value_streams: 0,
     stack_maturity: 0,
@@ -84,20 +81,25 @@ export function calculateScoring(answers: QuizAnswers, role: Role): ScoringResul
   const weak_dimensions: Dimension[] = (Object.keys(dimension_scores) as Dimension[])
     .filter(d => dimension_scores[d] < 60);
 
-  // Tier calculation
+  // Tier calculation (based purely on readiness dimensions)
   const tier = calculateTier(overall_score_pct, weak_dimensions.length);
   const tier_label = TIER_META[tier].label;
 
-  // Kit tags
-  const kit_tags = buildKitTags(role, tier, weak_dimensions);
+  // Rovo is Cloud-only — on-prem deployments can't use it regardless of readiness
+  const deployment_override = ROVO_INELIGIBLE_DEPLOYMENTS.includes(deployment);
+
+  // Kit tags (include deployment for nurture-sequence segmentation)
+  const kit_tags = buildKitTags(role, tier, weak_dimensions, deployment);
 
   return {
     role,
+    deployment,
     overall_score_pct,
     tier,
     tier_label,
     dimension_scores,
     weak_dimensions,
+    deployment_override,
     kit_tags,
   };
 }
@@ -116,10 +118,11 @@ function calculateTier(overallPct: number, weakDimensionCount: number): Tier {
   return 'notyet';
 }
 
-function buildKitTags(role: Role, tier: Tier, weak: Dimension[]): string[] {
+function buildKitTags(role: Role, tier: Tier, weak: Dimension[], deployment: Deployment): string[] {
   const tags: string[] = [
     `role:${role}`,
     `tier:${tier}`,
+    `deployment:${deployment.replace('_', '-')}`,
     `source:rovo-readiness-assessment`,
     `source-date:${getDateTag()}`,
   ];

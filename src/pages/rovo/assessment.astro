@@ -1,0 +1,15 @@
+---
+import LandingLayout from '../../layouts/LandingLayout.astro';
+import QuizForm from '../../components/rovo/QuizForm.astro';
+
+const pageTitle = 'Take the Rovo-Readiness Assessment | AgileTactix';
+const pageDescription = 'Free 5-minute assessment. 10 questions. Get your org\'s AI readiness score and a tailored report.';
+---
+
+<LandingLayout title={pageTitle} description={pageDescription} lightHeader={true}>
+  <section class="bg-gradient-to-b from-gray-50 to-white min-h-screen pt-28 pb-12 lg:pt-32 lg:pb-20 px-4">
+    <div class="container mx-auto">
+      <QuizForm />
+    </div>
+  </section>
+</LandingLayout>

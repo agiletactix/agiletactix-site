@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import '../styles/global.css';
 import logoDark from '../assets/images/Agiletactix-logo-dark-mode.png';
+import logoLight from '../assets/images/Agiletactix-logo.png';
 import ogDefaultImage from '../assets/images/og-default.jpg';
 
 interface Props {
@@ -9,14 +10,20 @@ interface Props {
   description: string;
   ogImage?: string;
   noIndex?: boolean;
+  // When true (for pages with light header backgrounds), use the standard
+  // logo. Default is dark-mode logo (for pages with dark hero sections).
+  lightHeader?: boolean;
 }
 
 const {
   title,
   description,
   ogImage = ogDefaultImage.src,
-  noIndex = false
+  noIndex = false,
+  lightHeader = false
 } = Astro.props;
+
+const headerLogo = lightHeader ? logoLight : logoDark;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const siteTitle = 'AgileTactix | Real-World AI & Automation for Agile Professionals';
@@ -67,7 +74,7 @@ const base = import.meta.env.BASE_URL;
     <header class="absolute top-0 left-0 right-0 z-50">
       <div class="max-w-[1600px] mx-auto px-6 sm:px-8 lg:px-16 xl:px-24 py-6">
         <a href={base} class="inline-block focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">
-          <Image src={logoDark} alt="Agile Tactix" class="h-10 sm:h-12 w-auto" />
+          <Image src={headerLogo} alt="Agile Tactix" class="h-10 sm:h-12 w-auto" />
         </a>
       </div>
     </header>

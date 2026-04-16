@@ -1,0 +1,486 @@
+---
+// QuizForm.astro - interactive quiz UI with progress bar
+// Client-side state managed via vanilla JS (keeps bundle small)
+// Submits to Cloudflare Worker at api.agiletactix.ai/assessment/score
+
+import { QUESTIONS, ROLE_OPTIONS, DEPLOYMENT_OPTIONS } from '../../lib/rovo/questions';
+---
+
+<div id="quiz-container" class="max-w-2xl mx-auto">
+
+  <!-- Progress bar (minimal, top of container) -->
+  <div id="progress-wrapper" class="mb-10 opacity-0 transition-opacity duration-500">
+    <div class="w-full bg-gray-200 rounded-full h-1">
+      <div id="progress-bar" class="bg-primary-600 h-1 rounded-full transition-all duration-300" style="width: 0%"></div>
+    </div>
+    <span id="question-counter" class="sr-only">Question 0 of 11</span>
+    <span id="progress-percent" class="sr-only">0%</span>
+  </div>
+
+  <!-- Intro screen (shown first) -->
+  <div id="intro-screen" class="bg-white rounded-2xl p-8 lg:p-10 shadow-card">
+    <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+      Rovo-Readiness Assessment
+    </h1>
+    <p class="text-lg text-gray-700 leading-relaxed mb-6">
+      This assessment helps you evaluate the AI-readiness of the environment you're working in — whether that's your current employer, a client engagement, or a role you're considering.
+    </p>
+    <p class="text-lg text-gray-700 leading-relaxed mb-8">
+      Your responses are confidential. We use the data only to generate your personalized readiness report. Nothing is shared with third parties or published.
+    </p>
+    <p class="text-sm font-semibold text-gray-900 tracking-wide mb-8">
+      12 questions &nbsp;•&nbsp; ~5 minutes &nbsp;•&nbsp; Free
+    </p>
+    <button
+      type="button"
+      id="start-quiz"
+      class="btn-primary text-lg px-10 py-4"
+    >
+      <span class="relative z-10">Start Assessment →</span>
+    </button>
+  </div>
+
+  <!-- Question screens (hidden until start) -->
+  <div id="question-screen" class="bg-white rounded-2xl p-8 lg:p-10 shadow-card hidden">
+    <h2 id="question-text" class="text-2xl lg:text-3xl font-bold text-gray-900 mb-10 leading-snug"></h2>
+    <div id="options-container" class="space-y-3"></div>
+    <div class="flex items-center mt-10">
+      <button
+        type="button"
+        id="back-btn"
+        class="text-sm text-gray-500 hover:text-gray-900 hover:underline underline-offset-4 transition-colors disabled:opacity-0 disabled:cursor-default"
+        disabled
+      >
+        ← Back
+      </button>
+      <button
+        type="button"
+        id="next-btn"
+        class="btn-primary px-8 py-3 ml-auto disabled:opacity-50 disabled:cursor-not-allowed"
+        disabled
+      >
+        <span class="relative z-10" id="next-btn-label">Next →</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Email capture screen (after last question) -->
+  <div id="email-screen" class="bg-white rounded-2xl p-8 lg:p-10 shadow-card hidden">
+    <h2 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
+      Where should we send your readiness report?
+    </h2>
+    <p class="text-lg text-gray-700 leading-relaxed mb-6">
+      Your tier score + tailored next-step report — delivered to your inbox in under a minute.
+    </p>
+
+    <form id="email-form" class="space-y-4">
+      <div>
+        <label for="first_name" class="block text-sm font-semibold text-gray-900 mb-2">First Name</label>
+        <input
+          type="text"
+          id="first_name"
+          name="first_name"
+          required
+          class="form-input"
+          placeholder="Your first name"
+        />
+      </div>
+      <div>
+        <label for="email" class="block text-sm font-semibold text-gray-900 mb-2">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          class="form-input"
+          placeholder="you@example.com"
+        />
+      </div>
+      <label class="flex items-center gap-3 pt-2 cursor-pointer group">
+        <input
+          type="checkbox"
+          id="consent_marketing"
+          name="consent_marketing"
+          checked
+          class="quiz-checkbox"
+        />
+        <span class="text-sm text-gray-600 leading-relaxed group-hover:text-gray-900 transition-colors">
+          Email me the report + occasional practitioner insights on AI, Rovo, and agile career evolution. Unsubscribe anytime.
+        </span>
+      </label>
+
+      <div id="submit-error" class="hidden bg-red-50 border-l-4 border-red-400 rounded-r-lg p-4 text-sm text-red-800"></div>
+
+      <button
+        type="submit"
+        id="submit-btn"
+        class="btn-primary text-lg px-10 py-4 w-full mt-4"
+      >
+        <span class="relative z-10" id="submit-btn-label">Get My Readiness Report →</span>
+      </button>
+    </form>
+  </div>
+
+  <!-- Loading screen (while scoring) -->
+  <div id="loading-screen" class="bg-white rounded-2xl p-8 lg:p-10 shadow-card hidden text-center">
+    <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-primary-600 border-t-transparent mb-6"></div>
+    <p class="text-lg text-gray-700">Calculating your readiness score...</p>
+  </div>
+
+</div>
+
+<script is:inline define:vars={{ QUESTIONS, ROLE_OPTIONS, DEPLOYMENT_OPTIONS }}>
+  // Step indices:
+  // -2 = role question (Q0)
+  // -1 = deployment question (Q0.5 — gates result page)
+  //  0..9 = dimension questions (Q1..Q10)
+  const state = {
+    currentIndex: -2,
+    role: null,
+    deployment: null,
+    answers: {}, // { q1: 4, q2: 3, ... }
+  };
+
+  const totalSteps = 2 + QUESTIONS.length; // role + deployment + 10 dimension questions
+
+  // DOM refs
+  const introScreen = document.getElementById('intro-screen');
+  const questionScreen = document.getElementById('question-screen');
+  const emailScreen = document.getElementById('email-screen');
+  const loadingScreen = document.getElementById('loading-screen');
+  const questionText = document.getElementById('question-text');
+  const optionsContainer = document.getElementById('options-container');
+  const questionCounter = document.getElementById('question-counter');
+  const progressPercent = document.getElementById('progress-percent');
+  const progressBar = document.getElementById('progress-bar');
+  const backBtn = document.getElementById('back-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const submitError = document.getElementById('submit-error');
+  const submitBtn = document.getElementById('submit-btn');
+
+  // Start quiz
+  document.getElementById('start-quiz').addEventListener('click', () => {
+    introScreen.classList.add('hidden');
+    questionScreen.classList.remove('hidden');
+    state.currentIndex = -2;
+    renderQuestion();
+  });
+
+  function renderQuestion() {
+    optionsContainer.innerHTML = '';
+
+    if (state.currentIndex === -2) {
+      // Role question
+      questionText.textContent = 'Which best describes your primary work context?';
+      ROLE_OPTIONS.forEach((opt) => {
+        const { label: lbl, input } = createOptionButton(opt.label, opt.id, state.role === opt.id, 'role');
+        input.addEventListener('change', () => {
+          state.role = opt.id;
+          renderQuestion();
+          updateNavButtons();
+        });
+        optionsContainer.appendChild(lbl);
+      });
+    } else if (state.currentIndex === -1) {
+      // Deployment gating question
+      questionText.textContent = "What's your Jira deployment model today?";
+      DEPLOYMENT_OPTIONS.forEach((opt) => {
+        const { label: lbl, input } = createOptionButton(opt.label, opt.id, state.deployment === opt.id, 'deployment');
+        input.addEventListener('change', () => {
+          state.deployment = opt.id;
+          renderQuestion();
+          updateNavButtons();
+        });
+        optionsContainer.appendChild(lbl);
+      });
+    } else {
+      // Dimension question
+      const q = QUESTIONS[state.currentIndex];
+      questionText.textContent = q.text;
+      q.options.forEach((opt, idx) => {
+        const { label: lbl, input } = createOptionButton(opt.label, idx, state.answers[q.id] === opt.value, q.id);
+        input.addEventListener('change', () => {
+          state.answers[q.id] = opt.value;
+          renderQuestion();
+          updateNavButtons();
+        });
+        optionsContainer.appendChild(lbl);
+      });
+    }
+
+    updateProgress();
+    updateNavButtons();
+  }
+
+  function createOptionButton(label, id, selected, questionName) {
+    // Use a <label> wrapping a real <input type="radio"> for native form semantics + accessibility
+    const lbl = document.createElement('label');
+    lbl.className = selected
+      ? 'quiz-option quiz-option-selected'
+      : 'quiz-option';
+
+    const input = document.createElement('input');
+    input.type = 'radio';
+    input.name = questionName;
+    input.value = String(id);
+    input.checked = selected;
+    input.className = 'quiz-checkbox';
+
+    const textSpan = document.createElement('span');
+    textSpan.className = 'quiz-option-label';
+    textSpan.textContent = label;
+
+    lbl.appendChild(input);
+    lbl.appendChild(textSpan);
+    return { label: lbl, input };
+  }
+
+  function updateProgress() {
+    const stepNumber = state.currentIndex + 3; // +2 for role+deployment offset, +1 for 1-indexed display
+    const percent = Math.round((stepNumber / totalSteps) * 100);
+    questionCounter.textContent = `Question ${stepNumber} of ${totalSteps}`;
+    progressPercent.textContent = `${percent}%`;
+    progressBar.style.width = `${percent}%`;
+
+    // Reveal progress bar once user is meaningfully into the quiz (50%+)
+    // Reduces early-quiz discouragement ("only 18% done...")
+    const progressWrapper = document.getElementById('progress-wrapper');
+    if (progressWrapper) {
+      progressWrapper.style.opacity = percent >= 50 ? '1' : '0';
+    }
+  }
+
+  function updateNavButtons() {
+    // Back button: disabled at role question (first step)
+    backBtn.disabled = state.currentIndex === -2;
+
+    // Next button: only enabled when current question has answer
+    let hasAnswer = false;
+    if (state.currentIndex === -2) {
+      hasAnswer = state.role !== null;
+    } else if (state.currentIndex === -1) {
+      hasAnswer = state.deployment !== null;
+    } else {
+      const q = QUESTIONS[state.currentIndex];
+      hasAnswer = typeof state.answers[q.id] === 'number';
+    }
+    nextBtn.disabled = !hasAnswer;
+
+    // Last question: change Next to "Continue to email"
+    const nextBtnLabel = document.getElementById('next-btn-label');
+    if (state.currentIndex === QUESTIONS.length - 1 && hasAnswer) {
+      if (nextBtnLabel) nextBtnLabel.textContent = 'Continue →';
+    } else {
+      if (nextBtnLabel) nextBtnLabel.textContent = 'Next →';
+    }
+  }
+
+  backBtn.addEventListener('click', () => {
+    if (state.currentIndex > -2) {
+      state.currentIndex--;
+      renderQuestion();
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (state.currentIndex === QUESTIONS.length - 1) {
+      // Move to email capture
+      questionScreen.classList.add('hidden');
+      emailScreen.classList.remove('hidden');
+      // Lock progress to 100%
+      questionCounter.textContent = 'Complete';
+      progressPercent.textContent = '100%';
+      progressBar.style.width = '100%';
+    } else {
+      state.currentIndex++;
+      renderQuestion();
+    }
+  });
+
+  // Email form submission
+  document.getElementById('email-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitError.classList.add('hidden');
+    submitBtn.disabled = true;
+    const submitLabel = document.getElementById('submit-btn-label');
+    if (submitLabel) submitLabel.textContent = 'Submitting...';
+
+    const formData = new FormData(e.target);
+    const payload = {
+      email: formData.get('email'),
+      first_name: formData.get('first_name'),
+      role: ROLE_OPTIONS.find(r => r.id === state.role)?.role || 'mixed',
+      role_id: state.role,
+      deployment: state.deployment,
+      answers: state.answers,
+      consent_marketing: formData.get('consent_marketing') === 'on',
+      timestamp: new Date().toISOString(),
+    };
+
+    try {
+      // Swap to emailScreen → loadingScreen
+      emailScreen.classList.add('hidden');
+      loadingScreen.classList.remove('hidden');
+
+      const apiUrl = 'https://api.agiletactix.ai/assessment/score';
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Server returned ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      // Redirect to result page with session token
+      const params = new URLSearchParams({
+        tier: result.tier,
+        role: payload.role,
+        session: result.session || '',
+      });
+      window.location.href = `/rovo/result?${params.toString()}`;
+    } catch (err) {
+      // Show error on email screen
+      loadingScreen.classList.add('hidden');
+      emailScreen.classList.remove('hidden');
+      submitError.textContent = `Something went wrong: ${err.message}. Please try again in a moment.`;
+      submitError.classList.remove('hidden');
+      submitBtn.disabled = false;
+      const submitLabel2 = document.getElementById('submit-btn-label');
+      if (submitLabel2) submitLabel2.textContent = 'Get My Readiness Report →';
+    }
+  });
+</script>
+
+<style is:global>
+  /* ========================================================================
+   * Rovo Assessment — GLOBAL so dynamically-created labels via JS pick up classes
+   * (Astro scopes <style> by default; is:global makes these classes reachable
+   * by elements created via createElement after page hydration.)
+   * Uses brand primary #294bf3 (matches tailwind primary-600)
+   * All interaction states use depth (box-shadow + translateY) for premium feel
+   * ======================================================================== */
+
+  /* Card shadow utility — stronger than Tailwind's shadow-sm default */
+  .shadow-card {
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06), 0 2px 4px rgba(15, 23, 42, 0.04);
+  }
+
+  /* ---- Quiz option (<label> wrapping radio input) ---- */
+  .quiz-option {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    width: 100%;
+    text-align: left;
+    padding: 1rem 1.25rem;
+    border: 1.5px solid #e5e7eb;
+    background-color: #ffffff;
+    color: #111827;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.4;
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.2s ease, transform 0.15s ease, background-color 0.15s ease;
+    user-select: none;
+  }
+
+  .quiz-option:hover {
+    border-color: #294bf3;
+    box-shadow: 0 8px 16px rgba(41, 75, 243, 0.12), 0 2px 4px rgba(41, 75, 243, 0.08);
+    transform: translateY(-2px);
+  }
+
+  .quiz-option-selected {
+    border-color: #294bf3;
+    background-color: #eff6ff;
+    color: #0c2a7a;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(41, 75, 243, 0.18);
+  }
+
+  .quiz-option-selected:hover {
+    background-color: #dbeafe;
+    transform: translateY(-2px);
+  }
+
+  /* Multi-line options: align checkbox to first line rather than vertical center */
+  .quiz-option-label {
+    flex: 1;
+    line-height: 1.45;
+  }
+
+  /* ---- Native input styled as brand checkbox ---- */
+  .quiz-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    margin: 0;
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border: 2px solid #9ca3af;
+    border-radius: 5px;
+    background-color: #ffffff;
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .quiz-option:hover .quiz-checkbox {
+    border-color: #294bf3;
+  }
+
+  .quiz-checkbox:checked {
+    background-color: #294bf3;
+    border-color: #294bf3;
+    box-shadow: 0 0 0 1px #294bf3;
+  }
+
+  .quiz-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    width: 6px;
+    height: 11px;
+    border: solid #ffffff;
+    border-width: 0 2.5px 2.5px 0;
+    transform: rotate(45deg);
+  }
+
+  .quiz-checkbox:focus-visible {
+    outline: 2px solid #294bf3;
+    outline-offset: 3px;
+  }
+
+  /* ---- Form inputs (text + email) ---- */
+  .form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: #f9fafb;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #111827;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+  }
+
+  .form-input::placeholder {
+    color: #9ca3af;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: #294bf3;
+    background-color: #ffffff;
+  }
+
+  button:focus-visible {
+    outline: 2px solid #294bf3;
+    outline-offset: 2px;
+  }
+</style>

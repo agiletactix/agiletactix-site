@@ -48,6 +48,27 @@ export const ROLE_OPTIONS: RoleOption[] = [
   { id: 'other', label: 'Other', role: 'mixed' },
 ];
 
+// Deployment gate (Q0.5) — asked before dimension questions.
+// Rovo is Cloud-only. On-prem deployments can't run Rovo regardless
+// of other readiness factors → gate the result, not a scored dimension.
+export type Deployment = 'cloud' | 'data_center' | 'server' | 'mixed' | 'unsure';
+
+export interface DeploymentOption {
+  id: Deployment;
+  label: string;
+}
+
+export const DEPLOYMENT_OPTIONS: DeploymentOption[] = [
+  { id: 'cloud', label: 'Jira Cloud' },
+  { id: 'data_center', label: 'Jira Data Center (self-hosted / on-prem)' },
+  { id: 'server', label: 'Jira Server (legacy — Atlassian has ended support)' },
+  { id: 'mixed', label: 'A mix across different teams / environments' },
+  { id: 'unsure', label: "Not sure — I don't manage the platform directly" },
+];
+
+// Deployment types that prevent Rovo adoption entirely (until migration)
+export const ROVO_INELIGIBLE_DEPLOYMENTS: Deployment[] = ['data_center', 'server'];
+
 // 10 core questions (2 per dimension)
 export const QUESTIONS: Question[] = [
   // ==== Dimension 1: Value Stream Structure ====
@@ -86,8 +107,7 @@ export const QUESTIONS: Question[] = [
       { value: 3, label: 'Jira + Confluence + JSM (delivery + service)' },
       { value: 2, label: 'Jira + Confluence (delivery only)' },
       { value: 1, label: 'Jira alone or with one add-on' },
-      { value: 0, label: 'Mostly tools outside Atlassian' },
-      { value: 0, label: 'Not sure / varies by team' },
+      { value: 0, label: 'Mostly tools outside Atlassian, or unsure / varies by team' },
     ],
   },
   {
@@ -139,8 +159,7 @@ export const QUESTIONS: Question[] = [
       { value: 3, label: 'CAB meetings with documented tickets' },
       { value: 2, label: 'Email approvals + documentation scattered across tools' },
       { value: 1, label: 'Ad-hoc — depends on team or severity' },
-      { value: 0, label: 'Not formalized — change happens without structured oversight' },
-      { value: 0, label: 'Prefer not to say / varies significantly' },
+      { value: 0, label: 'Not formalized, prefer not to say, or varies significantly' },
     ],
   },
   {
@@ -178,8 +197,7 @@ export const QUESTIONS: Question[] = [
       { value: 3, label: 'One or two people own it, others use the outputs' },
       { value: 2, label: 'Mostly using Atlassian defaults, not custom automation' },
       { value: 1, label: 'Rely on vendors/consultants for anything beyond basics' },
-      { value: 0, label: "Automation isn't used meaningfully" },
-      { value: 0, label: "Unsure — don't have visibility into that" },
+      { value: 0, label: "Automation isn't used meaningfully, or I don't have visibility" },
     ],
   },
 ];
