@@ -1,0 +1,229 @@
+---
+import LandingLayout from '../../layouts/LandingLayout.astro';
+import { TIER_META, type Tier } from '../../lib/rovo/scoring';
+import { ROVO_INELIGIBLE_DEPLOYMENTS, type Deployment, type Role } from '../../lib/rovo/questions';
+
+// Read query params set by the assessment form on submit
+const tierParam = (Astro.url.searchParams.get('tier') || 'foundation') as Tier;
+const roleParam = (Astro.url.searchParams.get('role') || 'practitioner') as Role;
+const deploymentParam = (Astro.url.searchParams.get('deployment') || 'cloud') as Deployment;
+
+// Normalize any unexpected inputs to safe defaults
+const validTiers: Tier[] = ['ready', 'close', 'foundation', 'notyet'];
+const tier: Tier = validTiers.includes(tierParam) ? tierParam : 'foundation';
+const role: Role = ['exec', 'practitioner', 'mixed'].includes(roleParam) ? roleParam : 'practitioner';
+const deploymentOverride = ROVO_INELIGIBLE_DEPLOYMENTS.includes(deploymentParam);
+
+// Tier × role copy matrix — single source of truth, lives in this file for v1
+// Stage 2 will replace these with Claude-generated personalized reports
+interface TierRoleContent {
+  headline: string;
+  subhead: string;
+  body: string[]; // paragraphs
+  cta_primary: { label: string; href: string };
+  cta_secondary?: { label: string; href: string };
+}
+
+const content: Record<Tier, Record<Role, TierRoleContent>> = {
+  ready: {
+    practitioner: {
+      headline: "You're Rovo-Ready.",
+      subhead: "Your org has the structural foundation to actually leverage Rovo. Now the question is who leads the rollout.",
+      body: [
+        "Most organizations answering this assessment score 40-60%. If you're here, your value streams, data integration, and governance are ahead of the curve.",
+        "The risk at this tier isn't readiness — it's implementation quality. The people who win the next 24 months are the ones who architect the Rovo deployment before their company does it without them.",
+      ],
+      cta_primary: { label: "Join the AI Readiness Lab (next cohort) →", href: "/labs" },
+      cta_secondary: { label: "Read the Playbook first", href: "/blueprint" },
+    },
+    exec: {
+      headline: "Your organization is positioned well.",
+      subhead: "The structural foundation for Rovo adoption is in place. The risk from here is implementation quality, not readiness.",
+      body: [
+        "Most organizations we assess aren't ready for AI tool adoption at scale. Yours is an exception.",
+        "At this tier, the value of an outside perspective is in sequencing: which team rolls out first, which governance changes need to precede it, and how to measure the impact honestly. Let's talk about a tailored engagement.",
+      ],
+      cta_primary: { label: "Book a strategy session →", href: "/contact" },
+      cta_secondary: { label: "Preview the Playbook", href: "/blueprint" },
+    },
+    mixed: {
+      headline: "You're Rovo-Ready.",
+      subhead: "Your environment has the foundation to leverage Rovo well.",
+      body: [
+        "This score puts you ahead of most organizations we assess. The path forward depends on what role you play in the rollout.",
+        "If you're influencing the adoption decision, the next move is a sequenced implementation plan. If you're joining one that's already underway, the next move is understanding where you add the most value.",
+      ],
+      cta_primary: { label: "See what's next →", href: "/labs" },
+    },
+  },
+  close: {
+    practitioner: {
+      headline: "Close to Ready — but there's a gap worth closing.",
+      subhead: "Your foundation is strong in most dimensions, but at least one area needs attention before Rovo lands well.",
+      body: [
+        "A Close tier means you're better prepared than 60-70% of organizations — but you're not quite at the point where Rovo deployment is friction-free.",
+        "The gap is almost always one specific dimension: integration quality, governance readiness, or team fluency. The good news: targeted work on that single dimension can move you to Ready within a quarter.",
+      ],
+      cta_primary: { label: "Join the AI Readiness Lab waitlist →", href: "/labs" },
+      cta_secondary: { label: "Grab the Rovo Starter Playbook", href: "/blueprint" },
+    },
+    exec: {
+      headline: "Strong foundation, specific exposure points.",
+      subhead: "Your organization is closer than most — but there are 1-2 specific weak dimensions that should be addressed before a full Rovo rollout.",
+      body: [
+        "At this tier, the risk isn't that Rovo won't work. It's that the weak dimensions will cause it to fail visibly in the first 90 days, which makes the entire AI initiative harder to defend internally.",
+        "A focused foundation audit — scoped to your weakest dimensions — is usually enough to close the gap before rollout. Let's scope it together.",
+      ],
+      cta_primary: { label: "Book a foundation audit call →", href: "/contact" },
+    },
+    mixed: {
+      headline: "Close to Ready.",
+      subhead: "Your foundation is strong in most dimensions with one or two gaps worth closing.",
+      body: [
+        "You're ahead of most organizations, but specific areas need work before Rovo lands cleanly.",
+        "The path forward depends on whether you're influencing the rollout decision (close the gap proactively) or preparing yourself to add value inside it (focus on the weakest dimension first).",
+      ],
+      cta_primary: { label: "See the Readiness Lab →", href: "/labs" },
+    },
+  },
+  foundation: {
+    practitioner: {
+      headline: "Foundation First — your org isn't ready yet.",
+      subhead: "But you can be the person who surfaces that internally.",
+      body: [
+        "This tier isn't bad news. Most organizations are here. Rovo won't land well in your environment yet — but that's a fixable problem, and the people who lead the fix build careers on it.",
+        "The path forward starts with naming the gaps clearly. Your weakest dimensions tell you what to surface to leadership before anyone spends money on Rovo licenses.",
+        "You don't need a $2,500 program yet. You need a framework for having the internal conversation.",
+      ],
+      cta_primary: { label: "Start with the free Playbook →", href: "/blueprint" },
+      cta_secondary: { label: "Join the Lab waitlist when you're ready", href: "/labs" },
+    },
+    exec: {
+      headline: "Significant foundation gaps — sequencing matters.",
+      subhead: "Your organization has real structural work to do before Rovo or any enterprise AI tool will produce ROI.",
+      body: [
+        "A Foundation First score doesn't mean AI isn't for you. It means deploying it now would amplify whatever dysfunction you already have.",
+        "At this tier, the most valuable outside work isn't rolling out Rovo — it's diagnosing which structural fixes need to happen first, in what sequence, and against what timeline. That's a consulting engagement, not a training program.",
+      ],
+      cta_primary: { label: "Book a discovery call →", href: "/contact" },
+      cta_secondary: { label: "See the framework first", href: "/blueprint" },
+    },
+    mixed: {
+      headline: "Foundation First.",
+      subhead: "Most organizations are here. The path forward depends on your role in the rollout decision.",
+      body: [
+        "This tier means your environment isn't ready yet — but that's fixable. Rovo or any enterprise AI tool will amplify whatever structural gaps you have today.",
+        "Start by understanding which dimensions are weakest in your environment. The Playbook is the right starting point.",
+      ],
+      cta_primary: { label: "Start with the free Playbook →", href: "/blueprint" },
+    },
+  },
+  notyet: {
+    practitioner: {
+      headline: "Not Yet — but you already know that.",
+      subhead: "Your score reflects an organization in the early stages of thinking about AI. That's not bad — it's just honest.",
+      body: [
+        "Organizations at this tier aren't ready to deploy Rovo, and more importantly, they probably aren't ready for the conversation about deploying Rovo.",
+        "The most valuable move right now isn't a program or a consulting engagement. It's building your own understanding of what \"ready\" actually looks like, so you can spot the signals when your org starts to move.",
+      ],
+      cta_primary: { label: "Get the free Playbook + newsletter →", href: "/blueprint" },
+    },
+    exec: {
+      headline: "Not Yet — and that's useful information.",
+      subhead: "Your organization is in the early stages of AI readiness. The worst move right now is committing to enterprise AI spend.",
+      body: [
+        "A Not Yet tier doesn't mean \"never.\" It means the foundation work precedes the tool adoption, and any AI rollout attempted today will fail expensively.",
+        "The constructive path is clarifying what \"ready\" looks like for your organization, then building a 12-24 month plan to get there. That's a strategic conversation, not a tool evaluation.",
+      ],
+      cta_primary: { label: "See the framework →", href: "/blueprint" },
+      cta_secondary: { label: "Subscribe to weekly insights", href: "#newsletter" },
+    },
+    mixed: {
+      headline: "Not Yet.",
+      subhead: "Your environment is in early stages of AI readiness. That's common — and it means the foundation work matters more than the tool right now.",
+      body: [
+        "Starting with the free Playbook is the right move at this stage. It gives you the vocabulary to surface what needs to change internally.",
+      ],
+      cta_primary: { label: "Get the free Playbook →", href: "/blueprint" },
+    },
+  },
+};
+
+const c = content[tier][role];
+const tierMeta = TIER_META[tier];
+
+const pageTitle = `${tierMeta.label} — Your Rovo-Readiness Result`;
+const pageDescription = 'Your personalized Rovo-Readiness Assessment result — tier score, weakest dimensions, and your tailored next step.';
+---
+
+<LandingLayout title={pageTitle} description={pageDescription} lightHeader={true} noIndex={true}>
+  <section class="bg-gradient-to-b from-gray-50 to-white min-h-screen pt-28 pb-16 lg:pt-32 lg:pb-20 px-4">
+    <div class="max-w-3xl mx-auto">
+
+      {deploymentOverride && (
+        <div class="bg-amber-50 border-l-4 border-amber-500 rounded-r-lg p-5 mb-8">
+          <p class="text-sm font-semibold text-amber-900 uppercase tracking-wider mb-2">Migration-First Path</p>
+          <p class="text-base text-amber-900 leading-relaxed">
+            Rovo is Cloud-only. Your Jira deployment ({deploymentParam === 'data_center' ? 'Data Center' : 'Server'}) means Rovo isn't available to you today — regardless of your readiness score below.
+            <br /><br />
+            Your actual first move is the Cloud migration conversation. Your readiness score tells you what you'll inherit on the other side.
+          </p>
+        </div>
+      )}
+
+      <!-- Tier badge -->
+      <div class="inline-flex items-center gap-2 mb-6 text-sm uppercase tracking-widest font-bold">
+        <span>{tierMeta.emoji}</span>
+        <span class={tierMeta.color}>{tierMeta.label}</span>
+      </div>
+
+      <!-- Headline -->
+      <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight mb-5" style="letter-spacing: -0.02em;">
+        {c.headline}
+      </h1>
+
+      <!-- Subhead -->
+      <p class="text-xl lg:text-2xl text-gray-700 leading-relaxed mb-10 font-medium">
+        {c.subhead}
+      </p>
+
+      <!-- Body paragraphs -->
+      <div class="space-y-5 mb-10">
+        {c.body.map((para) => (
+          <p class="text-lg text-gray-700 leading-relaxed">{para}</p>
+        ))}
+      </div>
+
+      <!-- CTAs -->
+      <div class="flex flex-col sm:flex-row gap-4 items-start mb-12">
+        <a href={c.cta_primary.href} class="btn-primary text-lg px-10 py-4 inline-block">
+          <span class="relative z-10">{c.cta_primary.label}</span>
+        </a>
+        {c.cta_secondary && (
+          <a href={c.cta_secondary.href} class="text-base text-primary-700 hover:text-primary-900 hover:underline underline-offset-4 px-4 py-4 transition-colors">
+            {c.cta_secondary.label}
+          </a>
+        )}
+      </div>
+
+      <!-- What happens next -->
+      <div class="bg-white rounded-2xl p-6 lg:p-8 border border-gray-200 mb-8">
+        <h2 class="text-lg font-bold text-gray-900 mb-3">What happens next</h2>
+        <p class="text-base text-gray-700 leading-relaxed mb-3">
+          A detailed readiness report is on its way to your inbox. It includes your dimension-by-dimension breakdown and specific actions for your weakest areas.
+        </p>
+        <p class="text-sm text-gray-500">
+          Didn't get it? Check spam / promotions. Still nothing in a few minutes? Email <a href="mailto:danny@agiletactix.com" class="text-primary-700 hover:underline">danny@agiletactix.com</a>.
+        </p>
+      </div>
+
+      <!-- Back link -->
+      <p class="text-center">
+        <a href="/rovo" class="text-sm text-gray-500 hover:text-gray-900 hover:underline underline-offset-4 transition-colors">
+          ← Back to the assessment overview
+        </a>
+      </p>
+
+    </div>
+  </section>
+</LandingLayout>
