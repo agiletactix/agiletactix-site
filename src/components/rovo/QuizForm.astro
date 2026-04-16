@@ -317,28 +317,51 @@ import { QUESTIONS, ROLE_OPTIONS, DEPLOYMENT_OPTIONS } from '../../lib/rovo/ques
       timestamp: new Date().toISOString(),
     };
 
+    // Local dev fallback: when running on localhost and API isn't built yet,
+    // compute a mock tier client-side so the UX flow can be fully tested.
+    const isLocalDev = typeof window !== 'undefined' &&
+      (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
     try {
-      // Swap to emailScreen → loadingScreen
+      // Swap emailScreen → loadingScreen
       emailScreen.classList.add('hidden');
       loadingScreen.classList.remove('hidden');
 
       const apiUrl = 'https://api.agiletactix.ai/assessment/score';
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
+      let result;
 
-      if (!response.ok) {
-        throw new Error(`Server returned ${response.status}`);
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!response.ok) {
+          throw new Error(`Server returned ${response.status}`);
+        }
+        result = await response.json();
+      } catch (fetchErr) {
+        if (isLocalDev) {
+          // Simulate a successful response for UX testing before Worker is built
+          console.warn('[dev] API not reachable; using mock scoring result');
+          await new Promise(r => setTimeout(r, 600)); // mimic latency
+          const totalPoints = Object.values(payload.answers).reduce((sum, v) => sum + v, 0);
+          const overallPct = Math.round((totalPoints / 40) * 100);
+          const mockTier = overallPct >= 80 ? 'ready'
+            : overallPct >= 65 ? 'close'
+            : overallPct >= 40 ? 'foundation'
+            : 'notyet';
+          result = { tier: mockTier, session: 'dev-mock-session', deployment_override: payload.deployment === 'data_center' || payload.deployment === 'server' };
+        } else {
+          throw fetchErr;
+        }
       }
-
-      const result = await response.json();
 
       // Redirect to result page with session token
       const params = new URLSearchParams({
         tier: result.tier,
         role: payload.role,
+        deployment: payload.deployment || '',
         session: result.session || '',
       });
       window.location.href = `/rovo/result?${params.toString()}`;
@@ -346,7 +369,7 @@ import { QUESTIONS, ROLE_OPTIONS, DEPLOYMENT_OPTIONS } from '../../lib/rovo/ques
       // Show error on email screen
       loadingScreen.classList.add('hidden');
       emailScreen.classList.remove('hidden');
-      submitError.textContent = `Something went wrong: ${err.message}. Please try again in a moment.`;
+      submitError.textContent = "We couldn't reach our scoring server. Please check your connection and try again.";
       submitError.classList.remove('hidden');
       submitBtn.disabled = false;
       const submitLabel2 = document.getElementById('submit-btn-label');
