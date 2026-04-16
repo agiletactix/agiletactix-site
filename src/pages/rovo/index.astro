@@ -1,0 +1,244 @@
+---
+import LandingLayout from '../../layouts/LandingLayout.astro';
+import ParticleNetwork from '../../components/ParticleNetwork.astro';
+
+const pageTitle = 'Rovo-Readiness Assessment | AgileTactix';
+const pageDescription = 'A 5-minute diagnostic for Jira Admins, Scrum Masters, and IT leaders. Get your organization\'s AI readiness score + a tailored next-step report. Free.';
+---
+
+<LandingLayout title={pageTitle} description={pageDescription}>
+
+  <!-- HERO -->
+  <section class="relative bg-black overflow-hidden min-h-[600px] lg:min-h-[700px] flex items-center">
+    <ParticleNetwork />
+
+    <div class="relative z-10 pt-24 pb-16 lg:py-24 mx-auto px-6 sm:px-8 lg:px-16 xl:px-24 max-w-[1600px] w-full">
+      <div class="max-w-4xl animate-fade-in">
+
+        <!-- Small tag -->
+        <p class="text-sm uppercase tracking-widest text-primary-400 font-semibold mb-6 animate-slide-up" style="animation-delay: 0.1s;">
+          Free Assessment · 5 Minutes
+        </p>
+
+        <!-- Headline -->
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight mb-8 animate-slide-up" style="animation-delay: 0.15s; letter-spacing: -0.03em;">
+          <span class="text-white">Is your org actually ready for </span>
+          <span class="text-primary-400">Rovo</span>
+          <span class="text-white">?</span>
+        </h1>
+
+        <!-- Subheadline -->
+        <p class="text-lg sm:text-xl lg:text-2xl text-gray-300 mb-8 max-w-3xl leading-relaxed font-medium animate-slide-up" style="animation-delay: 0.2s;">
+          Most organizations aren't. Not because Rovo is bad — because their operating model isn't ready for AI yet.
+        </p>
+
+        <p class="text-lg text-gray-300 mb-10 max-w-3xl leading-relaxed animate-slide-up" style="animation-delay: 0.25s;">
+          This 5-minute assessment diagnoses your org's AI readiness across five dimensions. You get a tier-ranked score and a tailored report telling you what to fix before you roll out Rovo — or any enterprise AI tool.
+        </p>
+
+        <!-- CTA -->
+        <div class="animate-slide-up flex flex-col sm:flex-row gap-4 items-start" style="animation-delay: 0.3s;">
+          <a
+            href="/rovo/assessment"
+            class="btn-primary text-lg px-10 py-4 inline-block"
+          >
+            <span class="relative z-10">Start the Assessment →</span>
+          </a>
+          <p class="text-sm text-white/60 self-center">No signup needed to start · Takes ~5 min</p>
+        </div>
+
+        <!-- Who it's for -->
+        <p class="text-sm text-white/50 mt-10 animate-slide-up" style="animation-delay: 0.35s;">
+          Built for Jira Admins · Scrum Masters · ITSM practitioners · IT leaders navigating Rovo and AI change.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY THIS MATTERS -->
+  <section class="py-16 lg:py-20 bg-[#f0f7ff]">
+    <div class="max-w-[1100px] mx-auto px-6 lg:px-8">
+      <div class="max-w-3xl">
+
+        <h2 class="text-3xl lg:text-4xl xl:text-5xl font-bold text-[#1a1a1a] leading-tight mb-8">
+          AI tools amplify the operating model you already have.
+        </h2>
+
+        <p class="text-xl lg:text-2xl text-[#1a1a1a] leading-relaxed mb-6">
+          If your org is still half-waterfall, half-agile, with fragmented data across tools — Rovo makes your chaos faster, not better.
+        </p>
+
+        <p class="text-xl lg:text-2xl text-[#1a1a1a] leading-relaxed mb-6">
+          The teams that win with AI aren't the ones who deploy it first.
+        </p>
+
+        <p class="text-xl lg:text-2xl text-[#1a1a1a] leading-relaxed mb-6 font-semibold">
+          They're the ones whose structure was ready for it.
+        </p>
+
+        <p class="text-lg text-gray-700 leading-relaxed">
+          This assessment tells you — honestly — whether your org is one of them.
+        </p>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="py-20 lg:py-24 bg-white">
+    <div class="max-w-[1100px] mx-auto px-6 lg:px-8">
+
+      <h2 class="text-3xl lg:text-4xl font-bold text-[#1a1a1a] text-center mb-14">
+        How it works
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+        <!-- Step 1 -->
+        <div class="text-center">
+          <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary-600 text-white text-2xl font-bold mb-6">
+            1
+          </div>
+          <h3 class="text-xl font-semibold text-[#1a1a1a] mb-3">
+            Answer 10 questions
+          </h3>
+          <p class="text-gray-700 leading-relaxed">
+            Five minutes. About how your teams are organized, how your Atlassian stack is set up, and how AI is (or isn't) landing.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="text-center">
+          <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary-600 text-white text-2xl font-bold mb-6">
+            2
+          </div>
+          <h3 class="text-xl font-semibold text-[#1a1a1a] mb-3">
+            Get your score
+          </h3>
+          <p class="text-gray-700 leading-relaxed">
+            A tier-ranked readiness score across five dimensions: value streams, Atlassian stack, data integration, change governance, and team culture.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="text-center">
+          <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary-600 text-white text-2xl font-bold mb-6">
+            3
+          </div>
+          <h3 class="text-xl font-semibold text-[#1a1a1a] mb-3">
+            Get your next step
+          </h3>
+          <p class="text-gray-700 leading-relaxed">
+            A tailored report — based on your specific weaknesses — telling you what to fix first. Not generic advice. Specific to where your org actually is.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- THE FIVE DIMENSIONS -->
+  <section class="py-20 lg:py-24 bg-[#0a1628] text-white">
+    <div class="max-w-[1100px] mx-auto px-6 lg:px-8">
+
+      <h2 class="text-3xl lg:text-4xl font-bold text-white text-center mb-4">
+        What you'll be assessed on
+      </h2>
+      <p class="text-lg text-white/70 text-center max-w-2xl mx-auto mb-14">
+        Five dimensions that determine whether AI lands — or blows up — in your organization.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+
+        <div class="bg-white/5 backdrop-blur border border-primary-500/20 rounded-2xl p-8">
+          <div class="text-primary-400 text-sm uppercase tracking-wider font-semibold mb-2">Dimension 1</div>
+          <h3 class="text-2xl font-bold text-white mb-3">Value Stream Structure</h3>
+          <p class="text-white/80 leading-relaxed">
+            Are your teams organized around shippable outcomes — or around functional silos?
+          </p>
+        </div>
+
+        <div class="bg-white/5 backdrop-blur border border-primary-500/20 rounded-2xl p-8">
+          <div class="text-primary-400 text-sm uppercase tracking-wider font-semibold mb-2">Dimension 2</div>
+          <h3 class="text-2xl font-bold text-white mb-3">Atlassian Stack Maturity</h3>
+          <p class="text-white/80 leading-relaxed">
+            Are you using 30% of Atlassian's capability, or actually finishing the stack you paid for?
+          </p>
+        </div>
+
+        <div class="bg-white/5 backdrop-blur border border-primary-500/20 rounded-2xl p-8">
+          <div class="text-primary-400 text-sm uppercase tracking-wider font-semibold mb-2">Dimension 3</div>
+          <h3 class="text-2xl font-bold text-white mb-3">Data Integration & Quality</h3>
+          <p class="text-white/80 leading-relaxed">
+            Is there a unified data model across tools — or does each one tell its own story?
+          </p>
+        </div>
+
+        <div class="bg-white/5 backdrop-blur border border-primary-500/20 rounded-2xl p-8">
+          <div class="text-primary-400 text-sm uppercase tracking-wider font-semibold mb-2">Dimension 4</div>
+          <h3 class="text-2xl font-bold text-white mb-3">Change & Governance</h3>
+          <p class="text-white/80 leading-relaxed">
+            Is your change management ready to govern AI-generated decisions — or will they bypass your controls?
+          </p>
+        </div>
+
+        <div class="bg-white/5 backdrop-blur border border-primary-500/20 rounded-2xl p-8 md:col-span-2 md:max-w-xl md:mx-auto">
+          <div class="text-primary-400 text-sm uppercase tracking-wider font-semibold mb-2">Dimension 5</div>
+          <h3 class="text-2xl font-bold text-white mb-3">Culture & Skills</h3>
+          <p class="text-white/80 leading-relaxed">
+            Do your teams have the mindset and fluency to leverage AI — or will it get treated as a threat or a toy?
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIVACY -->
+  <section class="py-16 lg:py-20 bg-white">
+    <div class="max-w-[800px] mx-auto px-6 lg:px-8 text-center">
+
+      <h2 class="text-2xl lg:text-3xl font-bold text-[#1a1a1a] mb-6">
+        Your responses are confidential
+      </h2>
+
+      <p class="text-lg text-gray-700 leading-relaxed mb-4">
+        This assessment is designed to be answered honestly — including by people who are employed and can't publicly disclose details about their company.
+      </p>
+
+      <p class="text-lg text-gray-700 leading-relaxed mb-4">
+        Your answers can cover your current employer, a past role, a client engagement, or a hypothetical scenario. We never share your responses with third parties or publish them.
+      </p>
+
+      <p class="text-lg text-gray-700 leading-relaxed">
+        We use your answers only to generate your personalized readiness report.
+      </p>
+
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="py-20 lg:py-24 bg-[#f0f7ff]">
+    <div class="max-w-[900px] mx-auto px-6 lg:px-8 text-center">
+
+      <h2 class="text-3xl lg:text-4xl xl:text-5xl font-bold text-[#1a1a1a] leading-tight mb-6">
+        Stop guessing whether your org is ready.
+      </h2>
+
+      <p class="text-lg lg:text-xl text-gray-700 leading-relaxed mb-10 max-w-2xl mx-auto">
+        Five minutes. Ten questions. A tailored readiness report sent to your inbox.
+      </p>
+
+      <a
+        href="/rovo/assessment"
+        class="btn-primary text-lg px-12 py-4 inline-block"
+      >
+        Start the Assessment →
+      </a>
+
+      <p class="text-sm text-gray-500 mt-6">Free. No credit card. Unsubscribe anytime.</p>
+
+    </div>
+  </section>
+
+</LandingLayout>
