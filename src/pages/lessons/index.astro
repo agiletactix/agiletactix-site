@@ -1,0 +1,109 @@
+---
+import LandingLayout from '../../layouts/LandingLayout.astro';
+import { LEARNING_PATHS } from '../../lib/rovo/learning-paths';
+
+const pageTitle = 'Free Lessons — Start Learning Now';
+const pageDescription = 'Three practitioner-led lessons on AI readiness, Atlassian stack optimization, and organizational structure. No signup required.';
+
+// The 3 featured free teaser lessons (lesson 1 from 3 specific paths)
+const featuredSlugs = [
+  'rovo-agent-governance-framework',
+  'diagnosing-atlassian-stack-gaps',
+  'value-streams-why-structure-beats-tools',
+];
+
+const teaserLessons = Object.values(LEARNING_PATHS)
+  .flatMap((path) =>
+    path.lessons
+      .filter((l) => l.is_free && featuredSlugs.includes(l.slug))
+      .map((l) => ({ ...l, pathName: path.name }))
+  );
+
+// Sort to match featuredSlugs order
+teaserLessons.sort(
+  (a, b) => featuredSlugs.indexOf(a.slug) - featuredSlugs.indexOf(b.slug)
+);
+
+const pathIcons = [
+  // Shield — governance
+  `<svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>`,
+  // Magnifying glass — diagnostics
+  `<svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>`,
+  // Arrows — value streams
+  `<svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" /></svg>`,
+];
+---
+
+<LandingLayout title={pageTitle} description={pageDescription} lightHeader={true}>
+
+  <!-- HERO -->
+  <section class="bg-gradient-to-b from-gray-50 to-white pt-28 pb-12 lg:pt-32 lg:pb-16 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <p class="text-sm uppercase tracking-widest text-[#294bf3] font-semibold mb-4">
+        No Signup Required
+      </p>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight mb-6" style="letter-spacing: -0.03em;">
+        Free Lessons — Start Learning Now
+      </h1>
+      <p class="text-xl lg:text-2xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
+        Three practitioner-led lessons on AI governance, Atlassian stack optimization, and organizational structure. Real frameworks. No fluff. No paywall.
+      </p>
+    </div>
+  </section>
+
+  <!-- LESSON CARDS -->
+  <section class="pb-16 lg:pb-20 px-4">
+    <div class="max-w-5xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {teaserLessons.map((lesson, i) => (
+          <a
+            href={`/lessons/${lesson.slug}`}
+            class="group bg-white rounded-2xl border border-gray-200 hover:border-[#294bf3]/30 hover:shadow-lg transition-all duration-200 p-8 flex flex-col"
+          >
+            <div class="w-14 h-14 rounded-xl bg-[#f0f7ff] text-[#294bf3] flex items-center justify-center mb-6 group-hover:bg-[#294bf3] group-hover:text-white transition-colors">
+              <Fragment set:html={pathIcons[i]} />
+            </div>
+            <p class="text-xs uppercase tracking-wider text-gray-400 font-semibold mb-2">
+              {lesson.pathName}
+            </p>
+            <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#294bf3] transition-colors">
+              {lesson.title}
+            </h3>
+            <p class="text-base text-gray-600 leading-relaxed mb-6 flex-grow">
+              {lesson.description}
+            </p>
+            <div class="flex items-center justify-between mt-auto">
+              <span class="text-sm text-gray-400">{lesson.duration_minutes} min</span>
+              <span class="text-sm font-semibold text-[#294bf3] group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                Start Lesson
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTTOM CTA -->
+  <section class="py-16 lg:py-20 bg-[#f0f7ff]">
+    <div class="max-w-3xl mx-auto px-6 text-center">
+      <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+        Want personalized recommendations?
+      </h2>
+      <p class="text-lg text-gray-700 leading-relaxed mb-8 max-w-2xl mx-auto">
+        Take the 5-minute Rovo-Readiness Assessment. You will get a tier-ranked score and a tailored report telling you exactly where to focus.
+      </p>
+      <a
+        href="/rovo/assessment"
+        class="btn-primary text-lg px-10 py-4 inline-block"
+      >
+        <span class="relative z-10">Take the Assessment</span>
+      </a>
+      <p class="text-sm text-gray-500 mt-4">Free. No credit card. Takes ~5 minutes.</p>
+    </div>
+  </section>
+
+</LandingLayout>

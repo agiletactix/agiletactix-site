@@ -6,10 +6,16 @@ import { defineMiddleware } from 'astro:middleware';
 import { createAuth, getEnvFromLocals } from './lib/auth';
 
 /** Route patterns that require authentication */
-const PROTECTED_PREFIXES = ['/member', '/dashboard', '/lessons'];
+const PROTECTED_PREFIXES = ['/member', '/dashboard'];
+
+/** Routes that are explicitly public even if they match a protected prefix */
+const PUBLIC_OVERRIDES = ['/api/stripe/webhook'];
 
 /** Check if a pathname matches a protected route */
 function isProtectedRoute(pathname: string): boolean {
+  // Stripe webhook must be public (verified via signature, not session)
+  if (PUBLIC_OVERRIDES.includes(pathname)) return false;
+
   return PROTECTED_PREFIXES.some(
     (prefix) => pathname === prefix || pathname.startsWith(prefix + '/'),
   );

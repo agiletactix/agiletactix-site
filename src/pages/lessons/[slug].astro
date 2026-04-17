@@ -1,0 +1,282 @@
+---
+import LandingLayout from '../../layouts/LandingLayout.astro';
+import { getLessonBySlug, LEARNING_PATHS } from '../../lib/rovo/learning-paths';
+
+// Static generation — only the 3 featured free lessons
+export function getStaticPaths() {
+  return [
+    { params: { slug: 'rovo-agent-governance-framework' } },
+    { params: { slug: 'diagnosing-atlassian-stack-gaps' } },
+    { params: { slug: 'value-streams-why-structure-beats-tools' } },
+  ];
+}
+
+const { slug } = Astro.params;
+const lesson = slug ? getLessonBySlug(slug) : undefined;
+
+if (!lesson) {
+  return Astro.redirect('/lessons', 302);
+}
+
+const pathDef = LEARNING_PATHS[lesson.pathSlug];
+
+// ─── Lesson content per slug ─────────────────────────────────────────
+interface LessonContent {
+  objectives: string[];
+  concepts: string[];
+  takeaway: string;
+  nextSteps: string[];
+}
+
+const lessonContent: Record<string, LessonContent> = {
+  'rovo-agent-governance-framework': {
+    objectives: [
+      'Understand why governance is the single biggest differentiator between organizations that succeed with AI and those that don\'t',
+      'Learn the three governance layers every Rovo deployment needs before going live',
+      'Map your existing change control processes to AI-generated actions',
+      'Identify which teams need approval workflows and which can self-govern',
+      'Build a lightweight governance charter you can present to leadership this week',
+      'Recognize the warning signs that your governance model is too heavy or too light',
+    ],
+    concepts: [
+      'Here\'s the thing most Rovo implementations get wrong: they treat governance as something you bolt on after deployment. "We\'ll figure out the rules as we go." That approach works fine until an agent modifies a production workflow, a customer-facing process gets rerouted, or a compliance audit reveals nobody approved any of it.',
+      'Governance isn\'t bureaucracy. It\'s the difference between a controlled rollout and a messy retraction. The organizations I\'ve seen succeed with AI tools — not just Rovo, any enterprise AI — are the ones that defined three things before day one: who can create agents, what data those agents can touch, and what actions require human approval versus what can run autonomously.',
+      'Think of it as a trust spectrum. On one end, you have fully manual approval — every agent action goes through a human gatekeeper. On the other end, you have full autonomy. Neither extreme works. What works is a graduated model where trust increases as the agent proves itself in lower-risk contexts first. Your governance framework defines that graduation path.',
+      'The practical starting point is simpler than you think. Pick one team. One use case. Define the approval workflow for that use case specifically. Run it for 30 days. Then use what you learn to write the broader charter. Bottom-up governance built from real experience beats top-down policy written in a conference room every single time.',
+    ],
+    takeaway: 'Governance is not a Phase 2 concern — it is the precondition for Phase 1. Organizations that deploy AI agents without a governance framework don\'t move faster. They create risk they can\'t see until it surfaces in an audit, an incident, or a leadership meeting where nobody has answers.',
+    nextSteps: [
+      'Audit your current change management process — can it accommodate AI-generated actions?',
+      'Identify your first pilot team and their highest-value, lowest-risk use case',
+      'Draft a one-page governance charter covering agent creation, data access, and approval thresholds',
+      'Share it with one stakeholder this week for feedback',
+    ],
+  },
+  'diagnosing-atlassian-stack-gaps': {
+    objectives: [
+      'Run a structured audit of your current Atlassian configuration in under 30 minutes',
+      'Identify the specific integration gaps between Jira, Confluence, JSM, and other tools',
+      'Understand why most organizations only use 30% of their Atlassian stack\'s capability',
+      'Map your data flow between tools and spot where information gets lost or duplicated',
+      'Prioritize which gaps to close first based on AI readiness impact',
+      'Build a gap-closure plan you can execute within one quarter',
+    ],
+    concepts: [
+      'I\'ve consulted with dozens of enterprise Atlassian environments, and the pattern is almost always the same: the organization bought the full suite, configured the basics, and then never finished. Jira is running but the workflows are default. Confluence exists but nobody trusts the content. JSM is deployed but it\'s not connected to Jira in any meaningful way. Sound familiar?',
+      'This matters for AI readiness because tools like Rovo don\'t create intelligence from nothing — they amplify what\'s already in your system. If your Jira data is inconsistent, your Confluence knowledge base is stale, and your JSM tickets live in a silo, Rovo will surface bad data faster. That\'s worse than no AI at all.',
+      'The diagnostic approach is straightforward. You evaluate four dimensions of your stack: configuration maturity (are you using the features you\'re paying for?), data quality (is the information accurate and current?), integration depth (do your tools actually talk to each other?), and governance readiness (who owns what, and is it documented?). Most organizations score well on one dimension and poorly on the other three.',
+      'The good news is that stack gaps are fixable work. Unlike organizational culture or team structure, tool configuration is something you can improve in weeks, not quarters. The key is knowing which gaps matter most. Not all of them do. Focus on the ones that sit in the critical path for your highest-value AI use case, and ignore the rest until they become relevant.',
+    ],
+    takeaway: 'You cannot build AI readiness on top of a half-configured stack. The 70% of Atlassian capability you are not using isn\'t a nice-to-have — it\'s the foundation that AI tools need to function. Diagnose the gaps first. Fix the ones that matter. Then you\'re ready for the next conversation.',
+    nextSteps: [
+      'List every Atlassian product your organization pays for versus what\'s actively used',
+      'Pick your most critical cross-tool workflow and trace the data flow end to end',
+      'Identify one integration gap you could close this sprint with existing permissions',
+      'Document your findings — this becomes the baseline for your AI readiness roadmap',
+    ],
+  },
+  'value-streams-why-structure-beats-tools': {
+    objectives: [
+      'Understand what a value stream actually is — beyond the SAFe definition most people memorize',
+      'Learn why organizational structure is the single most important prerequisite for AI readiness',
+      'Recognize the difference between project-organized and value-stream-organized teams',
+      'Identify your organization\'s actual value streams (they\'re probably not what leadership thinks)',
+      'Map the handoffs and wait states that AI tools will amplify if left unaddressed',
+      'Build a one-page value stream map you can use to start the internal conversation',
+    ],
+    concepts: [
+      'Everyone wants to talk about AI tools. Nobody wants to talk about the structure those tools have to operate within. But here\'s the uncomfortable truth: if your organization is structured around projects and functional silos, no AI tool — Rovo, Copilot, or anything else — will fix that. AI amplifies your operating model. If your operating model is built around handoffs, queues, and approval chains, AI makes those handoffs, queues, and approval chains faster. It doesn\'t eliminate them.',
+      'A value stream is the end-to-end flow of work from customer request to customer value. Not the idealized version in your SAFe training deck. The actual one — including the three-week wait for architecture review, the manual handoff to the ops team, and the two approvals nobody can explain but everyone is afraid to remove. That\'s your real value stream, and it\'s what AI will inherit.',
+      'The organizations that get the most out of AI tools are the ones that organized around value streams before they deployed anything. They reduced handoffs. They co-located (physically or virtually) the skills needed to ship. They gave teams ownership of outcomes, not activities. Then when AI arrived, it had clean channels to operate in. It could automate real work instead of automating bureaucracy.',
+      'You don\'t need a six-month transformation to start. You need one value stream map of one team\'s actual end-to-end workflow. Not the ideal state — the current state. Once you see where the time actually goes (spoiler: 80% is wait time, not work time), the conversation about what to fix before deploying AI becomes obvious. Structure first. Tools second. Always.',
+    ],
+    takeaway: 'AI tools do not fix broken structures — they accelerate them. If you deploy AI into a project-organized, silo-heavy environment, you get faster dysfunction. Map your value streams first. Fix the structural bottlenecks. Then let AI amplify a system that actually works.',
+    nextSteps: [
+      'Pick one team and map their actual end-to-end workflow from request to delivery',
+      'Measure the ratio of work time to wait time — most organizations are shocked by the result',
+      'Identify the top 3 handoffs or approval gates that add delay but not value',
+      'Share your value stream map with the team and ask: "Is this accurate?"',
+    ],
+  },
+};
+
+const content = lessonContent[slug!]!;
+if (!content) {
+  return Astro.redirect('/lessons', 302);
+}
+const pageTitle = lesson.title;
+const pageDescription = lesson.description;
+---
+
+<LandingLayout title={pageTitle} description={pageDescription} lightHeader={true}>
+
+  <section class="bg-gradient-to-b from-gray-50 to-white pt-28 pb-16 lg:pt-32 lg:pb-20 px-4">
+    <div class="max-w-4xl mx-auto">
+
+      <!-- Breadcrumb -->
+      <nav class="mb-8 flex items-center gap-2 text-sm text-gray-500">
+        <a href="/lessons" class="hover:text-[#294bf3] transition-colors">Free Lessons</a>
+        <span>/</span>
+        <span class="text-gray-900">{lesson.title}</span>
+      </nav>
+
+      <!-- Lesson header -->
+      <div class="mb-10">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-50 text-green-700">
+            Free Lesson
+          </span>
+          <span class="text-sm text-gray-500">{lesson.duration_minutes} min</span>
+          {pathDef && (
+            <span class="text-sm text-gray-400">
+              From: {pathDef.name}
+            </span>
+          )}
+        </div>
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight mb-4" style="letter-spacing: -0.02em;">
+          {lesson.title}
+        </h1>
+        <p class="text-xl text-gray-600 leading-relaxed max-w-3xl">
+          {lesson.description}
+        </p>
+      </div>
+
+      <!-- Video placeholder -->
+      <div class="bg-gray-900 rounded-2xl aspect-video flex items-center justify-center mb-12">
+        <div class="text-center">
+          <svg class="w-20 h-20 text-gray-600 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" />
+          </svg>
+          <p class="text-gray-400 text-base font-medium">Video lesson coming soon</p>
+          <p class="text-gray-500 text-sm mt-1">Read the lesson content below</p>
+        </div>
+      </div>
+
+      <!-- What you'll learn -->
+      <div class="bg-white rounded-2xl border border-gray-200 p-8 lg:p-10 mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">What you will learn</h2>
+        <ul class="space-y-3">
+          {content.objectives.map((obj) => (
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-[#294bf3] mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span class="text-base text-gray-700 leading-relaxed">{obj}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Key concepts -->
+      <div class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Key concepts</h2>
+        <div class="space-y-5">
+          {content.concepts.map((para) => (
+            <p class="text-lg text-gray-700 leading-relaxed">{para}</p>
+          ))}
+        </div>
+      </div>
+
+      <!-- Key takeaway callout -->
+      <div class="bg-[#f0f7ff] border-l-4 border-[#294bf3] rounded-r-lg p-6 lg:p-8 mb-10">
+        <p class="text-sm font-semibold text-[#294bf3] uppercase tracking-wider mb-2">Key Takeaway</p>
+        <p class="text-lg text-gray-900 leading-relaxed font-medium">
+          {content.takeaway}
+        </p>
+      </div>
+
+      <!-- Next steps -->
+      <div class="bg-white rounded-2xl border border-gray-200 p-8 lg:p-10 mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Next steps</h2>
+        <ol class="space-y-3">
+          {content.nextSteps.map((step, i) => (
+            <li class="flex items-start gap-3">
+              <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#294bf3] text-white text-sm font-bold flex-shrink-0 mt-0.5">
+                {i + 1}
+              </span>
+              <span class="text-base text-gray-700 leading-relaxed">{step}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <!-- Mark as complete (localStorage) -->
+      <div class="bg-white rounded-2xl border border-gray-200 p-6 flex flex-col sm:flex-row items-center justify-between gap-4 mb-12">
+        <div>
+          <p class="text-sm text-gray-500">Track your progress</p>
+          <p class="text-base font-medium text-gray-900" id="progress-label">
+            Finished reading? Mark this lesson complete.
+          </p>
+        </div>
+        <button
+          id="mark-complete-btn"
+          data-lesson-slug={lesson.slug}
+          class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-green-600 text-white font-semibold text-sm hover:bg-green-700 transition-colors"
+        >
+          Mark as Complete
+        </button>
+      </div>
+
+      <!-- CTA: Full learning path -->
+      <div class="bg-[#0a1628] rounded-2xl p-8 lg:p-12 text-center mb-8">
+        <h2 class="text-2xl lg:text-3xl font-bold text-white mb-4">
+          Want the full learning path?
+        </h2>
+        <p class="text-lg text-white/80 leading-relaxed mb-8 max-w-2xl mx-auto">
+          This lesson is one of {pathDef?.lessons.length ?? 5} in the <strong class="text-white">{pathDef?.name}</strong> path. Take the assessment to get your personalized learning path with all lessons unlocked.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <a
+            href="/rovo/assessment"
+            class="btn-primary text-lg px-10 py-4 inline-block"
+          >
+            <span class="relative z-10">Take the Assessment</span>
+          </a>
+          <a
+            href="/login"
+            class="text-base text-white/70 hover:text-white hover:underline underline-offset-4 transition-colors px-4 py-4"
+          >
+            Already a member? Sign in
+          </a>
+        </div>
+      </div>
+
+      <!-- Back to lessons -->
+      <p class="text-center">
+        <a href="/lessons" class="text-sm text-gray-500 hover:text-gray-900 hover:underline underline-offset-4 transition-colors">
+          ← Back to all free lessons
+        </a>
+      </p>
+
+    </div>
+  </section>
+
+</LandingLayout>
+
+<script is:inline>
+  (function () {
+    var btn = document.getElementById('mark-complete-btn');
+    var label = document.getElementById('progress-label');
+    if (!btn) return;
+
+    var slug = btn.getAttribute('data-lesson-slug');
+    var key = 'atx_lesson_' + slug;
+
+    // Check if already completed
+    if (localStorage.getItem(key) === 'completed') {
+      btn.textContent = 'Completed';
+      btn.classList.remove('bg-green-600', 'hover:bg-green-700');
+      btn.classList.add('bg-gray-400', 'cursor-default');
+      if (label) label.textContent = 'You have completed this lesson.';
+    }
+
+    btn.addEventListener('click', function () {
+      localStorage.setItem(key, 'completed');
+      btn.textContent = 'Completed';
+      btn.classList.remove('bg-green-600', 'hover:bg-green-700');
+      btn.classList.add('bg-gray-400', 'cursor-default');
+      if (label) label.textContent = 'You have completed this lesson.';
+    });
+  })();
+</script>
