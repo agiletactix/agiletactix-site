@@ -1,0 +1,282 @@
+---
+import LandingLayout from '../layouts/LandingLayout.astro';
+
+const pageTitle = 'Pricing';
+const pageDescription = 'Choose the right plan for your AI readiness journey. Free assessment, Pro learning paths, or live Lab cohorts.';
+---
+
+<LandingLayout title={pageTitle} description={pageDescription}>
+  <!-- Hero -->
+  <section class="bg-black text-white pt-32 pb-16 lg:pt-36 lg:pb-20 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4" style="letter-spacing: -0.02em;">
+        Invest in your AI-readiness
+      </h1>
+      <p class="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+        Start free. Upgrade when you're ready to go deeper. Every tier builds on the last.
+      </p>
+    </div>
+  </section>
+
+  <!-- Pricing Cards -->
+  <section class="bg-gradient-to-b from-gray-50 to-white py-16 lg:py-24 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-6">
+
+        <!-- Free Tier -->
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-8 flex flex-col">
+          <div class="mb-6">
+            <h2 class="text-lg font-bold text-gray-900 mb-1">Free</h2>
+            <div class="flex items-baseline gap-1 mb-3">
+              <span class="text-4xl font-extrabold text-gray-900">$0</span>
+            </div>
+            <p class="text-sm text-gray-500">No credit card required</p>
+          </div>
+
+          <ul class="space-y-3 mb-8 flex-grow">
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+              <span class="text-sm text-gray-700">Rovo-Readiness Assessment + score</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+              <span class="text-sm text-gray-700">3 free teaser lessons</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+              <span class="text-sm text-gray-700">Newsletter access</span>
+            </li>
+          </ul>
+
+          <a href="/rovo/assessment" class="w-full inline-flex items-center justify-center px-6 py-3 text-sm font-bold rounded-xl border-2 border-gray-300 text-gray-700 hover:border-gray-400 hover:bg-gray-50 transition-all duration-200">
+            Start Free
+          </a>
+        </div>
+
+        <!-- Pro Tier (Popular) -->
+        <div class="bg-white rounded-2xl border-2 border-primary-500 shadow-lg p-8 flex flex-col relative">
+          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2">
+            <span class="inline-flex items-center px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-primary-600 text-white shadow-md">
+              Most Popular
+            </span>
+          </div>
+
+          <div class="mb-6">
+            <h2 class="text-lg font-bold text-gray-900 mb-1">Pro</h2>
+            <div class="flex items-baseline gap-1 mb-3">
+              <span class="text-4xl font-extrabold text-gray-900">$47</span>
+              <span class="text-base text-gray-500">/mo</span>
+            </div>
+            <p class="text-sm text-gray-500">Cancel anytime</p>
+          </div>
+
+          <ul class="space-y-3 mb-8 flex-grow">
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+              <span class="text-sm text-gray-700">Everything in Free</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+              <span class="text-sm text-gray-700">Full learning path (all lessons unlocked)</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+              <span class="text-sm text-gray-700">Progress tracking + dashboard</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+              <span class="text-sm text-gray-700">Monthly office hours access</span>
+            </li>
+          </ul>
+
+          <button
+            id="checkout-pro"
+            class="btn-primary w-full text-sm px-6 py-3"
+          >
+            <span class="relative z-10">Upgrade to Pro</span>
+          </button>
+        </div>
+
+        <!-- Lab Tier -->
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-8 flex flex-col">
+          <div class="mb-6">
+            <h2 class="text-lg font-bold text-gray-900 mb-1">Lab</h2>
+            <div class="flex items-baseline gap-1 mb-3">
+              <span class="text-4xl font-extrabold text-gray-900">$2,500</span>
+              <span class="text-base text-gray-500">one-time</span>
+            </div>
+            <p class="text-sm text-gray-500">Live cohort, limited seats</p>
+          </div>
+
+          <ul class="space-y-3 mb-8 flex-grow">
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+              <span class="text-sm text-gray-700">Everything in Pro</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+              <span class="text-sm text-gray-700">Live cohort sessions (4-6 weeks)</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+              <span class="text-sm text-gray-700">1:1 strategy call with Danny</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+              <span class="text-sm text-gray-700">Alumni community access</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+              <span class="text-sm text-gray-700">Priority support</span>
+            </li>
+          </ul>
+
+          <button
+            id="checkout-lab"
+            class="w-full inline-flex items-center justify-center px-6 py-3 text-sm font-bold rounded-xl bg-gray-900 text-white hover:bg-gray-800 transition-all duration-200"
+          >
+            Join Next Cohort
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="bg-white py-16 lg:py-24 px-4">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-3xl font-extrabold text-gray-900 text-center mb-12" style="letter-spacing: -0.02em;">
+        Frequently Asked Questions
+      </h2>
+
+      <div class="space-y-6">
+        <div class="border-b border-gray-200 pb-6">
+          <h3 class="text-base font-bold text-gray-900 mb-2">What is the Rovo-Readiness Assessment?</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">
+            A 10-question diagnostic that scores your organization across five AI-readiness dimensions. You get a tier placement and a personalized action plan -- completely free.
+          </p>
+        </div>
+
+        <div class="border-b border-gray-200 pb-6">
+          <h3 class="text-base font-bold text-gray-900 mb-2">Can I cancel my Pro subscription anytime?</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">
+            Yes. Cancel with one click from your dashboard. You keep access through the end of your current billing period. No contracts, no penalties.
+          </p>
+        </div>
+
+        <div class="border-b border-gray-200 pb-6">
+          <h3 class="text-base font-bold text-gray-900 mb-2">What happens after I complete the assessment?</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">
+            Free members see their scores and 3 teaser lessons. Pro members unlock the full learning path tailored to their weak dimensions, with progress tracking across every lesson.
+          </p>
+        </div>
+
+        <div class="border-b border-gray-200 pb-6">
+          <h3 class="text-base font-bold text-gray-900 mb-2">How does the Lab cohort work?</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">
+            The Lab is a 4-6 week live experience. You join a small group of agile professionals, attend live sessions with Danny, get a 1:1 strategy call, and gain lifetime access to the alumni community. Cohorts run on a limited schedule.
+          </p>
+        </div>
+
+        <div class="border-b border-gray-200 pb-6">
+          <h3 class="text-base font-bold text-gray-900 mb-2">Do I need the assessment to subscribe to Pro?</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">
+            No, but we strongly recommend it. The assessment personalizes your learning path. Without it, you still get access to all lessons, but the recommended sequence is based on your score.
+          </p>
+        </div>
+
+        <div class="border-b border-gray-200 pb-6">
+          <h3 class="text-base font-bold text-gray-900 mb-2">Is my payment information secure?</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">
+            All payments are processed through Stripe, a PCI Level 1 certified payment processor. We never see or store your card details.
+          </p>
+        </div>
+
+        <div class="border-b border-gray-200 pb-6">
+          <h3 class="text-base font-bold text-gray-900 mb-2">Can I upgrade from Pro to Lab?</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">
+            Yes. The Lab is a one-time purchase that includes everything in Pro. Your Pro subscription will continue separately unless you cancel it from your dashboard.
+          </p>
+        </div>
+
+        <div class="pb-6">
+          <h3 class="text-base font-bold text-gray-900 mb-2">Who is this for?</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">
+            Mid-career Scrum Masters, Product Owners, RTEs, and agile leaders who want to evolve from facilitators into AI-powered technical partners. If you're feeling the pressure of AI disruption in your role, this is built for you.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</LandingLayout>
+
+<script is:inline>
+  function handleCheckout(priceType) {
+    return async function() {
+      var btn = this;
+      btn.disabled = true;
+      btn.textContent = 'Redirecting...';
+
+      try {
+        var res = await fetch('/api/stripe/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            priceType: priceType
+          })
+        });
+
+        var data = await res.json();
+
+        if (data.url) {
+          window.location.href = data.url;
+        } else if (data.error === 'unauthenticated') {
+          window.location.href = '/login?returnTo=/pricing';
+        } else {
+          alert(data.error || 'Something went wrong. Please try again.');
+          btn.disabled = false;
+          btn.innerHTML = priceType === 'pro'
+            ? '<span class="relative z-10">Upgrade to Pro</span>'
+            : 'Join Next Cohort';
+        }
+      } catch (err) {
+        alert('Network error. Please try again.');
+        btn.disabled = false;
+        btn.innerHTML = priceType === 'pro'
+          ? '<span class="relative z-10">Upgrade to Pro</span>'
+          : 'Join Next Cohort';
+      }
+    };
+  }
+
+  var proBtn = document.getElementById('checkout-pro');
+  if (proBtn) proBtn.addEventListener('click', handleCheckout('pro'));
+
+  var labBtn = document.getElementById('checkout-lab');
+  if (labBtn) labBtn.addEventListener('click', handleCheckout('lab'));
+</script>

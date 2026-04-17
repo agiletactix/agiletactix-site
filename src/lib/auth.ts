@@ -17,6 +17,8 @@ export interface AuthEnv {
   GOOGLE_CLIENT_SECRET: string;
   STRIPE_SECRET_KEY: string;
   STRIPE_WEBHOOK_SECRET: string;
+  STRIPE_PRO_PRICE_ID?: string; // Stripe price ID for Pro ($47/mo)
+  STRIPE_LAB_PRICE_ID?: string; // Stripe price ID for Lab ($2,500 one-time)
   BETTER_AUTH_URL?: string; // e.g. https://agiletactix.ai
 }
 
@@ -56,11 +58,15 @@ export function createAuth(env: AuthEnv) {
           plans: [
             {
               name: 'free',
-              priceId: 'price_free', // placeholder — set real Stripe price ID
+              priceId: 'price_free', // placeholder — free tier (no charge)
+            },
+            {
+              name: 'pro',
+              priceId: env.STRIPE_PRO_PRICE_ID || 'price_pro_placeholder', // $47/mo subscription
             },
             {
               name: 'lab',
-              priceId: 'price_lab', // placeholder — $197 AI Readiness Lab
+              priceId: env.STRIPE_LAB_PRICE_ID || 'price_lab_placeholder', // $2,500 one-time Lab cohort
             },
           ],
         },
