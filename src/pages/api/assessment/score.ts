@@ -11,6 +11,7 @@ import {
   type Role,
   type Deployment,
 } from '../../../lib/rovo/questions';
+import { getDb, upsertMember, createAssessment, createEngagementEvent } from '../../../lib/db';
 
 // Derive valid values from the source-of-truth option arrays
 const VALID_ROLES: Role[] = [...new Set(ROLE_OPTIONS.map(r => r.role))];
@@ -38,7 +39,7 @@ function jsonError(message: string, status: number): Response {
 
 export const prerender = false; // Server-rendered (not static)
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   // Parse body
   let body: RequestBody;
   try {
@@ -116,6 +117,49 @@ export const POST: APIRoute = async ({ request }) => {
   // Generate session ID
   const session = crypto.randomUUID();
 
+  // ─── D1 database write (graceful fallback) ───────────────────────────
+  // Write member + assessment to D1 if the binding is available.
+  // In local dev without wrangler, this is skipped silently.
+  let d1Status: 'success' | 'failed' | 'skipped' = 'skipped';
+  try {
+    type D1Binding = import('@cloudflare/workers-types').D1Database;
+    const runtime = (locals as Record<string, unknown>).runtime as { env?: { DB?: D1Binding } } | undefined;
+    const d1Binding = runtime?.env?.DB;
+    if (d1Binding) {
+      const db = getDb(d1Binding);
+      const memberId = await upsertMember(db, {
+        id: crypto.randomUUID(),
+        email: body.email,
+        firstName: body.first_name,
+        role: body.role,
+        deployment: body.deployment,
+        tier: scoringResult.tier,
+      });
+      await createAssessment(db, {
+        id: crypto.randomUUID(),
+        memberId,
+        overallScorePct: scoringResult.overall_score_pct,
+        tier: scoringResult.tier,
+        dimensionScores: scoringResult.dimension_scores,
+        weakDimensions: scoringResult.weak_dimensions,
+        deploymentOverride: scoringResult.deployment_override,
+      });
+      await createEngagementEvent(db, {
+        id: crypto.randomUUID(),
+        memberId,
+        eventType: 'assessment_completed',
+        metadata: { session, role: body.role, deployment: body.deployment },
+      });
+      d1Status = 'success';
+    } else {
+      console.log('[D1] No DB binding available — skipping database write');
+    }
+  } catch (err) {
+    d1Status = 'failed';
+    console.error('[D1] Database write failed:', err);
+    // Non-fatal: Kit is the primary data store for Stage 1
+  }
+
   // Build response
   const response = {
     tier: scoringResult.tier,
@@ -128,6 +172,7 @@ export const POST: APIRoute = async ({ request }) => {
     deployment: scoringResult.deployment,
     kit_status: kitStatus,
     ...(kitSubscriberId && { kit_subscriber_id: kitSubscriberId }),
+    d1_status: d1Status,
     session,
     test_mode: isTestMode,
   };
