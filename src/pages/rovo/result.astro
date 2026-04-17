@@ -7,6 +7,7 @@ import { ROVO_INELIGIBLE_DEPLOYMENTS, type Deployment, type Role } from '../../l
 const tierParam = (Astro.url.searchParams.get('tier') || 'foundation') as Tier;
 const roleParam = (Astro.url.searchParams.get('role') || 'practitioner') as Role;
 const deploymentParam = (Astro.url.searchParams.get('deployment') || 'cloud') as Deployment;
+const emailParam = Astro.url.searchParams.get('email') || '';
 
 // Normalize any unexpected inputs to safe defaults
 const validTiers: Tier[] = ['ready', 'close', 'foundation', 'notyet'];
@@ -204,6 +205,21 @@ const pageDescription = 'Your personalized Rovo-Readiness Assessment result — 
             {c.cta_secondary.label}
           </a>
         )}
+      </div>
+
+      <!-- Save results CTA -->
+      <div class="bg-[#f0f7ff] border-l-4 border-[#294bf3] rounded-r-lg p-6 lg:p-8 mb-8">
+        <h2 class="text-lg font-bold text-gray-900 mb-3">Save your results</h2>
+        <p class="text-base text-gray-700 leading-relaxed mb-4">
+          Create a free account to save your assessment results, track your progress over time, and unlock your personalized learning path.
+        </p>
+        <a
+          id="save-results-cta"
+          href={`/signup${emailParam ? `?email=${encodeURIComponent(emailParam)}` : ''}`}
+          class="btn-primary text-sm px-6 py-3 inline-block"
+        >
+          <span class="relative z-10">Create your free account</span>
+        </a>
       </div>
 
       <!-- What happens next -->

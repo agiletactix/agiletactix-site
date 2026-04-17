@@ -341,6 +341,7 @@ import { QUESTIONS, ROLE_OPTIONS, DEPLOYMENT_OPTIONS } from '../../lib/rovo/ques
         role: payload.role,
         deployment: payload.deployment || '',
         session: result.session || '',
+        email: payload.email || '',
       });
       window.location.href = `/rovo/result?${params.toString()}`;
     } catch (err) {

@@ -11,6 +11,7 @@ import { sql } from 'drizzle-orm';
 
 // ─── members ───────────────────────────────────────────────────────────
 // Created on assessment completion or Stripe checkout
+// better_auth_user_id links to Better Auth's managed `user` table (Option A: separate tables)
 export const members = sqliteTable('members', {
   id: text('id').primaryKey(),
   email: text('email').unique().notNull(),
@@ -18,6 +19,7 @@ export const members = sqliteTable('members', {
   role: text('role'), // exec | practitioner | mixed
   deployment: text('deployment'), // cloud | data_center | server | mixed | unsure
   tier: text('tier'), // ready | close | foundation | notyet
+  betterAuthUserId: text('better_auth_user_id').unique(), // FK → Better Auth user.id
   stripeCustomerId: text('stripe_customer_id'),
   membershipStatus: text('membership_status').default('free'), // free | active | cancelled | expired
   createdAt: text('created_at').default(sql`(CURRENT_TIMESTAMP)`),
