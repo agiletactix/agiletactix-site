@@ -1,5 +1,9 @@
 ---
 import LandingLayout from '../../layouts/LandingLayout.astro';
+import { getEnvFromLocals } from '../../lib/auth';
+import { getDb, getMemberByEmail, getMemberByAuthUserId, getLatestAssessment, getLearningPath, getLessonProgress, getRecentEvents } from '../../lib/db/index';
+import { TIER_META, dimensionLabel, type Tier, type DimensionScores } from '../../lib/rovo/scoring';
+import { DIMENSIONS, type Dimension } from '../../lib/rovo/questions';
 
 export const prerender = false;
 
@@ -8,6 +12,7 @@ const user = (Astro.locals as Record<string, unknown>).user as {
   id: string;
   name: string;
   email: string;
+  createdAt?: string;
 } | undefined;
 
 // Safety: middleware should have redirected, but guard anyway
@@ -15,48 +20,274 @@ if (!user) {
   return Astro.redirect('/login', 302);
 }
 
+const firstName = user.name ? user.name.split(' ')[0] : 'there';
+
+// ─── Data loading with D1 fallback ───────────────────────────────────
+type MemberRow = {
+  id: string;
+  email: string;
+  firstName: string | null;
+  role: string | null;
+  deployment: string | null;
+  tier: string | null;
+  betterAuthUserId: string | null;
+  stripeCustomerId: string | null;
+  membershipStatus: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
+};
+
+type AssessmentRow = {
+  id: string;
+  memberId: string | null;
+  overallScorePct: number | null;
+  tier: string | null;
+  dimensionScores: string | null;
+  weakDimensions: string | null;
+  deploymentOverride: number | null;
+  completedAt: string | null;
+};
+
+type LearningPathRow = {
+  id: string;
+  memberId: string | null;
+  pathSlug: string | null;
+  assignedAt: string | null;
+  completedAt: string | null;
+};
+
+type LessonProgressRow = {
+  memberId: string | null;
+  lessonId: string | null;
+  status: string | null;
+  startedAt: string | null;
+  completedAt: string | null;
+};
+
+type EventRow = {
+  id: string;
+  memberId: string | null;
+  eventType: string | null;
+  metadata: string | null;
+  createdAt: string | null;
+};
+
+let member: MemberRow | undefined = undefined;
+let latestAssessment: AssessmentRow | undefined = undefined;
+let learningPath: LearningPathRow | undefined = undefined;
+let lessons: LessonProgressRow[] = [];
+let recentEvents: EventRow[] = [];
+
+try {
+  const env = getEnvFromLocals(Astro.locals as Record<string, unknown>);
+  if (env) {
+    const db = getDb(env.DB);
+
+    // Try by auth user ID first, fallback to email
+    member = (await getMemberByAuthUserId(db, user.id)) ?? (await getMemberByEmail(db, user.email)) ?? undefined;
+
+    if (member) {
+      latestAssessment = (await getLatestAssessment(db, member.id)) ?? undefined;
+      learningPath = (await getLearningPath(db, member.id)) ?? undefined;
+      lessons = await getLessonProgress(db, member.id);
+      recentEvents = await getRecentEvents(db, member.id, 5);
+    }
+  }
+} catch (err) {
+  console.error('[dashboard] D1 query failed:', err);
+  // Graceful fallback — show placeholder content when D1 unavailable
+}
+
+// ─── Derived data ────────────────────────────────────────────────────
+const memberSince = member?.createdAt
+  ? new Date(member.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+  : user.createdAt
+    ? new Date(user.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+    : null;
+
+const membershipStatus = member?.membershipStatus ?? 'free';
+
+// Assessment data
+const assessmentTier = latestAssessment?.tier as Tier | undefined;
+const assessmentScore = latestAssessment?.overallScorePct ?? 0;
+const tierMeta = assessmentTier ? TIER_META[assessmentTier] : null;
+
+let dimensionScores: Partial<DimensionScores> = {};
+let weakDimensions: string[] = [];
+if (latestAssessment?.dimensionScores) {
+  try { dimensionScores = JSON.parse(latestAssessment.dimensionScores) as Partial<DimensionScores>; } catch { /* skip */ }
+}
+if (latestAssessment?.weakDimensions) {
+  try { weakDimensions = JSON.parse(latestAssessment.weakDimensions) as string[]; } catch { /* skip */ }
+}
+
+// Learning path data
+const pathSlug = learningPath?.pathSlug;
+const pathNames: Record<string, string> = {
+  'rovo-governance': 'Rovo Governance Path',
+  'foundation-first': 'Foundation First Path',
+  'stack-maturity': 'Stack Maturity Path',
+  'data-readiness': 'Data Readiness Path',
+  'culture-skills': 'Culture & Skills Path',
+};
+const pathName = pathSlug ? (pathNames[pathSlug] ?? pathSlug) : null;
+
+// Calculate learning path progress
+const totalLessons = lessons.length;
+const completedLessons = lessons.filter(l => l.status === 'completed').length;
+const pathProgress = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+const nextLesson = lessons.find(l => l.status === 'in_progress') ?? lessons.find(l => l.status === 'not_started');
+
+// Event type labels
+const eventLabels: Record<string, string> = {
+  assessment_completed: 'Completed assessment',
+  lesson_started: 'Started lesson',
+  lesson_completed: 'Completed lesson',
+  login: 'Signed in',
+  video_watched: 'Watched video',
+};
+
+function formatEventDate(dateStr: string | null): string {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  const now = new Date();
+  const diffMs = now.getTime() - d.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+  if (diffMins < 1) return 'Just now';
+  if (diffMins < 60) return `${diffMins}m ago`;
+  const diffHours = Math.floor(diffMins / 60);
+  if (diffHours < 24) return `${diffHours}h ago`;
+  const diffDays = Math.floor(diffHours / 24);
+  if (diffDays < 7) return `${diffDays}d ago`;
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+const dimensionKeys = Object.keys(DIMENSIONS) as Dimension[];
+
 const pageTitle = 'Member Dashboard';
 const pageDescription = 'Your AgileTactix member dashboard — assessment results, learning paths, and membership status.';
 ---
 
 <LandingLayout title={pageTitle} description={pageDescription} lightHeader={true} noIndex={true}>
   <section class="bg-gradient-to-b from-gray-50 to-white min-h-screen pt-28 pb-16 lg:pt-32 lg:pb-20 px-4">
-    <div class="max-w-4xl mx-auto">
+    <div class="max-w-5xl mx-auto">
 
       <!-- Welcome header -->
       <div class="mb-10">
         <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight" style="letter-spacing: -0.02em;">
-          Welcome back{user.name ? `, ${user.name.split(' ')[0]}` : ''}
+          Welcome back, {firstName}
         </h1>
-        <p class="text-lg text-gray-500 mt-2">{user.email}</p>
+        <p class="text-lg text-gray-500 mt-2">
+          {user.email}{memberSince ? ` · Member since ${memberSince}` : ''}
+        </p>
       </div>
 
-      <!-- Dashboard grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Main dashboard grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
 
-        <!-- Assessment Card -->
-        <div class="bg-white rounded-2xl p-6 lg:p-8 border border-gray-200">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center">
-              <svg class="w-5 h-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
-              </svg>
+        <!-- ═══ Assessment Score Card ═══ -->
+        {latestAssessment && tierMeta ? (
+          <div class="bg-white rounded-2xl p-6 lg:p-8 border border-gray-200 shadow-sm lg:col-span-2">
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center">
+                  <svg class="w-5 h-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+                  </svg>
+                </div>
+                <h2 class="text-lg font-bold text-gray-900">Rovo-Readiness Assessment</h2>
+              </div>
+              <a href="/rovo/assessment" class="text-sm font-semibold text-primary-600 hover:text-primary-800 transition-colors">
+                Retake Assessment
+              </a>
             </div>
-            <h2 class="text-lg font-bold text-gray-900">Rovo-Readiness Assessment</h2>
-          </div>
-          <p class="text-base text-gray-600 leading-relaxed mb-5">
-            Take (or retake) the assessment to understand your organization's AI readiness tier and get a personalized action plan.
-          </p>
-          <a href="/rovo/assessment" class="inline-flex items-center text-sm font-semibold text-primary-600 hover:text-primary-800 transition-colors">
-            Take the assessment
-            <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-            </svg>
-          </a>
-        </div>
 
-        <!-- Learning Path Card -->
-        <div class="bg-white rounded-2xl p-6 lg:p-8 border border-gray-200">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <!-- Left: Tier + Overall Score -->
+              <div>
+                <!-- Tier badge -->
+                <div class="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-gray-50 border border-gray-200">
+                  <span class="text-lg">{tierMeta.emoji}</span>
+                  <span class={`text-sm font-bold uppercase tracking-wider ${tierMeta.color}`}>{tierMeta.label}</span>
+                </div>
+
+                <!-- Overall score -->
+                <div class="mb-4">
+                  <div class="flex items-end gap-2 mb-2">
+                    <span class="text-4xl font-extrabold text-gray-900">{assessmentScore}%</span>
+                    <span class="text-sm text-gray-500 mb-1">overall readiness</span>
+                  </div>
+                  <div class="w-full bg-gray-100 rounded-full h-3">
+                    <div
+                      class="h-3 rounded-full transition-all duration-500"
+                      style={`width: ${assessmentScore}%; background-color: ${assessmentScore >= 80 ? '#16a34a' : assessmentScore >= 65 ? '#ca8a04' : assessmentScore >= 40 ? '#ea580c' : '#dc2626'}`}
+                    />
+                  </div>
+                </div>
+
+                {latestAssessment.completedAt && (
+                  <p class="text-xs text-gray-400">
+                    Completed {new Date(latestAssessment.completedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  </p>
+                )}
+              </div>
+
+              <!-- Right: Dimension breakdown -->
+              <div>
+                <p class="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wider">Dimensions</p>
+                <div class="space-y-3">
+                  {dimensionKeys.map((dim) => {
+                    const score = dimensionScores[dim] ?? 0;
+                    const isWeak = weakDimensions.includes(dim);
+                    return (
+                      <div>
+                        <div class="flex items-center justify-between mb-1">
+                          <span class={`text-sm ${isWeak ? 'font-semibold text-orange-700' : 'text-gray-700'}`}>
+                            {isWeak && <span class="text-orange-500 mr-1">!</span>}
+                            {dimensionLabel(dim)}
+                          </span>
+                          <span class={`text-sm font-medium ${isWeak ? 'text-orange-700' : 'text-gray-500'}`}>{score}%</span>
+                        </div>
+                        <div class="w-full bg-gray-100 rounded-full h-2">
+                          <div
+                            class="h-2 rounded-full transition-all duration-500"
+                            style={`width: ${score}%; background-color: ${isWeak ? '#ea580c' : '#294bf3'}`}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                {weakDimensions.length > 0 && (
+                  <p class="text-xs text-orange-600 mt-3">
+                    {weakDimensions.length === 1 ? '1 dimension' : `${weakDimensions.length} dimensions`} below 60% threshold
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <!-- No assessment — CTA card -->
+          <div class="bg-white rounded-2xl p-6 lg:p-8 border border-gray-200 shadow-sm lg:col-span-2">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center">
+                <svg class="w-5 h-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+                </svg>
+              </div>
+              <h2 class="text-lg font-bold text-gray-900">Rovo-Readiness Assessment</h2>
+            </div>
+            <p class="text-base text-gray-600 leading-relaxed mb-5">
+              Discover your organization's AI readiness tier with our 10-question assessment. Get a personalized action plan based on your score.
+            </p>
+            <a href="/rovo/assessment" class="btn-primary text-sm px-6 py-3 inline-block">
+              <span class="relative z-10">Take the Assessment</span>
+            </a>
+          </div>
+        )}
+
+        <!-- ═══ Learning Path Card ═══ -->
+        <div class="bg-white rounded-2xl p-6 lg:p-8 border border-gray-200 shadow-sm">
           <div class="flex items-center gap-3 mb-4">
             <div class="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center">
               <svg class="w-5 h-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
@@ -65,16 +296,82 @@ const pageDescription = 'Your AgileTactix member dashboard — assessment result
             </div>
             <h2 class="text-lg font-bold text-gray-900">Learning Path</h2>
           </div>
-          <p class="text-base text-gray-600 leading-relaxed mb-5">
-            Your personalized learning path will appear here based on your assessment results and membership tier.
-          </p>
-          <span class="inline-flex items-center text-sm font-medium text-gray-400">
-            Coming soon
-          </span>
+
+          {learningPath && pathName ? (
+            <div>
+              <p class="text-sm font-semibold text-primary-700 mb-3">{pathName}</p>
+
+              <!-- Progress bar -->
+              <div class="mb-4">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-sm text-gray-600">{completedLessons} of {totalLessons} lessons</span>
+                  <span class="text-sm font-medium text-gray-900">{pathProgress}%</span>
+                </div>
+                <div class="w-full bg-gray-100 rounded-full h-2.5">
+                  <div class="h-2.5 rounded-full bg-primary-600 transition-all duration-500" style={`width: ${pathProgress}%`} />
+                </div>
+              </div>
+
+              <!-- Lesson list -->
+              {totalLessons > 0 && (
+                <div class="space-y-2 mb-4">
+                  {lessons.slice(0, 5).map((lesson) => {
+                    const isNext = nextLesson && lesson.lessonId === nextLesson.lessonId;
+                    return (
+                      <div class={`flex items-center gap-3 py-2 px-3 rounded-lg ${isNext ? 'bg-primary-50 border border-primary-200' : ''}`}>
+                        {lesson.status === 'completed' ? (
+                          <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        ) : lesson.status === 'in_progress' ? (
+                          <svg class="w-5 h-5 text-primary-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" />
+                          </svg>
+                        ) : (
+                          <svg class="w-5 h-5 text-gray-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                          </svg>
+                        )}
+                        <span class={`text-sm ${lesson.status === 'completed' ? 'text-gray-500 line-through' : isNext ? 'text-primary-800 font-medium' : 'text-gray-700'}`}>
+                          {lesson.lessonId}
+                          {isNext && <span class="text-xs text-primary-600 ml-2">Up next</span>}
+                        </span>
+                      </div>
+                    );
+                  })}
+                  {totalLessons > 5 && (
+                    <p class="text-xs text-gray-400 pl-8">+ {totalLessons - 5} more lessons</p>
+                  )}
+                </div>
+              )}
+            </div>
+          ) : latestAssessment ? (
+            <div>
+              <p class="text-base text-gray-600 leading-relaxed mb-4">
+                Your learning path is being generated based on your assessment results. Check back soon.
+              </p>
+              <span class="inline-flex items-center text-sm font-medium text-gray-400">
+                Coming soon
+              </span>
+            </div>
+          ) : (
+            <div>
+              <p class="text-base text-gray-600 leading-relaxed mb-4">
+                Complete the Rovo-Readiness Assessment to get a personalized learning path tailored to your weak dimensions.
+              </p>
+              <a href="/rovo/assessment" class="inline-flex items-center text-sm font-semibold text-primary-600 hover:text-primary-800 transition-colors">
+                Take the assessment first
+                <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </a>
+            </div>
+          )}
         </div>
 
-        <!-- Membership Card -->
-        <div class="bg-white rounded-2xl p-6 lg:p-8 border border-gray-200">
+        <!-- ═══ Membership Status Card ═══ -->
+        <div class="bg-white rounded-2xl p-6 lg:p-8 border border-gray-200 shadow-sm">
           <div class="flex items-center gap-3 mb-4">
             <div class="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center">
               <svg class="w-5 h-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
@@ -83,42 +380,128 @@ const pageDescription = 'Your AgileTactix member dashboard — assessment result
             </div>
             <h2 class="text-lg font-bold text-gray-900">Membership</h2>
           </div>
-          <div class="flex items-center gap-2 mb-4">
-            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-gray-100 text-gray-600">
-              Free tier
-            </span>
-          </div>
-          <p class="text-base text-gray-600 leading-relaxed mb-5">
-            Upgrade to the AI Readiness Lab for guided learning paths, live cohort sessions, and hands-on projects.
-          </p>
-          <a href="/labs" class="inline-flex items-center text-sm font-semibold text-primary-600 hover:text-primary-800 transition-colors">
-            View upgrade options
-            <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-            </svg>
-          </a>
+
+          {membershipStatus === 'active' ? (
+            <div>
+              <div class="flex items-center gap-2 mb-4">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-green-50 text-green-700 border border-green-200">
+                  Active
+                </span>
+              </div>
+              <p class="text-base text-gray-600 leading-relaxed mb-5">
+                You have full access to the AI Readiness Lab, guided learning paths, and all member resources.
+              </p>
+              <a href="/api/auth/stripe/billing-portal" class="inline-flex items-center text-sm font-semibold text-primary-600 hover:text-primary-800 transition-colors">
+                Manage subscription
+                <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                </svg>
+              </a>
+            </div>
+          ) : membershipStatus === 'cancelled' ? (
+            <div>
+              <div class="flex items-center gap-2 mb-4">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-red-50 text-red-700 border border-red-200">
+                  Cancelled
+                </span>
+              </div>
+              <p class="text-base text-gray-600 leading-relaxed mb-5">
+                Your membership has been cancelled. Reactivate to regain access to guided learning paths and Lab resources.
+              </p>
+              <a href="/labs" class="btn-primary text-sm px-6 py-3 inline-block">
+                <span class="relative z-10">Reactivate membership</span>
+              </a>
+            </div>
+          ) : (
+            <div>
+              <div class="flex items-center gap-2 mb-4">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-gray-100 text-gray-600">
+                  Free tier
+                </span>
+              </div>
+              <p class="text-base text-gray-600 leading-relaxed mb-5">
+                Upgrade to the AI Readiness Lab for guided learning paths, live cohort sessions, and hands-on projects.
+              </p>
+              <a href="/labs" class="inline-flex items-center text-sm font-semibold text-primary-600 hover:text-primary-800 transition-colors">
+                View upgrade options
+                <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </a>
+            </div>
+          )}
         </div>
 
-        <!-- Account Card -->
-        <div class="bg-white rounded-2xl p-6 lg:p-8 border border-gray-200">
+        <!-- ═══ Recent Activity Card ═══ -->
+        <div class="bg-white rounded-2xl p-6 lg:p-8 border border-gray-200 shadow-sm">
           <div class="flex items-center gap-3 mb-4">
             <div class="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center">
               <svg class="w-5 h-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h2 class="text-lg font-bold text-gray-900">Recent Activity</h2>
+          </div>
+
+          {recentEvents.length > 0 ? (
+            <div class="space-y-3">
+              {recentEvents.map((event) => (
+                <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                  <span class="text-sm text-gray-700">
+                    {eventLabels[event.eventType ?? ''] ?? event.eventType}
+                  </span>
+                  <span class="text-xs text-gray-400 flex-shrink-0 ml-3">
+                    {formatEventDate(event.createdAt)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p class="text-sm text-gray-400">No recent activity yet. Take the assessment to get started.</p>
+          )}
+        </div>
+
+        <!-- ═══ Quick Links Card ═══ -->
+        <div class="bg-white rounded-2xl p-6 lg:p-8 border border-gray-200 shadow-sm">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center">
+              <svg class="w-5 h-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m9.86-2.813a4.5 4.5 0 00-1.242-7.244l-4.5-4.5a4.5 4.5 0 00-6.364 6.364L4.34 8.374" />
+              </svg>
+            </div>
+            <h2 class="text-lg font-bold text-gray-900">Quick Links</h2>
+          </div>
+
+          <nav class="space-y-1">
+            <a href="/rovo/assessment" class="flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm text-gray-700 hover:bg-gray-50 hover:text-primary-700 transition-colors">
+              <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+              </svg>
+              Rovo-Readiness Assessment
+            </a>
+            <a href="/blueprint" class="flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm text-gray-700 hover:bg-gray-50 hover:text-primary-700 transition-colors">
+              <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+              </svg>
+              Rovo Starter Playbook
+            </a>
+            <a href="/member/settings" class="flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm text-gray-700 hover:bg-gray-50 hover:text-primary-700 transition-colors">
+              <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-            </div>
-            <h2 class="text-lg font-bold text-gray-900">Account</h2>
-          </div>
-          <p class="text-base text-gray-600 leading-relaxed mb-5">
-            Manage your account settings, update your email, or sign out.
-          </p>
-          <button
-            id="signout-btn"
-            class="inline-flex items-center text-sm font-semibold text-gray-500 hover:text-red-600 transition-colors"
-          >
-            Sign out
-          </button>
+              Account Settings
+            </a>
+            <button
+              id="signout-quick"
+              class="flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm text-gray-500 hover:bg-red-50 hover:text-red-600 transition-colors w-full text-left"
+            >
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+              </svg>
+              Sign Out
+            </button>
+          </nav>
         </div>
 
       </div>
@@ -128,9 +511,8 @@ const pageDescription = 'Your AgileTactix member dashboard — assessment result
 </LandingLayout>
 
 <script is:inline>
-  var signoutBtn = document.getElementById('signout-btn');
-  if (signoutBtn) {
-    signoutBtn.addEventListener('click', async function() {
+  document.querySelectorAll('#signout-quick').forEach(function(btn) {
+    btn.addEventListener('click', async function() {
       try {
         await fetch('/api/auth/sign-out', { method: 'POST' });
       } catch (_e) {
@@ -138,5 +520,5 @@ const pageDescription = 'Your AgileTactix member dashboard — assessment result
       }
       window.location.href = '/';
     });
-  }
+  });
 </script>
