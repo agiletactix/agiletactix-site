@@ -31,5 +31,6 @@ pnpm-debug.log*
 Thumbs.db
 .mcp.json
 
-# Cloudflare Workers local secrets
+# Cloudflare Workers / Pages local secrets
 workers/**/.dev.vars
+.dev.vars
