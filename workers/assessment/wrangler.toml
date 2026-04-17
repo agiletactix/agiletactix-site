@@ -1,0 +1,10 @@
+name = "agiletactix-assessment"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+[vars]
+ENVIRONMENT = "production"
+TEST_MODE = "false"
+
+# Secrets (set via `wrangler secret put`):
+# KIT_API_KEY

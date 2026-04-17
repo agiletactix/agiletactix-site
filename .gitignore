@@ -30,3 +30,6 @@ pnpm-debug.log*
 # OS
 Thumbs.db
 .mcp.json
+
+# Cloudflare Workers local secrets
+workers/**/.dev.vars

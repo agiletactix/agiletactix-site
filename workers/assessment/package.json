@@ -1,0 +1,14 @@
+{
+  "name": "agiletactix-assessment-worker",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "bash test.sh"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0",
+    "typescript": "^5.0.0",
+    "@cloudflare/workers-types": "^4.0.0"
+  }
+}
