@@ -1,0 +1,237 @@
+---
+import LandingLayout from '../../../layouts/LandingLayout.astro';
+import { getLessonBySlug, LEARNING_PATHS } from '../../../lib/rovo/learning-paths';
+import { getDb, getMemberByAuthUserId, getLearningPathWithProgress } from '../../../lib/db';
+import { getEnvFromLocals } from '../../../lib/auth';
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+const lesson = slug ? getLessonBySlug(slug) : undefined;
+
+if (!lesson) {
+  return Astro.redirect('/member/dashboard', 302);
+}
+
+// Get the full path definition for navigation
+const pathDef = LEARNING_PATHS[lesson.pathSlug];
+const pathLessons = pathDef?.lessons ?? [];
+const currentIndex = pathLessons.findIndex((l) => l.id === lesson.id);
+const prevLesson = currentIndex > 0 ? pathLessons[currentIndex - 1] : null;
+const nextLesson = currentIndex < pathLessons.length - 1 ? pathLessons[currentIndex + 1] : null;
+
+// Auth + member data (middleware protects /member/* routes)
+const user = (Astro.locals as Record<string, unknown>).user as {
+  id: string;
+  name: string;
+  email: string;
+} | undefined;
+
+// Determine membership status + lesson progress
+let membershipStatus = 'free';
+let lessonStatus = 'not_started';
+
+const env = getEnvFromLocals(Astro.locals as Record<string, unknown>);
+if (env && user) {
+  try {
+    const db = getDb(env.DB);
+    const member = await getMemberByAuthUserId(db, user.id);
+    if (member) {
+      membershipStatus = member.membershipStatus ?? 'free';
+      const result = await getLearningPathWithProgress(db, member.id);
+      if (result) {
+        const progress = result.progress.find((p) => p.lessonId === lesson.id);
+        if (progress) {
+          lessonStatus = progress.status ?? 'not_started';
+        }
+      }
+    }
+  } catch (err) {
+    console.error('[lesson] DB error:', err);
+  }
+}
+
+// Access control: free teasers are always visible; paid lessons require active membership
+const isLocked = !lesson.is_free && membershipStatus !== 'active';
+const isCompleted = lessonStatus === 'completed';
+const isInProgress = lessonStatus === 'in_progress';
+
+const pageTitle = lesson.title;
+const pageDescription = lesson.description;
+---
+
+<LandingLayout title={pageTitle} description={pageDescription} lightHeader={true} noIndex={true}>
+  <section class="bg-gradient-to-b from-gray-50 to-white min-h-screen pt-28 pb-16 lg:pt-32 lg:pb-20 px-4">
+    <div class="max-w-4xl mx-auto">
+
+      <!-- Breadcrumb -->
+      <nav class="mb-8 flex items-center gap-2 text-sm text-gray-500">
+        <a href="/member/dashboard" class="hover:text-primary-600 transition-colors">Dashboard</a>
+        <span>/</span>
+        {pathDef && (
+          <span class="text-gray-700 font-medium">{pathDef.name}</span>
+        )}
+        <span>/</span>
+        <span class="text-gray-900">Lesson {lesson.order}</span>
+      </nav>
+
+      <!-- Lesson header -->
+      <div class="mb-10">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-primary-50 text-primary-700">
+            Lesson {lesson.order} of {pathLessons.length}
+          </span>
+          <span class="text-sm text-gray-500">{lesson.duration_minutes} min</span>
+          {lesson.is_free && (
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-green-50 text-green-700">
+              Free
+            </span>
+          )}
+          {isCompleted && (
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+              Completed
+            </span>
+          )}
+          {isInProgress && !isCompleted && (
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-yellow-50 text-yellow-700">
+              In Progress
+            </span>
+          )}
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight" style="letter-spacing: -0.02em;">
+          {lesson.title}
+        </h1>
+        <p class="text-lg text-gray-600 mt-3 leading-relaxed max-w-3xl">
+          {lesson.description}
+        </p>
+      </div>
+
+      {isLocked ? (
+        <!-- Locked lesson: upgrade CTA -->
+        <div class="bg-white rounded-2xl border border-gray-200 p-8 lg:p-12 text-center">
+          <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-6">
+            <svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+            </svg>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-900 mb-3">This lesson requires a membership</h2>
+          <p class="text-base text-gray-600 mb-6 max-w-lg mx-auto">
+            Upgrade to the AI Readiness Lab to unlock all lessons in your learning path, plus live workshops and community access.
+          </p>
+          <a
+            href="/pricing"
+            class="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-primary-600 text-white font-semibold text-base hover:bg-primary-700 transition-colors"
+          >
+            Upgrade to Lab Membership
+          </a>
+        </div>
+      ) : (
+        <!-- Lesson content -->
+        <div class="space-y-8">
+          <!-- Video placeholder -->
+          <div class="bg-gray-900 rounded-2xl aspect-video flex items-center justify-center">
+            <div class="text-center">
+              <svg class="w-16 h-16 text-gray-600 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" />
+              </svg>
+              <p class="text-gray-500 text-sm">Video content coming soon</p>
+            </div>
+          </div>
+
+          <!-- Progress actions -->
+          <div class="bg-white rounded-2xl border border-gray-200 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <p class="text-sm text-gray-500">Track your progress</p>
+              <p class="text-base font-medium text-gray-900" id="progress-label">
+                {isCompleted ? 'You have completed this lesson.' : isInProgress ? 'You started this lesson.' : 'Mark this lesson when you are done.'}
+              </p>
+            </div>
+            {!isCompleted && (
+              <button
+                id="mark-complete-btn"
+                data-lesson-id={lesson.id}
+                class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-green-600 text-white font-semibold text-sm hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Mark as Complete
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      <!-- Lesson navigation -->
+      <div class="mt-10 flex items-center justify-between">
+        {prevLesson ? (
+          <a
+            href={`/member/lessons/${prevLesson.slug}`}
+            class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-primary-600 transition-colors"
+          >
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+            {prevLesson.title}
+          </a>
+        ) : (
+          <div></div>
+        )}
+        {nextLesson ? (
+          <a
+            href={`/member/lessons/${nextLesson.slug}`}
+            class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-primary-600 transition-colors"
+          >
+            {nextLesson.title}
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </a>
+        ) : (
+          <div></div>
+        )}
+      </div>
+
+    </div>
+  </section>
+</LandingLayout>
+
+<script is:inline>
+  const btn = document.getElementById('mark-complete-btn');
+  if (btn) {
+    btn.addEventListener('click', async function handleComplete() {
+      const lessonId = btn.getAttribute('data-lesson-id');
+      if (!lessonId) return;
+
+      btn.setAttribute('disabled', 'true');
+      btn.textContent = 'Saving...';
+
+      try {
+        const res = await fetch('/api/member/lesson-progress', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ lesson_id: lessonId, status: 'completed' }),
+        });
+
+        if (res.ok) {
+          btn.textContent = 'Completed!';
+          btn.classList.remove('bg-green-600', 'hover:bg-green-700');
+          btn.classList.add('bg-gray-400');
+          const label = document.getElementById('progress-label');
+          if (label) {
+            label.textContent = 'You have completed this lesson.';
+          }
+        } else {
+          const data = await res.json();
+          btn.removeAttribute('disabled');
+          btn.textContent = 'Mark as Complete';
+          if (data.error) {
+            alert(data.error);
+          }
+        }
+      } catch {
+        btn.removeAttribute('disabled');
+        btn.textContent = 'Mark as Complete';
+        alert('Network error. Please try again.');
+      }
+    });
+  }
+</script>

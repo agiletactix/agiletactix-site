@@ -2,7 +2,7 @@
 // Usage: const db = getDb(context.locals.runtime.env.DB);
 
 import { drizzle, type DrizzleD1Database } from 'drizzle-orm/d1';
-import { eq } from 'drizzle-orm';
+import { eq, and, desc, count } from 'drizzle-orm';
 import * as schema from './schema';
 
 export type Database = DrizzleD1Database<typeof schema>;
@@ -99,7 +99,74 @@ export async function getAssessments(
     .select()
     .from(schema.assessments)
     .where(eq(schema.assessments.memberId, memberId))
-    .orderBy(schema.assessments.completedAt)
+    .orderBy(desc(schema.assessments.completedAt))
+    .all();
+}
+
+/** Get the latest assessment for a member. */
+export async function getLatestAssessment(
+  db: Database,
+  memberId: string,
+) {
+  return db
+    .select()
+    .from(schema.assessments)
+    .where(eq(schema.assessments.memberId, memberId))
+    .orderBy(desc(schema.assessments.completedAt))
+    .limit(1)
+    .get();
+}
+
+/** Get a member by Better Auth user ID. */
+export async function getMemberByAuthUserId(
+  db: Database,
+  authUserId: string,
+) {
+  return db
+    .select()
+    .from(schema.members)
+    .where(eq(schema.members.betterAuthUserId, authUserId))
+    .get();
+}
+
+/** Get the learning path for a member. */
+export async function getLearningPath(
+  db: Database,
+  memberId: string,
+) {
+  return db
+    .select()
+    .from(schema.learningPaths)
+    .where(eq(schema.learningPaths.memberId, memberId))
+    .orderBy(desc(schema.learningPaths.assignedAt))
+    .limit(1)
+    .get();
+}
+
+/** Get lesson progress for a member. */
+export async function getLessonProgress(
+  db: Database,
+  memberId: string,
+) {
+  return db
+    .select()
+    .from(schema.lessonProgress)
+    .where(eq(schema.lessonProgress.memberId, memberId))
+    .all();
+}
+
+/** Get recent engagement events for a member. */
+export async function getRecentEvents(
+  db: Database,
+  memberId: string,
+  limit = 5,
+) {
+  return db
+    .select()
+    .from(schema.engagementEvents)
+    .where(eq(schema.engagementEvents.memberId, memberId))
+    .orderBy(desc(schema.engagementEvents.createdAt))
+    .limit(limit)
     .all();
 }
 
@@ -131,4 +198,109 @@ export async function createEngagementEvent(
     eventType: data.eventType,
     metadata: data.metadata ? JSON.stringify(data.metadata) : null,
   });
+}
+
+// ─── Learning path helpers ────────────────────────────────────────────
+
+/** Assign (or reassign) a learning path to a member. */
+export async function assignLearningPath(
+  db: Database,
+  memberId: string,
+  pathSlug: string,
+): Promise<void> {
+  await db.insert(schema.learningPaths).values({
+    id: crypto.randomUUID(),
+    memberId,
+    pathSlug,
+  });
+}
+
+/** Get a member's current learning path with per-lesson progress. */
+export async function getLearningPathWithProgress(
+  db: Database,
+  memberId: string,
+): Promise<{
+  path: typeof schema.learningPaths.$inferSelect;
+  progress: (typeof schema.lessonProgress.$inferSelect)[];
+} | null> {
+  const path = await db
+    .select()
+    .from(schema.learningPaths)
+    .where(eq(schema.learningPaths.memberId, memberId))
+    .orderBy(desc(schema.learningPaths.assignedAt))
+    .limit(1)
+    .get();
+
+  if (!path) return null;
+
+  const progress = await db
+    .select()
+    .from(schema.lessonProgress)
+    .where(eq(schema.lessonProgress.memberId, memberId))
+    .all();
+
+  return { path, progress };
+}
+
+/** Update lesson progress for a member (upsert). */
+export async function updateLessonProgress(
+  db: Database,
+  memberId: string,
+  lessonId: string,
+  status: 'in_progress' | 'completed',
+): Promise<void> {
+  const now = new Date().toISOString();
+
+  const existing = await db
+    .select()
+    .from(schema.lessonProgress)
+    .where(
+      and(
+        eq(schema.lessonProgress.memberId, memberId),
+        eq(schema.lessonProgress.lessonId, lessonId),
+      ),
+    )
+    .get();
+
+  if (existing) {
+    await db
+      .update(schema.lessonProgress)
+      .set({
+        status,
+        ...(status === 'completed' ? { completedAt: now } : {}),
+      })
+      .where(
+        and(
+          eq(schema.lessonProgress.memberId, memberId),
+          eq(schema.lessonProgress.lessonId, lessonId),
+        ),
+      );
+  } else {
+    await db.insert(schema.lessonProgress).values({
+      memberId,
+      lessonId,
+      status,
+      startedAt: now,
+      ...(status === 'completed' ? { completedAt: now } : {}),
+    });
+  }
+}
+
+/** Count completed lessons for a member. */
+export async function getCompletedLessonCount(
+  db: Database,
+  memberId: string,
+): Promise<number> {
+  const result = await db
+    .select({ value: count() })
+    .from(schema.lessonProgress)
+    .where(
+      and(
+        eq(schema.lessonProgress.memberId, memberId),
+        eq(schema.lessonProgress.status, 'completed'),
+      ),
+    )
+    .get();
+
+  return result?.value ?? 0;
 }

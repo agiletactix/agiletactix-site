@@ -11,7 +11,8 @@ import {
   type Role,
   type Deployment,
 } from '../../../lib/rovo/questions';
-import { getDb, upsertMember, createAssessment, createEngagementEvent } from '../../../lib/db';
+import { getDb, upsertMember, createAssessment, createEngagementEvent, assignLearningPath as dbAssignPath } from '../../../lib/db';
+import { assignLearningPath } from '../../../lib/rovo/assign-path';
 
 // Derive valid values from the source-of-truth option arrays
 const VALID_ROLES: Role[] = [...new Set(ROLE_OPTIONS.map(r => r.role))];
@@ -120,6 +121,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
   // ─── D1 database write (graceful fallback) ───────────────────────────
   // Write member + assessment to D1 if the binding is available.
   // In local dev without wrangler, this is skipped silently.
+  // Compute assigned path (always, even without D1)
+  const assignedPath = assignLearningPath(scoringResult.tier, scoringResult.weak_dimensions);
+
   let d1Status: 'success' | 'failed' | 'skipped' = 'skipped';
   try {
     type D1Binding = import('@cloudflare/workers-types').D1Database;
@@ -150,6 +154,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
         eventType: 'assessment_completed',
         metadata: { session, role: body.role, deployment: body.deployment },
       });
+
+      // Assign learning path based on tier
+      await dbAssignPath(db, memberId, assignedPath);
+
       d1Status = 'success';
     } else {
       console.log('[D1] No DB binding available — skipping database write');
@@ -173,6 +181,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     kit_status: kitStatus,
     ...(kitSubscriberId && { kit_subscriber_id: kitSubscriberId }),
     d1_status: d1Status,
+    assigned_path: assignedPath,
     session,
     test_mode: isTestMode,
   };
