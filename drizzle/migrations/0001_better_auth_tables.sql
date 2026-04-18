@@ -63,7 +63,10 @@ CREATE TABLE IF NOT EXISTS `subscription` (
 );
 
 -- Add better_auth_user_id column to existing members table
-ALTER TABLE `members` ADD COLUMN `better_auth_user_id` TEXT UNIQUE;
+-- SQLite doesn't support ALTER TABLE ADD COLUMN ... UNIQUE directly.
+-- Add the column first, then create a unique index separately.
+ALTER TABLE `members` ADD COLUMN `better_auth_user_id` TEXT;
+CREATE UNIQUE INDEX IF NOT EXISTS `idx_members_better_auth_user_id` ON `members`(`better_auth_user_id`);
 
 -- Index for fast session lookups
 CREATE INDEX IF NOT EXISTS `idx_session_userId` ON `session`(`userId`);
