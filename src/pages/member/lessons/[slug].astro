@@ -1,8 +1,12 @@
 ---
 import LandingLayout from '../../../layouts/LandingLayout.astro';
+import VideoPlayer from '../../../components/VideoPlayer.astro';
+import TranscriptViewer from '../../../components/TranscriptViewer.astro';
 import { getLessonBySlug, LEARNING_PATHS } from '../../../lib/rovo/learning-paths';
 import { getDb, getMemberByAuthUserId, getLearningPathWithProgress } from '../../../lib/db';
 import { getEnvFromLocals } from '../../../lib/auth';
+import { videos } from '../../../lib/db/video-schema';
+import { eq } from 'drizzle-orm';
 
 export const prerender = false;
 
@@ -55,6 +59,26 @@ if (env && user) {
 const isLocked = !lesson.is_free && membershipStatus !== 'active';
 const isCompleted = lessonStatus === 'completed';
 const isInProgress = lessonStatus === 'in_progress';
+
+// Look up video for this lesson
+let videoData: { id: string; r2Url: string | null; transcriptSegments: string | null; status: string } | undefined;
+if (env) {
+  try {
+    const db = getDb(env.DB);
+    const row = await db
+      .select()
+      .from(videos)
+      .where(eq(videos.lessonId, lesson.id))
+      .get();
+    if (row) {
+      videoData = { id: row.id, r2Url: row.r2Url, transcriptSegments: row.transcriptSegments, status: row.status };
+    }
+  } catch (err) {
+    console.error('[lesson] Video lookup error:', err);
+  }
+}
+
+const hasVideo = videoData?.status === 'ready' && videoData.r2Url;
 
 const pageTitle = lesson.title;
 const pageDescription = lesson.description;
@@ -128,16 +152,25 @@ const pageDescription = lesson.description;
       ) : (
         <!-- Lesson content -->
         <div class="space-y-8">
-          <!-- Video placeholder -->
-          <div class="bg-gray-900 rounded-2xl aspect-video flex items-center justify-center">
-            <div class="text-center">
-              <svg class="w-16 h-16 text-gray-600 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" />
-              </svg>
-              <p class="text-gray-500 text-sm">Video content coming soon</p>
+          <!-- Video player or placeholder -->
+          {hasVideo ? (
+            <VideoPlayer src={videoData!.r2Url!} title={lesson.title} videoId={videoData!.id} />
+          ) : (
+            <div class="bg-gray-900 rounded-2xl aspect-video flex items-center justify-center">
+              <div class="text-center">
+                <svg class="w-16 h-16 text-gray-600 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" />
+                </svg>
+                <p class="text-gray-500 text-sm">Video content coming soon</p>
+              </div>
             </div>
-          </div>
+          )}
+
+          <!-- Transcript viewer -->
+          {videoData && (
+            <TranscriptViewer segments={videoData.transcriptSegments ?? undefined} videoId={videoData.id} />
+          )}
 
           <!-- Progress actions -->
           <div class="bg-white rounded-2xl border border-gray-200 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">

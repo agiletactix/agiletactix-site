@@ -20,6 +20,8 @@ export interface AuthEnv {
   STRIPE_PRO_PRICE_ID?: string; // Stripe price ID for Pro ($47/mo)
   STRIPE_LAB_PRICE_ID?: string; // Stripe price ID for Lab ($2,500 one-time)
   BETTER_AUTH_URL?: string; // e.g. https://agiletactix.ai
+  VIDEO_BUCKET?: import('@cloudflare/workers-types').R2Bucket; // R2 bucket for video storage
+  OPENAI_API_KEY?: string; // For Whisper transcription
 }
 
 /**
