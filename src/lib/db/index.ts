@@ -182,6 +182,30 @@ export async function getMemberByEmail(
     .get();
 }
 
+/**
+ * Link a Better Auth user ID to an existing member row that was created
+ * anonymously (e.g. during an assessment before login). Only writes if a
+ * member with that email exists and has no betterAuthUserId set yet.
+ */
+export async function linkAuthUserToMember(
+  db: Database,
+  email: string,
+  betterAuthUserId: string,
+): Promise<void> {
+  const existing = await db
+    .select({ id: schema.members.id, betterAuthUserId: schema.members.betterAuthUserId })
+    .from(schema.members)
+    .where(eq(schema.members.email, email))
+    .get();
+
+  if (existing && !existing.betterAuthUserId) {
+    await db
+      .update(schema.members)
+      .set({ betterAuthUserId, updatedAt: new Date().toISOString() })
+      .where(eq(schema.members.id, existing.id));
+  }
+}
+
 /** Record an engagement event. */
 export async function createEngagementEvent(
   db: Database,

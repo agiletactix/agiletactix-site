@@ -5,6 +5,7 @@
 import { betterAuth } from 'better-auth';
 import { stripe } from '@better-auth/stripe';
 import Stripe from 'stripe';
+import { getDb, linkAuthUserToMember } from './db';
 
 /**
  * Cloudflare runtime env bindings expected on every request.
@@ -48,6 +49,32 @@ export function createAuth(env: AuthEnv) {
       google: {
         clientId: env.GOOGLE_CLIENT_ID,
         clientSecret: env.GOOGLE_CLIENT_SECRET,
+      },
+    },
+
+    databaseHooks: {
+      session: {
+        create: {
+          after: async (session) => {
+            try {
+              // Resolve user email from the session's userId via the Better Auth
+              // user table. We pass the raw D1 binding through getDb() so we can
+              // reuse our Drizzle helpers without a circular dependency.
+              const db = getDb(env.DB);
+              // session.userId is the Better Auth user.id
+              // We need the email — fetch from Better Auth's own user table.
+              const authUser = await env.DB.prepare(
+                'SELECT email FROM user WHERE id = ?'
+              ).bind(session.userId).first<{ email: string }>();
+
+              if (authUser?.email) {
+                await linkAuthUserToMember(db, authUser.email, session.userId);
+              }
+            } catch {
+              // Never break login due to linking failure
+            }
+          },
+        },
       },
     },
 

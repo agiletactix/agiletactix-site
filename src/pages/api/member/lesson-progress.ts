@@ -3,7 +3,7 @@
 
 import type { APIRoute } from 'astro';
 import { createAuth, getEnvFromLocals } from '../../../lib/auth';
-import { getDb, getMemberByAuthUserId, updateLessonProgress, createEngagementEvent } from '../../../lib/db';
+import { getDb, getMemberByAuthUserId, getMemberByEmail, updateLessonProgress, createEngagementEvent } from '../../../lib/db';
 import { ALL_LESSONS } from '../../../lib/rovo/learning-paths';
 
 export const prerender = false;
@@ -60,9 +60,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
     return jsonError('Lesson not found', 404);
   }
 
-  // Get member
+  // Get member — try by Better Auth user ID first, fall back to email for
+  // members created anonymously during assessment before login.
   const db = getDb(env.DB);
-  const member = await getMemberByAuthUserId(db, session.user.id);
+  const member =
+    (await getMemberByAuthUserId(db, session.user.id)) ??
+    (await getMemberByEmail(db, session.user.email));
   if (!member) {
     return jsonError('Member not found', 404);
   }
