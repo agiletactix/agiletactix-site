@@ -65,6 +65,8 @@ export const lessonProgress = sqliteTable(
 
 // ─── engagement_events ─────────────────────────────────────────────────
 // For agent personalization in Q3
+export * from './video-schema';
+
 export const engagementEvents = sqliteTable('engagement_events', {
   id: text('id').primaryKey(),
   memberId: text('member_id').references(() => members.id),

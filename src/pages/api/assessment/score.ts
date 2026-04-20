@@ -88,7 +88,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
   // Kit API call (or stub in test mode)
   const isTestMode = import.meta.env.TEST_MODE === 'true';
-  const kitApiKey = import.meta.env.KIT_API_KEY;
+  const runtime = (locals as Record<string, unknown>).runtime as { env?: Record<string, string> } | undefined;
+  const kitApiKey = runtime?.env?.KIT_API_KEY;
   let kitStatus: 'success' | 'failed' | 'skipped' = 'skipped';
   let kitSubscriberId: string | undefined;
 

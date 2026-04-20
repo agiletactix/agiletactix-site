@@ -126,10 +126,9 @@ if (latestAssessment?.weakDimensions) {
 const pathSlug = learningPath?.pathSlug;
 const pathNames: Record<string, string> = {
   'rovo-governance': 'Rovo Governance Path',
-  'foundation-first': 'Foundation First Path',
-  'stack-maturity': 'Stack Maturity Path',
-  'data-readiness': 'Data Readiness Path',
-  'culture-skills': 'Culture & Skills Path',
+  'stack-optimizer': 'Close the Gap Path',
+  'foundation-builder': 'Build the Foundation Path',
+  'getting-started': 'Getting Started Path',
 };
 const pathName = pathSlug ? (pathNames[pathSlug] ?? pathSlug) : null;
 
@@ -424,6 +423,34 @@ const pageDescription = 'Your AgileTactix member dashboard — assessment result
               </p>
               <button id="reactivate-membership" class="btn-primary text-sm px-6 py-3 inline-block">
                 <span class="relative z-10">Reactivate membership</span>
+              </button>
+            </div>
+          ) : membershipStatus === 'past_due' ? (
+            <div>
+              <div class="flex items-center gap-2 mb-4">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-50 text-amber-700 border border-amber-200">
+                  Payment issue
+                </span>
+              </div>
+              <p class="text-base text-gray-600 leading-relaxed mb-5">
+                There's a problem with your payment. Please update your billing details to restore full access.
+              </p>
+              <button id="manage-subscription" class="btn-primary text-sm px-6 py-3 inline-block">
+                <span class="relative z-10">Update billing</span>
+              </button>
+            </div>
+          ) : membershipStatus === 'expired' ? (
+            <div>
+              <div class="flex items-center gap-2 mb-4">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-red-50 text-red-700 border border-red-200">
+                  Expired
+                </span>
+              </div>
+              <p class="text-base text-gray-600 leading-relaxed mb-5">
+                Your membership has expired. Renew to regain access to guided learning paths and Lab resources.
+              </p>
+              <button id="reactivate-membership" class="btn-primary text-sm px-6 py-3 inline-block">
+                <span class="relative z-10">Renew membership</span>
               </button>
             </div>
           ) : (

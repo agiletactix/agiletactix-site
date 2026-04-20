@@ -202,12 +202,15 @@ export async function createEngagementEvent(
 
 // ─── Learning path helpers ────────────────────────────────────────────
 
-/** Assign (or reassign) a learning path to a member. */
+/** Assign (or reassign) a learning path to a member. Deletes any existing row first so retakes don't accumulate orphan rows. */
 export async function assignLearningPath(
   db: Database,
   memberId: string,
   pathSlug: string,
 ): Promise<void> {
+  await db
+    .delete(schema.learningPaths)
+    .where(eq(schema.learningPaths.memberId, memberId));
   await db.insert(schema.learningPaths).values({
     id: crypto.randomUUID(),
     memberId,
