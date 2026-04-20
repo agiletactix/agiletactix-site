@@ -242,6 +242,26 @@ const pageDescription = 'Choose the right plan for your AI readiness journey. Fr
       btn.disabled = true;
       btn.textContent = 'Redirecting...';
 
+      // Check session before hitting the checkout API to avoid silent 401s
+      try {
+        var sessionRes = await fetch('/api/auth/get-session', {
+          headers: { 'Content-Type': 'application/json' }
+        });
+        if (!sessionRes.ok || sessionRes.status === 401) {
+          window.location.href = '/login?returnTo=/pricing';
+          return;
+        }
+        var sessionData = await sessionRes.json();
+        if (!sessionData || !sessionData.user) {
+          window.location.href = '/login?returnTo=/pricing';
+          return;
+        }
+      } catch (err) {
+        // Session check failed — redirect to login rather than proceeding blind
+        window.location.href = '/login?returnTo=/pricing';
+        return;
+      }
+
       try {
         var res = await fetch('/api/stripe/checkout', {
           method: 'POST',
@@ -255,7 +275,7 @@ const pageDescription = 'Choose the right plan for your AI readiness journey. Fr
 
         if (data.url) {
           window.location.href = data.url;
-        } else if (data.error === 'unauthenticated') {
+        } else if (res.status === 401 || data.error === 'unauthenticated') {
           window.location.href = '/login?returnTo=/pricing';
         } else {
           alert(data.error || 'Something went wrong. Please try again.');

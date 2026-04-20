@@ -1,0 +1,30 @@
+# Better Auth
+# Generate with: openssl rand -base64 32
+BETTER_AUTH_SECRET=your-secret-here-generate-with-openssl-rand-base64-32
+
+# Google OAuth (create at console.cloud.google.com → APIs & Services → Credentials)
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+# Stripe (get from dashboard.stripe.com → Developers → API keys)
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+STRIPE_PRO_PRICE_ID=price_...
+STRIPE_LAB_PRICE_ID=price_...
+
+# Kit.com (get from app.kit.com/account_settings/developer_settings)
+KIT_API_KEY=
+
+# OpenAI (get from platform.openai.com/api-keys) — used for Whisper transcription
+OPENAI_API_KEY=
+
+# Base URL — use your local dev server URL
+BETTER_AUTH_URL=http://localhost:4321
+
+# Set to "true" to stub external API calls (Kit, Stripe) during local testing
+TEST_MODE=false
+
+# Cloudflare bindings (not secrets — configured in wrangler.toml)
+# DB      → D1 database "member-mcp" (database_id: 0fe63819-f3ef-4a81-9e14-ba6359212f7b)
+# VIDEO_BUCKET → R2 bucket "agiletactix-videos"
+# These are injected automatically by wrangler during `wrangler pages dev`.
