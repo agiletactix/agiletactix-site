@@ -18,7 +18,7 @@
     "@astrojs/sitemap": "^3.7.2",
     "@astrojs/tailwind": "^5.1.2",
     "@better-auth/stripe": "^1.6.5",
-    "astro": "^5.18.1",
+    "astro": "^6.1.6",
     "better-auth": "^1.6.5",
     "drizzle-orm": "^0.45.2",
     "stripe": "^22.0.2",
