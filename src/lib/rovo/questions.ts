@@ -17,18 +17,18 @@ export interface Question {
 }
 
 export type Dimension =
-  | 'value_streams'
-  | 'stack_maturity'
-  | 'data_integration'
+  | 'flow_visibility'
+  | 'atlassian_depth'
+  | 'data_ownership'
   | 'change_governance'
-  | 'culture_skills';
+  | 'builder_mindset';
 
 export const DIMENSIONS: Record<Dimension, string> = {
-  value_streams: 'Value Stream Structure',
-  stack_maturity: 'Atlassian Stack Maturity',
-  data_integration: 'Data Integration & Quality',
+  flow_visibility: 'Flow Visibility',
+  atlassian_depth: 'Atlassian Depth',
+  data_ownership: 'Data Ownership',
   change_governance: 'Change & Governance',
-  culture_skills: 'Culture & Skills',
+  builder_mindset: 'Builder Mindset',
 };
 
 // Role identifier (Q0) — asked first, drives routing
@@ -39,7 +39,6 @@ export interface RoleOption {
 }
 
 export const ROLE_OPTIONS: RoleOption[] = [
-  { id: 'it_leader', label: 'IT leader (CIO, CTO, VP, Director, Head of)', role: 'exec' },
   { id: 'jira_admin', label: 'Jira / Atlassian admin or platform owner', role: 'practitioner' },
   { id: 'scrum_master', label: 'Scrum Master, Agile Coach, or RTE', role: 'practitioner' },
   { id: 'product_owner', label: 'Product Owner or Technical PM', role: 'practitioner' },
@@ -71,48 +70,48 @@ export const ROVO_INELIGIBLE_DEPLOYMENTS: Deployment[] = ['data_center', 'server
 
 // 10 core questions (2 per dimension)
 export const QUESTIONS: Question[] = [
-  // ==== Dimension 1: Value Stream Structure ====
+  // ==== Dimension 1: Flow Visibility ====
   {
     id: 'q1',
-    dimension: 'value_streams',
-    text: 'How are your teams primarily organized?',
+    dimension: 'flow_visibility',
+    text: 'In your current role, how much of your week is spent in ceremonies vs. building or improving systems?',
     options: [
-      { value: 4, label: 'Around outcomes — each team owns a service from idea through to live' },
-      { value: 3, label: 'Around shared platforms with stable teams' },
-      { value: 2, label: 'A mix of project teams and stable product teams' },
-      { value: 1, label: 'Around skills or tools (you\'re the Java people, they\'re the Python people)' },
-      { value: 0, label: "I don't know, or it varies widely by area" },
+      { value: 4, label: 'Mostly building and improving — I own systems, automation, or tooling changes' },
+      { value: 3, label: 'Roughly even split between ceremonies and system improvement' },
+      { value: 2, label: 'Mostly ceremonies with occasional improvement work' },
+      { value: 1, label: 'Mostly ceremonies — facilitation is the job' },
+      { value: 0, label: "I don't track this, or it varies too much to say" },
     ],
   },
   {
     id: 'q2',
-    dimension: 'value_streams',
-    text: 'If a senior leader asks "what\'s the status of X outcome?" how do they get the answer?',
+    dimension: 'flow_visibility',
+    text: "When a senior leader asks 'what's the status of X outcome?' — what's your role in getting them that answer?",
     options: [
-      { value: 4, label: 'Live dashboard they can read themselves' },
-      { value: 3, label: 'They ping a team owner who has the full picture' },
-      { value: 2, label: 'Someone aggregates status from multiple teams/tools' },
-      { value: 1, label: 'A weekly report is compiled manually' },
-      { value: 0, label: 'Unclear — depends who they ask' },
+      { value: 4, label: "I built the dashboard they read directly — they don't need me in the loop" },
+      { value: 3, label: 'I point them to a team owner who has the full picture' },
+      { value: 2, label: 'I aggregate status from multiple sources and send it up' },
+      { value: 1, label: "I manually compile a report each time it's asked" },
+      { value: 0, label: "I'm not sure, or it varies" },
     ],
   },
 
-  // ==== Dimension 2: Atlassian Stack Maturity ====
+  // ==== Dimension 2: Atlassian Depth ====
   {
     id: 'q3',
-    dimension: 'stack_maturity',
-    text: 'How is IT work (delivery AND service) primarily tracked in your environment?',
+    dimension: 'atlassian_depth',
+    text: 'In your daily work, which Atlassian tools do you actively configure — not just use?',
     options: [
-      { value: 4, label: 'Atlassian for everything — Jira + Jira Service Management (JSM) unified' },
-      { value: 2, label: 'Atlassian for delivery (Jira), ServiceNow/BMC/other for ITSM' },
-      { value: 2, label: 'Atlassian for delivery, no formal ITSM tool in place' },
-      { value: 1, label: 'Hybrid — different tools across business units' },
-      { value: 0, label: "Mostly non-Atlassian tools (Jira isn't the system of record)" },
+      { value: 4, label: 'Jira + JSM + Confluence + automation rules (I own the setup)' },
+      { value: 3, label: 'Jira and Confluence with some automation rules' },
+      { value: 2, label: "Jira boards and backlogs — I work in the tool but don't configure it" },
+      { value: 1, label: 'I mostly use Jira as items are assigned to me' },
+      { value: 0, label: 'I primarily work outside Atlassian tools' },
     ],
   },
   {
     id: 'q4',
-    dimension: 'stack_maturity',
+    dimension: 'atlassian_depth',
     text: 'How well integrated is your delivery tool with your service / incident / change management?',
     options: [
       { value: 4, label: 'Single platform, unified data, one source of truth' },
@@ -123,29 +122,29 @@ export const QUESTIONS: Question[] = [
     ],
   },
 
-  // ==== Dimension 3: Data Integration & Quality ====
+  // ==== Dimension 3: Data Ownership ====
   {
     id: 'q5',
-    dimension: 'data_integration',
-    text: 'Where does the source of truth for delivery status live?',
+    dimension: 'data_ownership',
+    text: "If you needed the answer to 'are we on track to hit the sprint goal?' — how would you get it?",
     options: [
-      { value: 4, label: 'Single Jira board, continuously updated, real-time accurate' },
-      { value: 3, label: 'Jira board plus weekly corrections in ceremonies' },
-      { value: 2, label: 'Spreadsheets built from Jira exports' },
-      { value: 1, label: 'Various team-specific tools (unaligned)' },
-      { value: 0, label: 'Status is gathered verbally or via reports' },
+      { value: 4, label: 'Pull it from Jira in under 2 minutes via a filter or dashboard I set up' },
+      { value: 3, label: "Check a board or report that's already configured for this" },
+      { value: 2, label: 'Run a manual export and calculate in a spreadsheet' },
+      { value: 1, label: 'Ask the team in standup' },
+      { value: 0, label: "I'm not sure where to look" },
     ],
   },
   {
     id: 'q6',
-    dimension: 'data_integration',
-    text: 'Are your core tools Cloud-based with modern API access, or on-prem / legacy?',
+    dimension: 'data_ownership',
+    text: "Have you ever built a Jira automation rule from scratch — not used one someone else set up?",
     options: [
-      { value: 4, label: 'All Cloud-based with modern APIs — agents and integrations can reach across tools easily' },
-      { value: 3, label: 'Mostly Cloud with APIs, some on-prem or legacy tools in the mix' },
-      { value: 2, label: 'Mix of Cloud and on-prem — integration capability varies by tool' },
-      { value: 1, label: 'Mostly on-prem; cross-tool integration requires heavy custom work' },
-      { value: 0, label: "Not sure, or I don't manage the infrastructure side" },
+      { value: 4, label: 'Yes, I build and maintain multiple automation rules regularly' },
+      { value: 3, label: "Yes, I've built a few (recurring reminders, status transitions)" },
+      { value: 2, label: "I've used templates but haven't customized the logic myself" },
+      { value: 1, label: "I've read about it but haven't done it" },
+      { value: 0, label: "I didn't know Jira had automation, or I don't have access to configure it" },
     ],
   },
 
@@ -153,13 +152,13 @@ export const QUESTIONS: Question[] = [
   {
     id: 'q7',
     dimension: 'change_governance',
-    text: 'How are production changes typically managed in the environment you work with?',
+    text: "When a production change happens in your environment, what's your actual role in that process?",
     options: [
-      { value: 4, label: 'Automated workflows with approval + audit trail in one system' },
-      { value: 3, label: 'CAB meetings with documented tickets' },
-      { value: 2, label: 'Email approvals + documentation scattered across tools' },
-      { value: 1, label: 'Ad-hoc — depends on team or severity' },
-      { value: 0, label: 'Not formalized, prefer not to say, or varies significantly' },
+      { value: 4, label: 'I help define or govern the workflow — including raising questions about AI-initiated changes' },
+      { value: 3, label: 'I participate in CABs or approval steps as a stakeholder' },
+      { value: 2, label: "I'm informed after the fact but not a decision-maker" },
+      { value: 1, label: "I'm not sure what the change process is in my environment" },
+      { value: 0, label: "I don't have visibility into production changes" },
     ],
   },
   {
@@ -175,29 +174,29 @@ export const QUESTIONS: Question[] = [
     ],
   },
 
-  // ==== Dimension 5: Culture & Skills ====
+  // ==== Dimension 5: Builder Mindset ====
   {
     id: 'q9',
-    dimension: 'culture_skills',
-    text: 'When AI tools (like Rovo) come up in the environments you work in, the dominant reaction is:',
+    dimension: 'builder_mindset',
+    text: 'When AI tools come up in your own work — Rovo, Copilot, ChatGPT for work tasks — what\'s your most common response?',
     options: [
-      { value: 4, label: 'Leadership is actively experimenting and scaling' },
-      { value: 3, label: 'Some teams piloting, others cautiously watching' },
-      { value: 2, label: 'Mix of curiosity and quiet fear, no clear direction' },
-      { value: 1, label: 'Mostly fear of replacement or compliance risk' },
-      { value: 0, label: 'Almost no discussion — not on the radar' },
+      { value: 4, label: 'I actively experiment and look for ways to integrate them into my workflows' },
+      { value: 3, label: "I use them regularly for specific tasks but haven't deeply integrated" },
+      { value: 2, label: "I've tried a few times but haven't made them habitual" },
+      { value: 1, label: 'I mostly watch what others are doing and wait' },
+      { value: 0, label: "I avoid them or they're not on my radar" },
     ],
   },
   {
     id: 'q10',
-    dimension: 'culture_skills',
-    text: 'How would you rate the teams you work with on Atlassian automation fluency (rules, Jira automations, APIs)?',
+    dimension: 'builder_mindset',
+    text: "How would you describe your own Atlassian automation fluency — not your team's, yours?",
     options: [
-      { value: 4, label: 'Multiple people can build AND govern automation rules' },
-      { value: 3, label: 'One or two people own it, others use the outputs' },
-      { value: 2, label: 'Mostly using Atlassian defaults, not custom automation' },
-      { value: 1, label: 'Rely on vendors/consultants for anything beyond basics' },
-      { value: 0, label: "Automation isn't used meaningfully, or I don't have visibility" },
+      { value: 4, label: 'I build, test, and maintain automation rules — I could teach this' },
+      { value: 3, label: 'I can build simple rules independently' },
+      { value: 2, label: "I can edit existing rules but not create from scratch" },
+      { value: 1, label: "I know it's possible but I haven't done it myself" },
+      { value: 0, label: "I don't have the access or context to build automation" },
     ],
   },
 ];

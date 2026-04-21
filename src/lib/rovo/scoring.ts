@@ -49,11 +49,11 @@ export type QuizAnswers = Record<string, number>;
 
 export function calculateScoring(answers: QuizAnswers, role: Role, deployment: Deployment): ScoringResult {
   const dimensionPoints: Record<Dimension, number> = {
-    value_streams: 0,
-    stack_maturity: 0,
-    data_integration: 0,
+    flow_visibility: 0,
+    atlassian_depth: 0,
+    data_ownership: 0,
     change_governance: 0,
-    culture_skills: 0,
+    builder_mindset: 0,
   };
 
   let totalPoints = 0;
@@ -68,11 +68,11 @@ export function calculateScoring(answers: QuizAnswers, role: Role, deployment: D
 
   // Convert to percentages
   const dimension_scores: DimensionScores = {
-    value_streams: Math.round((dimensionPoints.value_streams / MAX_DIMENSION_SCORE) * 100),
-    stack_maturity: Math.round((dimensionPoints.stack_maturity / MAX_DIMENSION_SCORE) * 100),
-    data_integration: Math.round((dimensionPoints.data_integration / MAX_DIMENSION_SCORE) * 100),
+    flow_visibility: Math.round((dimensionPoints.flow_visibility / MAX_DIMENSION_SCORE) * 100),
+    atlassian_depth: Math.round((dimensionPoints.atlassian_depth / MAX_DIMENSION_SCORE) * 100),
+    data_ownership: Math.round((dimensionPoints.data_ownership / MAX_DIMENSION_SCORE) * 100),
     change_governance: Math.round((dimensionPoints.change_governance / MAX_DIMENSION_SCORE) * 100),
-    culture_skills: Math.round((dimensionPoints.culture_skills / MAX_DIMENSION_SCORE) * 100),
+    builder_mindset: Math.round((dimensionPoints.builder_mindset / MAX_DIMENSION_SCORE) * 100),
   };
 
   const overall_score_pct = Math.round((totalPoints / MAX_OVERALL_SCORE) * 100);
@@ -129,11 +129,11 @@ function buildKitTags(role: Role, tier: Tier, weak: Dimension[], deployment: Dep
 
   // Map dimension names to shorter tag slugs
   const weaknessSlugs: Record<Dimension, string> = {
-    value_streams: 'value-streams',
-    stack_maturity: 'stack',
-    data_integration: 'data',
+    flow_visibility: 'flow-visibility',
+    atlassian_depth: 'atlassian-depth',
+    data_ownership: 'data-ownership',
     change_governance: 'change',
-    culture_skills: 'culture',
+    builder_mindset: 'builder-mindset',
   };
   for (const dim of weak) {
     tags.push(`weak:${weaknessSlugs[dim]}`);
