@@ -1,0 +1,839 @@
+---
+import '../../styles/global.css';
+import { Image } from 'astro:assets';
+import logoDark from '../../assets/images/Agiletactix-logo-dark-mode.png';
+import Footer from '../../components/Footer.astro';
+
+const pageTitle = 'Your Agile-AI Readiness Results — AgileTactix';
+const pageDescription = 'See your Agile-AI Readiness profile — Facilitator, Builder, or Orchestrator — and the next step to level up.';
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDescription} />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+</head>
+<body>
+
+<!-- Particles layer (fixed behind all content) -->
+<div class="atr-particles-layer" id="particlesLayer" aria-hidden="true">
+  <canvas data-particles data-focus-x="0.5" data-focus-y="0.35" data-count="100"></canvas>
+  <div class="atr-vignette"></div>
+</div>
+
+<div class="atr-page">
+
+  <!-- Top bar -->
+  <div class="atr-topbar">
+    <a href="/" class="atr-logo-link">
+      <Image src={logoDark} alt="AgileTactix" class="atr-logo" />
+    </a>
+    <div class="atr-crumb">Assessment · Results</div>
+  </div>
+
+  <!-- Header -->
+  <div class="atr-hdr">
+    <div class="atr-eyebrow"><span class="atr-dot"></span>Your Agile-AI Readiness Profile</div>
+    <h1 class="atr-h1">You're <span id="tierArticle">a</span> <span class="atr-blue" id="tierName">Builder</span>. Here's what that means.</h1>
+    <p class="atr-lead" id="leadCopy">Your results are loading...</p>
+  </div>
+
+  <!-- Verdict banner -->
+  <div class="atr-verdict">
+    <div class="atr-score"><span id="totalScore">—</span><span class="atr-of">/100</span></div>
+    <div class="atr-tier">
+      <div class="atr-tier-label">Tier</div>
+      <div class="atr-tier-name" id="tierNameBig">—</div>
+      <div class="atr-tier-desc" id="tierDesc"></div>
+    </div>
+    <div class="atr-zone-key" id="zoneKey"></div>
+  </div>
+
+  <!-- Chart + breakdown grid -->
+  <div class="atr-grid">
+
+    <div class="atr-chart-card">
+      <div class="atr-chart-title">Practitioner Capital × Org Readiness</div>
+      <div class="atr-chart-sub">The filled shape is what you control. The cyan ring is the environment you're operating in.</div>
+      <div class="atr-radar-wrap">
+        <svg class="atr-radar" id="radar" viewBox="-90 -30 680 560"></svg>
+      </div>
+      <div class="atr-legend">
+        <div class="atr-legend-item"><span class="atr-sw atr-sw-cap"></span>Practitioner Capital — 4 things you own (Atlassian Depth, Automation Output, AI Fluency, Influence Range)</div>
+        <div class="atr-legend-item"><span class="atr-sw atr-sw-org"></span>Org Readiness — the environmental variable you're working inside</div>
+      </div>
+    </div>
+
+    <div class="atr-breakdown" id="breakdown"></div>
+
+  </div>
+
+  <!-- Recommendation -->
+  <div class="atr-reco">
+    <div class="atr-reco-head">
+      <span class="atr-pill">Danny's Take</span>
+    </div>
+    <h2 class="atr-reco-h2" id="recoTitle"></h2>
+    <p class="atr-reco-p" id="recoBody1"></p>
+    <p class="atr-reco-p" id="recoBody2"></p>
+    <div class="atr-next">
+      <div class="atr-next-title">Next 30 days</div>
+      <div id="nextSteps"></div>
+    </div>
+  </div>
+
+  <!-- Offer block -->
+  <div class="atr-offer" id="offer"></div>
+
+  <!-- Secondary CTAs -->
+  <div class="atr-ctas">
+    <a class="atr-cta atr-cta-ghost" href="#" onclick="navigator.share ? navigator.share({title:'My Agile-AI Readiness Profile',url:window.location.href}) : navigator.clipboard.writeText(window.location.href); return false;">Share my results</a>
+    <a class="atr-cta atr-cta-ghost" href="#" onclick="window.print(); return false;">Download as PDF</a>
+  </div>
+
+  <!-- B2B waitlist -->
+  <div class="atr-b2b">
+    <div class="atr-b2b-head">
+      <div class="atr-b2b-eyebrow">For leaders</div>
+      <h3 class="atr-b2b-h3">Leading a team? There's a version of this for you.</h3>
+      <p class="atr-b2b-p">The leadership assessment mirrors the same 5 dimensions — but scores your <em>org</em>, not your practitioners. See the gap between what your team has built and what your environment lets them ship.</p>
+    </div>
+    <form class="atr-b2b-form" id="b2bForm">
+      <input type="email" placeholder="work@yourcompany.com" required class="atr-b2b-input" id="b2bEmail" />
+      <button type="submit" class="atr-b2b-btn" id="b2bBtn">Join the waitlist</button>
+    </form>
+    <div class="atr-b2b-fine">No spam. One note when it's ready. Early access for the first 25 orgs.</div>
+  </div>
+
+  <div class="atr-back">
+    <a href="/assessment" class="atr-back-link">← Back to Assessment</a>
+  </div>
+
+</div>
+
+<Footer />
+
+<script src="/particles-bg.js" is:inline></script>
+
+<script is:inline>
+/* -------------------------------------------------------
+   Data model
+   ------------------------------------------------------- */
+const DIMENSIONS = [
+  { key: 'atlassian',  name: 'Atlassian Depth',   ptag: 'Practitioner',  desc: 'How much of the stack you actually configure vs. inherit. JQL, automation rules, custom fields, dashboards.' },
+  { key: 'automation', name: 'Automation Output',  ptag: 'Practitioner',  desc: 'Have you shipped automations, or just attended workshops. Real rules running in production.' },
+  { key: 'ai',         name: 'AI Fluency',         ptag: 'Practitioner',  desc: 'Are you prompting and building, or still watching demos. Rovo, agents, prompt craft.' },
+  { key: 'influence',  name: 'Influence Range',    ptag: 'Practitioner',  desc: 'Can you push changes without 3 layers of approval. Scope of the decisions you own.' },
+  { key: 'org',        name: 'Org Readiness',      ptag: 'Environmental', desc: 'Structural readiness — value streams, data, governance — what\'s outside your control.' }
+];
+
+const TIERS = [
+  { name: 'Facilitator',  min: 0,  max: 49,  color: '#f87171',
+    desc: "You coordinate the work. You don't build the systems underneath it — and in 2026 that's the gap that decides who stays." },
+  { name: 'Builder',      min: 50, max: 74,  color: '#60a5fa',
+    desc: "You ship automations and configure the stack. You're closing the gap, one workflow at a time — but you're not yet orchestrating agents that ship while you sleep." },
+  { name: 'Orchestrator', min: 75, max: 100, color: '#22d3ee',
+    desc: "You write the spec. Agents execute it. Sub-agents execute theirs. You're the one designing the system of systems — category-of-one rare." }
+];
+
+const TIER_LEAD = {
+  Facilitator:  "You coordinate the work. You don't build the systems underneath it yet — and in 2026 that's the gap that decides who stays.",
+  Builder:      "You've built real practitioner capital — but a piece of the stack is holding the rest back. The score tells you which one.",
+  Orchestrator: "You write the spec. Agents execute it. You're designing the system of systems — and that puts you in a category-of-one rare position."
+};
+
+const NEXT_STEPS = {
+  Facilitator: [
+    "Ship one Atlassian automation rule this week — pick the most painful manual thing you do every sprint and eliminate it.",
+    "Set up a Rovo agent to handle your stand-up notes or sprint recap. Use the output in your next ceremony.",
+    "Document what changed in hours-saved and show it to your skip-level. Influence Range starts with proof-of-work."
+  ],
+  Builder: [
+    "Ship one Rovo agent that automates a ceremony you currently run manually. Stand-up notes, sprint recap, retro summary — pick the one you hate.",
+    "Document the before/after in hours-saved and surface it to your skip-level. This becomes your Influence Range leverage.",
+    "Pick one Atlassian automation rule you've never written and write it. Public commits to the work close the gap faster than courses."
+  ],
+  Orchestrator: [
+    "Spec a multi-agent workflow end-to-end — including the sub-agents, their inputs, outputs, and failure modes. Build the spec before you build the system.",
+    "Run a governance review of your current agent layer: what's auditable, what's not, and what the business risk surface looks like.",
+    "Find one other Orchestrator-level practitioner and do a teardown of each other's architecture. The peer review is the forcing function."
+  ]
+};
+
+const OFFERS = {
+  Facilitator: {
+    cls: 'atr-offer-facilitator',
+    eyebrow: 'Membership · Facilitator track',
+    h2: 'Get out of the <span class="atr-offer-em">ceremony trap</span> — before it decides your next role for you.',
+    pitch: "You're running the work. You haven't built the systems underneath it yet. Membership is the on-ramp — the exact starter automations Facilitators used to cross into Builder within 90 days.",
+    bullets: [
+      "Your first Atlassian automation rule, shipped this week",
+      "The 5-prompt kit for running a stand-up without running it",
+      "Weekly office hours — bring one ticket, leave with a working automation",
+      "The Builder's Playbook — yours on join"
+    ],
+    price: { dollars: 49, cadence: '/mo · cancel anytime' },
+    cta: 'Start the membership →',
+    aspirationLabel: 'Next tier',
+    aspiration: "<strong>Builders</strong> get access to the Rovo template library + peer-review threads. That unlocks automatically once you hit 50 — usually 8–12 weeks in."
+  },
+  Builder: {
+    cls: 'atr-offer-builder',
+    eyebrow: 'Membership · Builder track',
+    h2: "You're closer than most. <span class=\"atr-offer-em\">Compound it</span> before the gap widens.",
+    pitch: "You ship. You configure. You're already doing the hard thing — but solo. Membership is the peer group and pattern library that turns your wins into leverage.",
+    bullets: [
+      "Rovo + agent template library — 40+ production-tested patterns",
+      "Builder-only peer review: post a spec, get it torn apart by 10 Builders",
+      "Monthly teardowns of real automation systems (yours, if you ship one)",
+      "Direct line to Danny for architecture reviews"
+    ],
+    price: { dollars: 49, cadence: '/mo · cancel anytime' },
+    cta: 'Join the membership →',
+    aspirationLabel: 'Next tier',
+    aspiration: "<strong>Orchestrators</strong> meet in a private roundtable with 40 practitioners shipping production agent systems. The invite opens when you cross 75."
+  },
+  Orchestrator: {
+    cls: 'atr-offer-orchestrator',
+    eyebrow: 'Membership · Orchestrator cohort',
+    h2: "You've earned the room. <span class=\"atr-offer-em\">Find your peers.</span>",
+    pitch: "You're already operating above the tool layer. You don't need another course — you need the 40 other people doing this at your level. Membership is that room.",
+    bullets: [
+      "Private Orchestrator roundtable — 40 practitioners max, invite-only",
+      "Monthly frontier sessions: spec-driven rollouts, multi-agent systems, governance at scale",
+      "First access to new patterns before they hit the public Builder library",
+      "Co-authoring opportunities — shape the playbooks the rest of the field reads"
+    ],
+    price: { dollars: 297, cadence: '/mo · application required' },
+    cta: 'Apply to the cohort →',
+    aspirationLabel: 'The room',
+    aspiration: "<strong>You are the aspiration</strong> other tiers are working toward. The cohort is where you trade notes with people who don't need it explained."
+  }
+};
+
+/* -------------------------------------------------------
+   Read scores from URL params
+   ------------------------------------------------------- */
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const scores = {
+    atlassian:  Math.min(100, Math.max(0, parseInt(params.get('d_atlassian')  || '60', 10))),
+    automation: Math.min(100, Math.max(0, parseInt(params.get('d_automation') || '60', 10))),
+    ai:         Math.min(100, Math.max(0, parseInt(params.get('d_ai')         || '60', 10))),
+    influence:  Math.min(100, Math.max(0, parseInt(params.get('d_influence')  || '60', 10))),
+    org:        Math.min(100, Math.max(0, parseInt(params.get('d_org')        || '55', 10)))
+  };
+
+  function computeTotal(s) {
+    const cap = (s.atlassian + s.automation + s.ai + s.influence) / 4;
+    return Math.round(cap * 0.8 + s.org * 0.2);
+  }
+
+  function tierFor(total) {
+    return TIERS.find(function(t) { return total >= t.min && total <= t.max; }) || TIERS[0];
+  }
+
+  /* --- Radar --- */
+  function drawRadar(s) {
+    const svg = document.getElementById('radar');
+    if (!svg) return;
+    const cx = 250, cy = 250, R = 180;
+    const axes = DIMENSIONS.filter(function(d) { return d.key !== 'org'; });
+    const N = 4;
+
+    function pointFor(i, v) {
+      const angle = -Math.PI / 2 + i * (2 * Math.PI / N);
+      const r = (v / 100) * R;
+      return [cx + Math.cos(angle) * r, cy + Math.sin(angle) * r];
+    }
+
+    function ptsAtR(r) {
+      return axes.map(function(_, i) {
+        const a = -Math.PI / 2 + i * (2 * Math.PI / N);
+        return [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
+      });
+    }
+
+    function zonePath(r1, r2) {
+      const outer = ptsAtR(r2).map(function(p, k) { return (k === 0 ? 'M' : 'L') + p[0] + ',' + p[1]; }).join(' ') + ' Z';
+      const inner = ptsAtR(r1).map(function(p, k) { return (k === 0 ? 'M' : 'L') + p[0] + ',' + p[1]; }).reverse().join(' ') + ' Z';
+      return outer + ' ' + inner;
+    }
+
+    let html = '';
+    const zoneR = [0, R * 0.50, R * 0.75, R];
+    const zoneFills = ['rgba(248,113,113,0.07)', 'rgba(96,165,250,0.10)', 'rgba(34,211,238,0.10)'];
+    for (let i = 0; i < 3; i++) {
+      html += '<path d="' + zonePath(zoneR[i], zoneR[i+1]) + '" fill="' + zoneFills[i] + '" fill-rule="evenodd"/>';
+    }
+
+    [0.25, 0.5, 0.75, 1].forEach(function(frac) {
+      const pts = ptsAtR(R * frac);
+      html += '<polygon points="' + pts.map(function(p) { return p.join(','); }).join(' ') + '" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>';
+    });
+
+    axes.forEach(function(ax, i) {
+      const angle = -Math.PI / 2 + i * (2 * Math.PI / N);
+      const x = cx + Math.cos(angle) * R;
+      const y = cy + Math.sin(angle) * R;
+      html += '<line x1="' + cx + '" y1="' + cy + '" x2="' + x + '" y2="' + y + '" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>';
+      const lx = cx + Math.cos(angle) * (R + 32);
+      const ly = cy + Math.sin(angle) * (R + 28);
+      let anchor = 'middle';
+      if (Math.cos(angle) > 0.3) anchor = 'start';
+      else if (Math.cos(angle) < -0.3) anchor = 'end';
+      html += '<text x="' + lx + '" y="' + ly + '" text-anchor="' + anchor + '" fill="#d1d5db" font-family="Inter, sans-serif" font-size="13" font-weight="700" letter-spacing="-0.01em">' + ax.name + '</text>';
+      html += '<text x="' + lx + '" y="' + (ly + 16) + '" text-anchor="' + anchor + '" fill="#60a5fa" font-family="\'JetBrains Mono\', monospace" font-size="12" font-weight="700">' + s[ax.key] + '</text>';
+    });
+
+    const orgR = (s.org / 100) * R;
+    html += '<circle cx="' + cx + '" cy="' + cy + '" r="' + orgR + '" fill="rgba(0,168,204,0.06)" stroke="rgba(0,168,204,0.65)" stroke-width="1.5" stroke-dasharray="4 4"/>';
+    html += '<text x="' + (cx + orgR + 6) + '" y="' + (cy - 6) + '" fill="#22d3ee" font-family="\'JetBrains Mono\', monospace" font-size="10" font-weight="700" letter-spacing="0.06em">ORG ' + s.org + '</text>';
+
+    const pts = axes.map(function(ax, i) { return pointFor(i, s[ax.key]); });
+    html += '<polygon points="' + pts.map(function(p) { return p.join(','); }).join(' ') + '" fill="rgba(96,165,250,0.32)" stroke="#60a5fa" stroke-width="2.5" stroke-linejoin="round"/>';
+    pts.forEach(function(p) { html += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="5" fill="#60a5fa" stroke="#0a0a0a" stroke-width="2"/>'; });
+    html += '<circle cx="' + cx + '" cy="' + cy + '" r="2.5" fill="rgba(255,255,255,0.3)"/>';
+
+    svg.innerHTML = html;
+  }
+
+  /* --- Breakdown --- */
+  function drawBreakdown(s) {
+    const el = document.getElementById('breakdown');
+    if (!el) return;
+    el.innerHTML = DIMENSIONS.map(function(d) {
+      const v = s[d.key];
+      const isOrg = d.key === 'org';
+      return '<div class="atr-row' + (isOrg ? ' atr-row-org' : '') + '">' +
+        '<div class="atr-row-top"><div class="atr-row-name">' + d.name + '</div><div class="atr-ptag' + (isOrg ? ' atr-ptag-org' : '') + '">' + d.ptag + '</div></div>' +
+        '<div class="atr-row-score"><span class="atr-row-n' + (isOrg ? ' atr-row-n-org' : '') + '">' + v + '</span><span class="atr-row-of">/ 100</span></div>' +
+        '<div class="atr-bar"><div class="atr-bar-fill' + (isOrg ? ' atr-bar-fill-org' : '') + '" style="width:' + v + '%"></div></div>' +
+        '<div class="atr-row-desc">' + d.desc + '</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  /* --- Verdict + reco --- */
+  function drawVerdict(s) {
+    const total = computeTotal(s);
+    const tier = tierFor(total);
+
+    const totalEl = document.getElementById('totalScore');
+    if (totalEl) totalEl.textContent = String(total);
+
+    const tierNameEl = document.getElementById('tierName');
+    if (tierNameEl) tierNameEl.textContent = tier.name;
+
+    const articleEl = document.getElementById('tierArticle');
+    if (articleEl) articleEl.textContent = /^[aeiou]/i.test(tier.name) ? 'an' : 'a';
+
+    const tierNameBigEl = document.getElementById('tierNameBig');
+    if (tierNameBigEl) tierNameBigEl.textContent = tier.name;
+
+    const tierDescEl = document.getElementById('tierDesc');
+    if (tierDescEl) tierDescEl.textContent = tier.desc;
+
+    const leadEl = document.getElementById('leadCopy');
+    if (leadEl) leadEl.textContent = TIER_LEAD[tier.name] || tier.desc;
+
+    // Zone key
+    const zk = document.getElementById('zoneKey');
+    if (zk) {
+      zk.innerHTML = TIERS.slice().reverse().map(function(t) {
+        const active = t.name === tier.name ? ' atr-zrow-active' : '';
+        return '<div class="atr-zrow' + active + '"><span class="atr-zswi" style="background:' + t.color + '33;border:1px solid ' + t.color + 'aa"></span>' + t.name + ' <span style="opacity:.6">' + t.min + '–' + t.max + '</span></div>';
+      }).join('');
+    }
+
+    // Reco
+    const prac = ['atlassian', 'automation', 'ai', 'influence'];
+    const lowestKey = prac.reduce(function(lo, k) { return s[k] < s[lo] ? k : lo; }, prac[0]);
+    const highestKey = prac.reduce(function(hi, k) { return s[k] > s[hi] ? k : hi; }, prac[0]);
+    const lowestDim = DIMENSIONS.find(function(d) { return d.key === lowestKey; });
+    const highestDim = DIMENSIONS.find(function(d) { return d.key === highestKey; });
+    const isFlat = s[highestKey] === s[lowestKey];
+    const highPracticals = prac.filter(function(k) { return s[k] >= 65; }).map(function(k) {
+      return DIMENSIONS.find(function(d) { return d.key === k; }).name;
+    });
+
+    const recoTitleEl = document.getElementById('recoTitle');
+    if (recoTitleEl) {
+      recoTitleEl.textContent = isFlat
+        ? 'Every axis moves the needle — pick ' + lowestDim.name + ' first.'
+        : 'Your constraint is ' + lowestDim.name + ' — not ' + highestDim.name + '.';
+    }
+
+    const body1El = document.getElementById('recoBody1');
+    if (body1El) {
+      const strengthStr = highPracticals.length
+        ? highPracticals.join(' and ') + ' put you ahead of most practitioners.'
+        : 'Your practitioner capital is still forming — every axis is a lever right now.';
+      body1El.textContent = strengthStr + ' But ' + lowestDim.name + ' at ' + s[lowestKey] + ' is where the next 10x comes from in 2026. That\'s the gap worth closing first.';
+    }
+
+    const body2El = document.getElementById('recoBody2');
+    if (body2El) {
+      let orgNote;
+      if (s.org >= 70) orgNote = "Your Org Readiness is high — the environment is ready for you to build. Permission isn't the blocker; your next move is.";
+      else if (s.org >= 45) orgNote = "Org Readiness at " + s.org + " is neither blocking nor enabling. Enough runway to pilot something real without fighting governance.";
+      else orgNote = "Org Readiness at " + s.org + " means the environment is working against you. Build your capital anyway — it's portable. Your next role will put it to work.";
+      body2El.textContent = orgNote;
+    }
+
+    // Next steps
+    const stepsEl = document.getElementById('nextSteps');
+    if (stepsEl) {
+      const steps = NEXT_STEPS[tier.name] || NEXT_STEPS.Builder;
+      stepsEl.innerHTML = steps.map(function(step, i) {
+        return '<div class="atr-step"><div class="atr-step-n">0' + (i + 1) + '</div><div>' + step + '</div></div>';
+      }).join('');
+    }
+
+    // Offer
+    drawOffer(tier);
+  }
+
+  /* --- Offer --- */
+  function drawOffer(tier) {
+    const o = OFFERS[tier.name];
+    if (!o) return;
+    const el = document.getElementById('offer');
+    if (!el) return;
+    el.className = 'atr-offer ' + o.cls;
+    el.innerHTML =
+      '<div class="atr-offer-eyebrow">' + o.eyebrow + '</div>' +
+      '<h2 class="atr-offer-h2">' + o.h2 + '</h2>' +
+      '<p class="atr-offer-pitch">' + o.pitch + '</p>' +
+      '<ul class="atr-offer-list">' + o.bullets.map(function(b) { return '<li>' + b + '</li>'; }).join('') + '</ul>' +
+      '<div class="atr-offer-row">' +
+      '<a class="atr-cta atr-cta-primary" href="#">' + o.cta + '</a>' +
+      '<div class="atr-price"><strong>$' + o.price.dollars + '</strong> ' + o.price.cadence + '</div>' +
+      '</div>' +
+      '<div class="atr-aspiration"><strong>' + o.aspirationLabel + ':</strong> ' + o.aspiration + '</div>';
+  }
+
+  /* --- Particle scroll fade --- */
+  (function() {
+    const layer = document.getElementById('particlesLayer');
+    if (!layer) return;
+    const FADE_START = 80, FADE_END = 700;
+    let ticking = false;
+    function update() {
+      const y = window.scrollY || 0;
+      const t = Math.max(0, Math.min(1, (y - FADE_START) / (FADE_END - FADE_START)));
+      layer.style.opacity = String(1 - t);
+      ticking = false;
+    }
+    window.addEventListener('scroll', function() {
+      if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    }, { passive: true });
+    update();
+  })();
+
+  /* --- B2B waitlist form --- */
+  const b2bForm = document.getElementById('b2bForm');
+  if (b2bForm) {
+    b2bForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const emailEl = document.getElementById('b2bEmail');
+      const btnEl = document.getElementById('b2bBtn');
+      const email = emailEl ? emailEl.value : '';
+      if (!email) return;
+      fetch('/api/b2b-waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email })
+      }).then(function() {
+        if (btnEl) { btnEl.textContent = "You're on the list →"; btnEl.setAttribute('disabled', 'true'); }
+        if (emailEl) emailEl.value = '';
+      }).catch(function() {
+        if (btnEl) { btnEl.textContent = "You're on the list →"; btnEl.setAttribute('disabled', 'true'); }
+      });
+    });
+  }
+
+  /* --- Run all --- */
+  drawRadar(scores);
+  drawBreakdown(scores);
+  drawVerdict(scores);
+})();
+</script>
+
+<style>
+/* Results page — fully dark, isolated styles */
+body {
+  background: var(--at-black);
+  color: var(--fg-1);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  min-height: 100vh;
+}
+
+/* Particles */
+.atr-particles-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  transition: opacity 200ms linear;
+  will-change: opacity;
+}
+.atr-particles-layer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--grad-hero-mesh);
+  opacity: 0.55;
+}
+.atr-particles-layer canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.atr-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(10,10,10,0.75) 100%);
+}
+
+/* Page container */
+.atr-page {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 64px 48px 96px;
+}
+@media (max-width: 768px) { .atr-page { padding: 40px 24px 64px; } }
+
+/* Top bar */
+.atr-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 56px;
+}
+.atr-logo-link { display: block; }
+.atr-logo { height: 32px; width: auto; }
+.atr-crumb {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg-4);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Header */
+.atr-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  background: rgba(37,99,235,0.12);
+  border: 1px solid var(--border-blue);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--at-blue-300);
+  margin-bottom: 24px;
+}
+.atr-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--at-blue-400);
+  box-shadow: 0 0 8px var(--at-blue-400);
+  display: inline-block;
+  flex-shrink: 0;
+}
+.atr-h1 {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.032em;
+  margin-bottom: 20px;
+  text-wrap: balance;
+  color: var(--fg-1);
+}
+.atr-blue { color: var(--at-blue-400); }
+.atr-lead {
+  font-size: 22px;
+  color: var(--fg-2);
+  font-weight: 500;
+  line-height: 1.5;
+  max-width: 720px;
+}
+
+/* Verdict */
+.atr-verdict {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 32px;
+  align-items: center;
+  margin: 48px 0 56px;
+  padding: 32px 40px;
+  background: var(--grad-dark-card);
+  border: 1px solid var(--border-blue);
+  border-radius: 16px;
+}
+@media (max-width: 780px) {
+  .atr-verdict { grid-template-columns: 1fr; gap: 24px; padding: 24px; }
+}
+.atr-score {
+  font-size: 88px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--at-blue-400);
+  text-shadow: 0 0 40px rgba(96,165,250,0.25);
+}
+.atr-of { font-size: 32px; color: var(--fg-4); font-weight: 500; letter-spacing: -0.01em; }
+.atr-tier-label { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--at-blue-300); margin-bottom: 8px; }
+.atr-tier-name { font-size: 36px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 6px; }
+.atr-tier-desc { font-size: 15px; color: var(--fg-3); line-height: 1.5; max-width: 460px; }
+.atr-zone-key { display: flex; flex-direction: column; gap: 8px; font-family: var(--font-mono); font-size: 11px; color: var(--fg-4); }
+.atr-zrow { display: flex; align-items: center; gap: 8px; }
+.atr-zrow-active { color: var(--at-blue-300); font-weight: 700; }
+.atr-zswi { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; display: inline-block; }
+
+/* Chart + breakdown */
+.atr-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+@media (max-width: 900px) { .atr-grid { grid-template-columns: 1fr; } }
+.atr-chart-card {
+  background: var(--grad-dark-card);
+  border: 1px solid var(--border-blue);
+  border-radius: 16px;
+  padding: 32px;
+}
+.atr-chart-title { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; }
+.atr-chart-sub { font-size: 13px; color: var(--fg-4); margin-bottom: 24px; }
+.atr-radar-wrap { position: relative; width: 100%; aspect-ratio: 1/1; }
+.atr-radar { width: 100%; height: 100%; display: block; }
+.atr-legend { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+.atr-legend-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--fg-2); }
+.atr-sw { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; display: inline-block; }
+.atr-sw-cap { background: rgba(96,165,250,0.55); border: 1.5px solid var(--at-blue-400); }
+.atr-sw-org { background: rgba(0,168,204,0.2); border: 1.5px dashed var(--at-cyan); }
+
+/* Breakdown rows */
+.atr-breakdown { display: flex; flex-direction: column; gap: 12px; }
+.atr-row {
+  padding: 20px 22px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border-dark);
+  border-left: 3px solid var(--at-blue-400);
+  border-radius: 8px;
+}
+.atr-row-org { border-left-color: var(--at-cyan); }
+.atr-row-top { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 10px; }
+.atr-row-name { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
+.atr-ptag { font-family: var(--font-mono); font-size: 11px; color: var(--fg-4); letter-spacing: 0.06em; text-transform: uppercase; }
+.atr-ptag-org { color: var(--at-cyan); }
+.atr-row-score { display: flex; align-items: baseline; gap: 8px; margin-bottom: 10px; }
+.atr-row-n { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; color: var(--at-blue-400); line-height: 1; }
+.atr-row-n-org { color: var(--at-cyan); }
+.atr-row-of { font-family: var(--font-mono); font-size: 13px; color: var(--fg-4); }
+.atr-bar { height: 6px; background: rgba(255,255,255,0.06); border-radius: 999px; overflow: hidden; margin-bottom: 10px; }
+.atr-bar-fill { height: 100%; background: var(--grad-cta); border-radius: 999px; }
+.atr-bar-fill-org { background: linear-gradient(to right, var(--at-cyan), var(--at-cyan-bright)); }
+.atr-row-desc { font-size: 13px; color: var(--fg-3); line-height: 1.5; }
+
+/* Reco */
+.atr-reco {
+  margin-top: 56px;
+  padding: 40px;
+  background: var(--grad-dark-card);
+  border: 1px solid var(--border-blue);
+  border-radius: 16px;
+}
+.atr-reco-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.atr-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  background: rgba(37,99,235,0.18);
+  border: 1px solid var(--border-blue);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--at-blue-300);
+}
+.atr-reco-h2 { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 16px; text-wrap: balance; }
+.atr-reco-p { font-size: 16px; color: var(--fg-2); line-height: 1.65; margin-bottom: 20px; max-width: 720px; }
+.atr-next { margin-top: 28px; display: flex; flex-direction: column; gap: 0; }
+.atr-next-title { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-4); margin-bottom: 4px; }
+.atr-step {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  font-size: 15px;
+  color: var(--fg-2);
+  line-height: 1.5;
+  padding: 10px 0;
+  border-top: 1px solid var(--border-dark);
+}
+.atr-step-n { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--at-blue-400); min-width: 24px; }
+
+/* Offer */
+.atr-offer {
+  margin-top: 56px;
+  padding: 40px 44px;
+  background: var(--grad-dark-card);
+  border: 1px solid var(--border-blue);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.atr-offer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 80% 0%, rgba(96,165,250,0.14), transparent 55%);
+  pointer-events: none;
+}
+.atr-offer-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  position: relative;
+  z-index: 1;
+  background: rgba(96,165,250,0.14);
+  border: 1px solid var(--border-blue);
+  color: var(--at-blue-300);
+}
+.atr-offer-facilitator .atr-offer-eyebrow { background: rgba(248,113,113,0.12); border-color: rgba(248,113,113,0.4); color: #fca5a5; }
+.atr-offer-orchestrator .atr-offer-eyebrow { background: rgba(34,211,238,0.12); border-color: rgba(34,211,238,0.4); color: var(--at-cyan-bright); }
+.atr-offer-h2 { font-size: 34px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 14px; text-wrap: balance; position: relative; z-index: 1; }
+.atr-offer-em { }
+.atr-offer-facilitator .atr-offer-em { color: #fca5a5; }
+.atr-offer-builder .atr-offer-em { color: var(--at-blue-400); }
+.atr-offer-orchestrator .atr-offer-em { color: var(--at-cyan-bright); }
+.atr-offer-pitch { font-size: 17px; color: var(--fg-2); line-height: 1.6; max-width: 740px; margin-bottom: 26px; position: relative; z-index: 1; }
+.atr-offer-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px 24px;
+  position: relative;
+  z-index: 1;
+}
+.atr-offer-list li { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--fg-2); line-height: 1.5; }
+.atr-offer-list li::before { content: '→'; color: var(--at-blue-400); font-weight: 700; flex-shrink: 0; }
+.atr-offer-facilitator .atr-offer-list li::before { color: #fca5a5; }
+.atr-offer-orchestrator .atr-offer-list li::before { color: var(--at-cyan-bright); }
+.atr-offer-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; position: relative; z-index: 1; }
+.atr-price { font-size: 15px; color: var(--fg-3); font-weight: 500; }
+.atr-price strong { font-size: 22px; color: #fff; font-weight: 800; letter-spacing: -0.02em; }
+.atr-aspiration {
+  margin-top: 20px;
+  padding: 18px 22px;
+  background: rgba(255,255,255,0.03);
+  border: 1px dashed rgba(255,255,255,0.14);
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--fg-3);
+  line-height: 1.55;
+  position: relative;
+  z-index: 1;
+}
+.atr-aspiration strong { color: var(--fg-1); font-weight: 700; }
+
+/* CTAs */
+.atr-ctas { margin-top: 32px; display: flex; gap: 16px; flex-wrap: wrap; }
+.atr-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 30px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  font-family: inherit;
+  transition: all 200ms var(--ease-out);
+  cursor: pointer;
+}
+.atr-cta-primary { background: var(--grad-cta); color: #fff; box-shadow: var(--glow-blue-md); border: none; }
+.atr-cta-primary:hover { transform: translateY(-2px); box-shadow: var(--glow-blue-lg); }
+.atr-cta-ghost { background: transparent; color: #fff; border: 1px solid var(--border-dark); }
+.atr-cta-ghost:hover { border-color: var(--at-blue-400); color: var(--at-blue-400); }
+
+/* B2B */
+.atr-b2b {
+  margin-top: 56px;
+  padding: 36px 40px;
+  background: linear-gradient(135deg, rgba(0,168,204,0.08) 0%, rgba(0,168,204,0.03) 100%);
+  border: 1px solid rgba(0,168,204,0.35);
+  border-radius: 16px;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+@media (max-width: 780px) { .atr-b2b { grid-template-columns: 1fr; } }
+.atr-b2b-eyebrow { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--at-cyan-bright); margin-bottom: 10px; }
+.atr-b2b-h3 { font-size: 22px; font-weight: 800; letter-spacing: -0.015em; line-height: 1.25; margin-bottom: 10px; text-wrap: balance; }
+.atr-b2b-p { font-size: 14px; line-height: 1.55; color: var(--fg-3); max-width: 520px; }
+.atr-b2b-p em { color: var(--at-cyan-bright); font-style: normal; font-weight: 700; }
+.atr-b2b-fine { grid-column: 1 / -1; font-size: 12px; color: var(--fg-4); margin-top: -8px; }
+.atr-b2b-form { display: flex; gap: 10px; align-items: stretch; flex-direction: column; }
+.atr-b2b-input {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-dark);
+  border-radius: 10px;
+  padding: 14px 16px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 200ms;
+}
+.atr-b2b-input:focus { border-color: var(--at-cyan); }
+.atr-b2b-btn {
+  padding: 14px 24px;
+  background: linear-gradient(135deg, var(--at-cyan) 0%, var(--at-cyan-bright) 100%);
+  color: var(--at-black);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 200ms var(--ease-out);
+}
+.atr-b2b-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 10px 24px -8px rgba(0,168,204,0.5); }
+.atr-b2b-btn:disabled { opacity: 0.8; cursor: default; }
+
+/* Back link */
+.atr-back { margin-top: 48px; }
+.atr-back-link { font-size: 14px; color: var(--fg-4); text-decoration: none; }
+.atr-back-link:hover { color: var(--at-blue-400); }
+</style>
+
+</body>
+</html>

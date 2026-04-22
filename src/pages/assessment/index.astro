@@ -1,0 +1,476 @@
+---
+import '../../styles/global.css';
+import Navigation from '../../components/Navigation.astro';
+import Footer from '../../components/Footer.astro';
+import RadarChart from '../../components/RadarChart.astro';
+
+const pageTitle = 'Agile-AI Readiness Assessment — AgileTactix';
+const pageDescription = 'Five dimensions. Five minutes. One honest profile of where you actually stand — and the single gap that\'s costing you the most in 2026.';
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDescription} />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+</head>
+<body>
+
+<Navigation />
+
+<!-- Full-dark assessment hero -->
+<div class="at-assessment-wrap">
+
+  <!-- Particles layer -->
+  <div class="at-particles-layer" aria-hidden="true">
+    <canvas data-particles data-focus-x="0.92" data-focus-y="0.15" data-count="70"></canvas>
+    <div class="at-vignette"></div>
+  </div>
+
+  <!-- Hero -->
+  <section class="at-hero">
+    <div class="at-hero-grid">
+
+      <!-- LEFT — copy -->
+      <div class="at-copy">
+        <div class="at-eyebrow">
+          <span class="at-dot"></span>Agile-AI Readiness Assessment
+        </div>
+
+        <h1 class="at-h1">
+          Are you a <span class="at-blue-text">Facilitator</span>, a Builder, or an Orchestrator?
+        </h1>
+
+        <p class="at-sub">
+          Five dimensions. Five minutes. One honest profile of where you actually stand — and the single gap that's costing you the most in 2026.
+        </p>
+
+        <div class="at-meta">
+          <div class="at-chip">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            5 minutes
+          </div>
+          <div class="at-chip">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            Free
+          </div>
+          <div class="at-chip">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+            Instant results
+          </div>
+        </div>
+
+        <div class="at-ctas">
+          <a class="at-cta at-cta-primary" href="/assessment/questions">Start the Assessment <span>→</span></a>
+          <a class="at-cta at-cta-ghost" href="/assessment/results?d_atlassian=78&d_automation=70&d_ai=45&d_influence=60&d_org=55">See sample profile</a>
+        </div>
+
+        <p class="at-fine">Built by <strong>Danny Liu</strong> · taught to <strong>13,000+</strong> agile professionals</p>
+      </div>
+
+      <!-- RIGHT — preview card -->
+      <div class="at-preview">
+        <div class="at-preview-card">
+          <div class="at-caption-stick">← Your results preview</div>
+
+          <div class="at-preview-head">
+            <span class="at-preview-label">Readiness Profile</span>
+            <span class="at-preview-live"><span class="at-dot-sm"></span>Sample · Builder tier</span>
+          </div>
+
+          <div class="at-preview-title">Practitioner Capital × Org Readiness</div>
+          <div class="at-preview-sub">Filled shape is what you control. Ring is the environment you're in.</div>
+
+          <div class="at-radar-box">
+            <RadarChart atlassian={78} automation={70} ai={45} influence={60} org={55} preview={true} />
+          </div>
+
+          <div class="at-samples">
+            <div class="at-sample at-sample-facilitator">
+              <div class="at-sample-mini" id="mini-fac"></div>
+              <div class="at-sname">Facilitator</div>
+              <div class="at-srange">0–49</div>
+            </div>
+            <div class="at-sample at-sample-builder">
+              <div class="at-sample-mini" id="mini-build"></div>
+              <div class="at-sname">Builder</div>
+              <div class="at-srange">50–74</div>
+            </div>
+            <div class="at-sample at-sample-orchestrator">
+              <div class="at-sample-mini" id="mini-orc"></div>
+              <div class="at-sname">Orchestrator</div>
+              <div class="at-srange">75–100</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Proof strip -->
+  <section class="at-proof">
+    <div class="at-stat"><div class="at-n">5</div><div class="at-l">Dimensions</div></div>
+    <div class="at-stat"><div class="at-n">5<span style="font-size:26px">min</span></div><div class="at-l">To Complete</div></div>
+    <div class="at-stat"><div class="at-n">4</div><div class="at-l">Tier Profiles</div></div>
+    <div class="at-stat"><div class="at-n">13K+</div><div class="at-l">Practitioners Trained</div></div>
+  </section>
+
+</div>
+
+<Footer />
+
+<script src="/particles-bg.js" is:inline></script>
+
+<script is:inline>
+/* Mini sample radars */
+function miniRadar(containerId, scores, color) {
+  const cx = 100, cy = 100, R = 80, N = 4;
+  const pts = scores.map(function(s, i) {
+    const a = -Math.PI / 2 + i * (2 * Math.PI / N);
+    return [cx + Math.cos(a) * (s / 100) * R, cy + Math.sin(a) * (s / 100) * R];
+  });
+  const ring = [0,1,2,3].map(function(i) {
+    const a = -Math.PI / 2 + i * (2 * Math.PI / N);
+    return [cx + Math.cos(a) * R, cy + Math.sin(a) * R];
+  });
+  let html = '<svg viewBox="-10 -10 220 220" style="width:100%;aspect-ratio:1/1;display:block;">';
+  html += '<polygon points="' + ring.map(function(p) { return p.join(','); }).join(' ') + '" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>';
+  ring.forEach(function(p) { html += '<line x1="' + cx + '" y1="' + cy + '" x2="' + p[0] + '" y2="' + p[1] + '" stroke="rgba(255,255,255,0.06)"/>'; });
+  html += '<polygon points="' + pts.map(function(p) { return p.join(','); }).join(' ') + '" fill="' + color + '33" stroke="' + color + '" stroke-width="2" stroke-linejoin="round"/>';
+  pts.forEach(function(p) { html += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="3" fill="' + color + '"/>'; });
+  html += '</svg>';
+  const el = document.getElementById(containerId);
+  if (el) el.innerHTML = html;
+}
+
+miniRadar('mini-fac',   [30, 22, 18, 35], '#f87171');
+miniRadar('mini-build', [65, 58, 52, 60], '#60a5fa');
+miniRadar('mini-orc',   [88, 82, 78, 85], '#22d3ee');
+</script>
+
+<style>
+/* Assessment page — dark-first, isolated from site light-mode defaults */
+.at-assessment-wrap {
+  background: var(--at-black);
+  color: var(--fg-1);
+  position: relative;
+  overflow-x: hidden;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Particles */
+.at-particles-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  height: 100vh;
+}
+.at-particles-layer canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.at-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(10,10,10,0.7) 100%);
+  pointer-events: none;
+}
+
+/* Hero layout */
+.at-hero {
+  position: relative;
+  z-index: 1;
+  padding: 64px 48px 80px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.at-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--grad-hero-mesh);
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 0;
+}
+.at-hero-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+@media (max-width: 960px) {
+  .at-hero-grid { grid-template-columns: 1fr; gap: 48px; }
+  .at-hero { padding: 48px 24px 64px; }
+}
+
+/* Eyebrow */
+.at-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  background: rgba(37,99,235,0.12);
+  border: 1px solid var(--border-blue);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--at-blue-300);
+  margin-bottom: 28px;
+}
+.at-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--at-blue-400);
+  box-shadow: 0 0 8px var(--at-blue-400);
+  animation: at-pulse 2s infinite;
+  display: inline-block;
+  flex-shrink: 0;
+}
+@keyframes at-pulse { 0%,100%{opacity:1;} 50%{opacity:.5;} }
+
+/* Headline */
+.at-h1 {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.032em;
+  margin-bottom: 24px;
+  text-wrap: balance;
+  color: var(--fg-1);
+}
+.at-blue-text { color: var(--at-blue-400); }
+
+.at-sub {
+  font-size: 20px;
+  line-height: 1.55;
+  color: var(--fg-2);
+  font-weight: 500;
+  margin-bottom: 36px;
+  max-width: 560px;
+}
+
+/* Meta chips */
+.at-meta {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+.at-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--fg-3);
+}
+.at-chip svg { color: var(--at-blue-400); flex-shrink: 0; }
+
+/* CTAs */
+.at-ctas { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 24px; }
+.at-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 30px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 200ms var(--ease-out);
+  font-family: inherit;
+}
+.at-cta-primary {
+  background: var(--grad-cta);
+  color: #fff;
+  box-shadow: var(--glow-blue-md);
+}
+.at-cta-primary:hover { transform: translateY(-2px); box-shadow: var(--glow-blue-lg); }
+.at-cta-ghost {
+  background: transparent;
+  color: #fff;
+  border: 1px solid var(--border-dark);
+}
+.at-cta-ghost:hover { border-color: var(--at-blue-400); color: var(--at-blue-400); }
+
+.at-fine { font-size: 13px; color: var(--fg-4); }
+.at-fine strong { color: var(--fg-2); font-weight: 600; }
+
+/* Preview card */
+.at-preview { position: relative; }
+.at-preview-card {
+  background: var(--grad-dark-card);
+  border: 1px solid var(--border-blue);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 30px 60px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(37,99,235,0.1), 0 0 80px -10px rgba(37,99,235,0.25);
+  position: relative;
+  overflow: hidden;
+}
+.at-preview-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 30%, rgba(96,165,250,0.1), transparent 60%);
+  pointer-events: none;
+}
+.at-caption-stick {
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  z-index: 2;
+  padding: 10px 16px;
+  background: var(--at-blue);
+  border-radius: 10px;
+  box-shadow: var(--glow-blue-md);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: rotate(4deg);
+  color: #fff;
+}
+.at-preview-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+}
+.at-preview-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--fg-4);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.at-preview-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--at-blue-300);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.at-dot-sm {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--at-blue-400);
+  box-shadow: 0 0 6px var(--at-blue-400);
+  animation: at-pulse 2s infinite;
+  display: inline-block;
+}
+.at-preview-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--fg-2);
+  margin-bottom: 4px;
+  position: relative;
+  z-index: 1;
+}
+.at-preview-sub {
+  font-size: 12px;
+  color: var(--fg-4);
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+.at-radar-box {
+  position: relative;
+  z-index: 1;
+  aspect-ratio: 1/1;
+  width: 100%;
+}
+
+/* Mini tier samples */
+.at-samples {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+.at-sample {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border-dark);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+}
+.at-sample-mini { width: 100%; }
+.at-sname {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.at-sample-facilitator .at-sname { color: #f87171; }
+.at-sample-builder .at-sname { color: var(--at-blue-400); }
+.at-sample-orchestrator .at-sname { color: var(--at-cyan-bright); }
+.at-srange {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--fg-4);
+  margin-top: 2px;
+}
+
+/* Proof strip */
+.at-proof {
+  position: relative;
+  z-index: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 56px 48px;
+  border-top: 1px solid var(--border-dark);
+  display: flex;
+  justify-content: space-around;
+  gap: 32px;
+  flex-wrap: wrap;
+  background: rgba(255,255,255,0.02);
+}
+@media (max-width: 640px) { .at-proof { padding: 40px 24px; } }
+.at-stat { text-align: center; }
+.at-n {
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--at-blue-400);
+  line-height: 1;
+}
+.at-l {
+  font-size: 12px;
+  color: var(--fg-3);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 8px;
+  font-weight: 600;
+}
+</style>
+
+</body>
+</html>
