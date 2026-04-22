@@ -343,6 +343,14 @@ import { QUESTIONS, ROLE_OPTIONS, DEPLOYMENT_OPTIONS } from '../../lib/rovo/ques
         session: result.session || '',
         email: payload.email || '',
       });
+      if (result.dimension_scores) {
+        const ds = result.dimension_scores;
+        if (ds.flow_visibility   != null) params.set('d_flow_visibility',   String(ds.flow_visibility));
+        if (ds.atlassian_depth   != null) params.set('d_atlassian_depth',   String(ds.atlassian_depth));
+        if (ds.data_ownership    != null) params.set('d_data_ownership',    String(ds.data_ownership));
+        if (ds.change_governance != null) params.set('d_change_governance', String(ds.change_governance));
+        if (ds.builder_mindset   != null) params.set('d_builder_mindset',   String(ds.builder_mindset));
+      }
       window.location.href = `/rovo/result?${params.toString()}`;
     } catch (err) {
       // Show error on email screen
