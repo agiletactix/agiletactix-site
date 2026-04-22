@@ -9,14 +9,6 @@ const roleParam = (Astro.url.searchParams.get('role') || 'practitioner') as Role
 const deploymentParam = (Astro.url.searchParams.get('deployment') || 'cloud') as Deployment;
 const emailParam = Astro.url.searchParams.get('email') || '';
 
-const scores = {
-  flow_visibility:   parseInt(Astro.url.searchParams.get('d_flow_visibility')   || '0'),
-  atlassian_depth:   parseInt(Astro.url.searchParams.get('d_atlassian_depth')   || '0'),
-  data_ownership:    parseInt(Astro.url.searchParams.get('d_data_ownership')    || '0'),
-  change_governance: parseInt(Astro.url.searchParams.get('d_change_governance') || '0'),
-  builder_mindset:   parseInt(Astro.url.searchParams.get('d_builder_mindset')   || '0'),
-};
-
 // Normalize any unexpected inputs to safe defaults
 const validTiers: Tier[] = ['ready', 'close', 'foundation', 'notyet'];
 const tier: Tier = validTiers.includes(tierParam) ? tierParam : 'foundation';
@@ -277,22 +269,24 @@ const pageDescription = 'Your personalized Rovo-Readiness Assessment result — 
     </div>
   </section>
 
-<script define:vars={{ scores }} is:inline>
+<script is:inline>
   function initRadarChart() {
     const canvas = document.getElementById('radarChart');
     if (!canvas) return;
+    const p = new URLSearchParams(window.location.search);
+    const data = [
+      parseInt(p.get('d_flow_visibility')   || '0'),
+      parseInt(p.get('d_atlassian_depth')   || '0'),
+      parseInt(p.get('d_data_ownership')    || '0'),
+      parseInt(p.get('d_change_governance') || '0'),
+      parseInt(p.get('d_builder_mindset')   || '0'),
+    ];
     new Chart(canvas.getContext('2d'), {
       type: 'radar',
       data: {
         labels: ['Flow Visibility', 'Atlassian Depth', 'Data Ownership', 'Change Governance', 'Builder Mindset'],
         datasets: [{
-          data: [
-            scores.flow_visibility,
-            scores.atlassian_depth,
-            scores.data_ownership,
-            scores.change_governance,
-            scores.builder_mindset,
-          ],
+          data,
           backgroundColor: 'rgba(41, 75, 243, 0.15)',
           borderColor: '#294bf3',
           pointBackgroundColor: '#294bf3',
