@@ -1,176 +1,81 @@
 ---
 import LandingLayout from '../../layouts/LandingLayout.astro';
-import { TIER_META, type Tier } from '../../lib/rovo/scoring';
-import { ROVO_INELIGIBLE_DEPLOYMENTS, type Deployment, type Role } from '../../lib/rovo/questions';
+import { TIER_META, type Tier, type Constraint } from '../../lib/rovo/scoring';
 
 // Read query params set by the assessment form on submit
-const tierParam = (Astro.url.searchParams.get('tier') || 'foundation') as Tier;
-const roleParam = (Astro.url.searchParams.get('role') || 'practitioner') as Role;
-const deploymentParam = (Astro.url.searchParams.get('deployment') || 'cloud') as Deployment;
+const tierParam = (Astro.url.searchParams.get('tier') || 'facilitator') as Tier;
+const constraintParam = (Astro.url.searchParams.get('constraint') || 'flat') as Constraint;
 const emailParam = Astro.url.searchParams.get('email') || '';
 
-// Normalize any unexpected inputs to safe defaults
-const validTiers: Tier[] = ['ready', 'close', 'foundation', 'notyet'];
-const tier: Tier = validTiers.includes(tierParam) ? tierParam : 'foundation';
-const role: Role = ['exec', 'practitioner', 'mixed'].includes(roleParam) ? roleParam : 'practitioner';
-const deploymentOverride = ROVO_INELIGIBLE_DEPLOYMENTS.includes(deploymentParam);
+// Normalize to safe defaults
+const validTiers: Tier[] = ['facilitator', 'builder', 'orchestrator'];
+const validConstraints: Constraint[] = ['atlassian_depth', 'automation_output', 'ai_fluency', 'influence_range', 'flat'];
+const tier: Tier = validTiers.includes(tierParam) ? tierParam : 'facilitator';
+const constraint: Constraint = validConstraints.includes(constraintParam) ? constraintParam : 'flat';
 
-// Tier × role copy matrix — single source of truth, lives in this file for v1
-// Stage 2 will replace these with Claude-generated personalized reports
-interface TierRoleContent {
-  headline: string;
-  subhead: string;
-  body: string[]; // paragraphs
-  cta_primary: { label: string; href: string };
-  cta_secondary?: { label: string; href: string };
+const tierMeta = TIER_META[tier];
+
+// --- Tier verdict copy ---
+const tierVerdict: Record<Tier, string> = {
+  facilitator: "You know Jira well enough to get by — but you've never built a rule that fires when a ticket moves, never queried a JQL filter to surface patterns, never configured a workflow that removes a step someone else has to do manually. That's not a skills gap. That's a decision you haven't made yet. The first automation rule you ship this week changes the category you're in.",
+  builder: "You're shipping automations most practitioners have never seen in the wild — and you're doing it alone. That's the trap: solo builders hit a ceiling not because they run out of ideas, but because there's no one to pressure-test the patterns, no one to hand a playbook to, no one compounding what you've built. The output is real. The flywheel isn't.",
+  orchestrator: "You have agents running while you sleep, influence across more than one team, and a mental model of this field that most people in your org haven't reached yet. Which means you're also the only one who fully understands what you built, the only one who can debug it when it breaks, and the only one in the room who sees the next problem coming. Being the most advanced person in your org looks like a win. It's also a ceiling.",
+};
+
+// --- Danny's Take copy ---
+const dannysTake: Record<Constraint, string> = {
+  atlassian_depth: "Your AI Fluency is real — you can prompt, you understand agents, you've probably built something interesting outside Jira. But right now you're duct-taping external tools onto a stack you haven't fully configured from the inside. Practitioners who skip Atlassian depth build workarounds; practitioners who own it build leverage. The trap is assuming the stack is too complex to configure, so you route around it. It isn't. Spend 90 minutes this week on a JQL query that surfaces real pattern data in your backlog — that's the starting point, not a certification.",
+  automation_output: "You know the stack. You understand AI well enough to know what's possible. And you've shipped almost nothing in 90 days. That gap between knowing and doing is where practitioner capital goes to die — not because you're lazy, but because knowing gives you the feeling of progress without requiring a commit. The trap is research mode: one more tool review, one more comparison, one more webinar. Pick the single most repetitive manual step in your current sprint cycle and build one rule that kills it. Ship it this week. The first one is the hardest.",
+  ai_fluency: "You configure Jira well. You have influence — people listen when you recommend a process change. And you haven't connected AI to any of it. That's the most dangerous gap on this assessment, because you look current from the outside while the tooling gap widens underneath. The trap: watching demos and treating AI as someone else's problem until it shows up in a job description. It already has. Find one workflow you touch every week — status reporting, retrospective synthesis, ticket triage — and replace one manual step with a prompt or an agent this sprint. That's the gap closing.",
+  influence_range: "You can build. You've got automations running, rules configured, possibly an agent or two doing actual work. And the practitioners two teams over have no idea any of it exists, which means what you've built has a ceiling of one team. Solo operators with no lever can't compound. The trap is assuming your work speaks for itself — it doesn't, not in organizations where the person who communicates the pattern gets the credit and the room. Pick one thing you've built and spec it as a shareable playbook this week. Not a presentation. A one-pager another practitioner can configure in an hour.",
+  flat: "No single dimension is clearly your constraint — you're mid-range across all five, which looks balanced but isn't. It's actually where compound growth lives: a 10% improvement across Atlassian Depth, Automation Output, AI Fluency, Influence Range, and Org Readiness compounds faster than going deep on one axis while the others stall. The trap is looking for your weakest link and going all-in on it. Don't. Pick one small move per dimension this sprint — one JQL query, one automation rule, one prompt that replaces a manual step, one thing you show a teammate, one conversation about your org's AI policy. Five small moves. Four weeks. Check the delta.",
+};
+
+// --- Offer pitch data ---
+interface OfferPitch {
+  heading: string;
+  price: string;
+  body: string;
+  ctaLabel: string;
+  ctaHref: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
 }
 
-const content: Record<Tier, Record<Role, TierRoleContent>> = {
-  ready: {
-    practitioner: {
-      headline: "You're Rovo-Ready.",
-      subhead: "Your org has the structural foundation to actually leverage Rovo. Now the question is who leads the rollout.",
-      body: [
-        "Most organizations answering this assessment score 40-60%. If you're here, your value streams, data integration, and governance are ahead of the curve.",
-        "The risk at this tier isn't readiness — it's implementation quality. The people who win the next 24 months are the ones who architect the Rovo deployment before their company does it without them.",
-      ],
-      cta_primary: { label: "Join the AI Readiness Lab (next cohort) →", href: "/labs" },
-      cta_secondary: { label: "Read the Playbook first", href: "/blueprint" },
-    },
-    exec: {
-      headline: "Your organization is positioned well.",
-      subhead: "The structural foundation for Rovo adoption is in place. The risk from here is implementation quality, not readiness.",
-      body: [
-        "Most organizations we assess aren't ready for AI tool adoption at scale. Yours is an exception.",
-        "At this tier, the value of an outside perspective is in sequencing: which team rolls out first, which governance changes need to precede it, and how to measure the impact honestly. Let's talk about a tailored engagement.",
-      ],
-      cta_primary: { label: "Book a strategy session →", href: "/contact" },
-      cta_secondary: { label: "Preview the Playbook", href: "/blueprint" },
-    },
-    mixed: {
-      headline: "You're Rovo-Ready.",
-      subhead: "Your environment has the foundation to leverage Rovo well.",
-      body: [
-        "This score puts you ahead of most organizations we assess. The path forward depends on what role you play in the rollout.",
-        "If you're influencing the adoption decision, the next move is a sequenced implementation plan. If you're joining one that's already underway, the next move is understanding where you add the most value.",
-      ],
-      cta_primary: { label: "See what's next →", href: "/labs" },
-    },
+const offerPitch: Record<Tier, OfferPitch> = {
+  facilitator: {
+    heading: "Your next move: Sprint Automation Guide",
+    price: "$27 one-time",
+    body: "The Sprint Automation Guide is your first move, not your last. It's not a course and there's no video to watch — it's 5 automation rules configured for the most common manual ceremony overhead: status updates that write themselves, blocker flags that fire automatically, sprint reviews that pull their own data. Each rule comes with the exact Jira configuration steps. Most practitioners get the first one running in under an hour. That's the point. One rule changes what tier you're in.",
+    ctaLabel: "Get the Sprint Automation Guide — $27 →",
+    ctaHref: "/labs",
   },
-  close: {
-    practitioner: {
-      headline: "Close to Ready — but there's a gap worth closing.",
-      subhead: "Your foundation is strong in most dimensions, but at least one area needs attention before Rovo lands well.",
-      body: [
-        "A Close tier means you're better prepared than 60-70% of organizations — but you're not quite at the point where Rovo deployment is friction-free.",
-        "The gap is almost always one specific dimension: integration quality, governance readiness, or team fluency. The good news: targeted work on that single dimension can move you to Ready within a quarter.",
-      ],
-      cta_primary: { label: "Join the AI Readiness Lab waitlist →", href: "/labs" },
-      cta_secondary: { label: "Grab the Rovo Starter Playbook", href: "/blueprint" },
-    },
-    exec: {
-      headline: "Strong foundation, specific exposure points.",
-      subhead: "Your organization is closer than most — but there are 1-2 specific weak dimensions that should be addressed before a full Rovo rollout.",
-      body: [
-        "At this tier, the risk isn't that Rovo won't work. It's that the weak dimensions will cause it to fail visibly in the first 90 days, which makes the entire AI initiative harder to defend internally.",
-        "A focused foundation audit — scoped to your weakest dimensions — is usually enough to close the gap before rollout. Let's scope it together.",
-      ],
-      cta_primary: { label: "Book a foundation audit call →", href: "/contact" },
-    },
-    mixed: {
-      headline: "Close to Ready.",
-      subhead: "Your foundation is strong in most dimensions with one or two gaps worth closing.",
-      body: [
-        "You're ahead of most organizations, but specific areas need work before Rovo lands cleanly.",
-        "The path forward depends on whether you're influencing the rollout decision (close the gap proactively) or preparing yourself to add value inside it (focus on the weakest dimension first).",
-      ],
-      cta_primary: { label: "See the Readiness Lab →", href: "/labs" },
-    },
+  builder: {
+    heading: "Your next move: Labs + Membership",
+    price: "Labs $197 one-time · Membership $49/mo",
+    body: "Labs is where the deep material lives — workflow patterns, agent configurations, integrations that solo builders spend weeks reverse-engineering on their own. The one-time access gets you the playbooks. The membership (opening soon) gets you the practitioners doing the same thing at the same time, which is the part solo builders don't have. The flywheel problem isn't a motivation problem. It's a peer problem. Labs addresses one. Membership addresses both.",
+    ctaLabel: "Join Labs — $197 →",
+    ctaHref: "/labs",
+    secondaryLabel: "See membership →",
+    secondaryHref: "/labs",
   },
-  foundation: {
-    practitioner: {
-      headline: "Foundation First — your org isn't ready yet.",
-      subhead: "But you can be the person who surfaces that internally.",
-      body: [
-        "This tier isn't bad news. Most organizations are here. Rovo won't land well in your environment yet — but that's a fixable problem, and the people who lead the fix build careers on it.",
-        "The path forward starts with naming the gaps clearly. Your weakest dimensions tell you what to surface to leadership before anyone spends money on Rovo licenses.",
-        "You don't need a $2,500 program yet. You need a framework for having the internal conversation.",
-      ],
-      cta_primary: { label: "Start with the free Playbook →", href: "/blueprint" },
-      cta_secondary: { label: "Join the Lab waitlist when you're ready", href: "/labs" },
-    },
-    exec: {
-      headline: "Significant foundation gaps — sequencing matters.",
-      subhead: "Your organization has real structural work to do before Rovo or any enterprise AI tool will produce ROI.",
-      body: [
-        "A Foundation First score doesn't mean AI isn't for you. It means deploying it now would amplify whatever dysfunction you already have.",
-        "At this tier, the most valuable outside work isn't rolling out Rovo — it's diagnosing which structural fixes need to happen first, in what sequence, and against what timeline. That's a consulting engagement, not a training program.",
-      ],
-      cta_primary: { label: "Book a discovery call →", href: "/contact" },
-      cta_secondary: { label: "See the framework first", href: "/blueprint" },
-    },
-    mixed: {
-      headline: "Foundation First.",
-      subhead: "Most organizations are here. The path forward depends on your role in the rollout decision.",
-      body: [
-        "This tier means your environment isn't ready yet — but that's fixable. Rovo or any enterprise AI tool will amplify whatever structural gaps you have today.",
-        "Start by understanding which dimensions are weakest in your environment. The Playbook is the right starting point.",
-      ],
-      cta_primary: { label: "Start with the free Playbook →", href: "/blueprint" },
-    },
-  },
-  notyet: {
-    practitioner: {
-      headline: "Not Yet — but you already know that.",
-      subhead: "Your score reflects an organization in the early stages of thinking about AI. That's not bad — it's just honest.",
-      body: [
-        "Organizations at this tier aren't ready to deploy Rovo, and more importantly, they probably aren't ready for the conversation about deploying Rovo.",
-        "The most valuable move right now isn't a program or a consulting engagement. It's building your own understanding of what \"ready\" actually looks like, so you can spot the signals when your org starts to move.",
-      ],
-      cta_primary: { label: "Get the free Playbook + newsletter →", href: "/blueprint" },
-    },
-    exec: {
-      headline: "Not Yet — and that's useful information.",
-      subhead: "Your organization is in the early stages of AI readiness. The worst move right now is committing to enterprise AI spend.",
-      body: [
-        "A Not Yet tier doesn't mean \"never.\" It means the foundation work precedes the tool adoption, and any AI rollout attempted today will fail expensively.",
-        "The constructive path is clarifying what \"ready\" looks like for your organization, then building a 12-24 month plan to get there. That's a strategic conversation, not a tool evaluation.",
-      ],
-      cta_primary: { label: "See the framework →", href: "/blueprint" },
-      cta_secondary: { label: "Subscribe to weekly insights", href: "#newsletter" },
-    },
-    mixed: {
-      headline: "Not Yet.",
-      subhead: "Your environment is in early stages of AI readiness. That's common — and it means the foundation work matters more than the tool right now.",
-      body: [
-        "Starting with the free Playbook is the right move at this stage. It gives you the vocabulary to surface what needs to change internally.",
-      ],
-      cta_primary: { label: "Get the free Playbook →", href: "/blueprint" },
-    },
+  orchestrator: {
+    heading: "Your next move: Orchestrator Cohort",
+    price: "$297/mo · Application-gated · 15 seats",
+    body: "The Orchestrator cohort is 12–15 practitioners at your level, quarterly intake, application-gated. You're not the most advanced person in this room — and that's the point. The format is peer exchange on live systems: what's working, what broke, what the next pattern is. No curriculum, no instructor. You already have the skills. What you don't have is a room where you're not the one explaining everything. Applications open quarterly. If you're reading this at the Orchestrator tier, you already know whether this is the right room.",
+    ctaLabel: "Apply for the Orchestrator Cohort →",
+    ctaHref: "/contact",
   },
 };
 
-const c = content[tier][role];
-const tierMeta = TIER_META[tier];
-
-const pageTitle = `${tierMeta.label} — Your Rovo-Readiness Result`;
-const pageDescription = 'Your personalized Rovo-Readiness Assessment result — tier score, weakest dimensions, and your tailored next step.';
+const offer = offerPitch[tier];
+const pageTitle = `${tierMeta.label} — Your Practitioner Identity Result`;
+const pageDescription = 'Your personalized practitioner identity assessment result — tier, dimension breakdown, and your tailored next step.';
 ---
 
 <LandingLayout title={pageTitle} description={pageDescription} lightHeader={true} noIndex={true}>
   <section class="bg-gradient-to-b from-gray-50 to-white min-h-screen pt-28 pb-16 lg:pt-32 lg:pb-20 px-4">
     <div class="max-w-3xl mx-auto">
-
-      {deploymentOverride && (
-        <div class="bg-amber-50 border-l-4 border-amber-500 rounded-r-lg p-5 mb-8">
-          <p class="text-sm font-semibold text-amber-900 uppercase tracking-wider mb-2">Migration-First Path</p>
-          <p class="text-base text-amber-900 leading-relaxed">
-            Rovo is Cloud-only. Your Jira deployment ({deploymentParam === 'data_center' ? 'Data Center' : 'Server'}) means Rovo isn't available to you today — regardless of your readiness score below.
-            <br /><br />
-            Your actual first move is the Cloud migration conversation. Your readiness score tells you what you'll inherit on the other side.
-          </p>
-        </div>
-      )}
 
       <!-- Tier badge -->
       <div class="inline-flex items-center gap-2 mb-6 text-sm uppercase tracking-widest font-bold">
@@ -178,15 +83,10 @@ const pageDescription = 'Your personalized Rovo-Readiness Assessment result — 
         <span class={tierMeta.color}>{tierMeta.label}</span>
       </div>
 
-      <!-- Headline -->
-      <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight mb-5" style="letter-spacing: -0.02em;">
-        {c.headline}
-      </h1>
-
-      <!-- Subhead -->
-      <p class="text-xl lg:text-2xl text-gray-700 leading-relaxed mb-10 font-medium">
-        {c.subhead}
-      </p>
+      <!-- Tier verdict -->
+      <div class="bg-gray-50 border-l-4 border-[#294bf3] rounded-r-lg p-6 mb-10">
+        <p class="text-lg text-gray-800 leading-relaxed italic">{tierVerdict[tier]}</p>
+      </div>
 
       <!-- Radar chart -->
       <div class="my-10">
@@ -196,33 +96,42 @@ const pageDescription = 'Your personalized Rovo-Readiness Assessment result — 
         </div>
       </div>
 
-      <!-- Body paragraphs -->
-      <div class="space-y-5 mb-10">
-        {c.body.map((para) => (
-          <p class="text-lg text-gray-700 leading-relaxed">{para}</p>
-        ))}
+      <!-- Danny's Take -->
+      <div class="bg-white rounded-2xl p-6 lg:p-8 border border-gray-200 mb-10">
+        <h2 class="text-lg font-bold text-gray-900 mb-4">Danny's Take</h2>
+        <p class="text-base text-gray-700 leading-relaxed">{dannysTake[constraint]}</p>
       </div>
 
-      <!-- CTAs -->
-      <div class="flex flex-col sm:flex-row gap-4 items-start mb-12">
-        <a href={c.cta_primary.href} class="btn-primary text-lg px-10 py-4 inline-block">
-          <span class="relative z-10">{c.cta_primary.label}</span>
-        </a>
-        {c.cta_secondary && (
-          <a href={c.cta_secondary.href} class="text-base text-primary-700 hover:text-primary-900 hover:underline underline-offset-4 px-4 py-4 transition-colors">
-            {c.cta_secondary.label}
+      <!-- Offer pitch card -->
+      <div class="bg-[#0a1628] text-white rounded-2xl p-8 mb-10">
+        <h2 class="text-xl font-bold text-white mb-2">{offer.heading}</h2>
+        <p class="text-2xl font-extrabold text-[#294bf3] mb-4">{offer.price}</p>
+        <p class="text-base text-gray-300 leading-relaxed mb-6">{offer.body}</p>
+        <div class="flex flex-col sm:flex-row gap-4 items-start">
+          <a
+            href={offer.ctaHref}
+            class="inline-block bg-[#294bf3] hover:bg-blue-700 text-white font-bold text-base px-8 py-4 rounded-lg transition-colors"
+          >
+            {offer.ctaLabel}
           </a>
-        )}
+          {offer.secondaryLabel && offer.secondaryHref && (
+            <a
+              href={offer.secondaryHref}
+              class="text-base text-gray-300 hover:text-white hover:underline underline-offset-4 px-4 py-4 transition-colors"
+            >
+              {offer.secondaryLabel}
+            </a>
+          )}
+        </div>
       </div>
 
-      <!-- Save results CTA -->
+      <!-- Save results -->
       <div class="bg-[#f0f7ff] border-l-4 border-[#294bf3] rounded-r-lg p-6 lg:p-8 mb-8">
         <h2 class="text-lg font-bold text-gray-900 mb-3">Save your results</h2>
         <p class="text-base text-gray-700 leading-relaxed mb-4">
           Create a free account to save your assessment results, track your progress over time, and unlock your personalized learning path.
         </p>
         <a
-          id="save-results-cta"
           href={`/signup${emailParam ? `?email=${encodeURIComponent(emailParam)}` : ''}`}
           class="btn-primary text-sm px-6 py-3 inline-block"
         >
@@ -234,30 +143,12 @@ const pageDescription = 'Your personalized Rovo-Readiness Assessment result — 
       <div class="bg-white rounded-2xl p-6 lg:p-8 border border-gray-200 mb-8">
         <h2 class="text-lg font-bold text-gray-900 mb-3">What happens next</h2>
         <p class="text-base text-gray-700 leading-relaxed mb-3">
-          A detailed readiness report is on its way to your inbox. It includes your dimension-by-dimension breakdown and specific actions for your weakest areas.
+          A detailed results report is on its way to your inbox. It includes your dimension-by-dimension breakdown and specific actions for your next move.
         </p>
         <p class="text-sm text-gray-500">
           Didn't get it? Check spam / promotions. Still nothing in a few minutes? Email <a href="mailto:danny@agiletactix.com" class="text-primary-700 hover:underline">danny@agiletactix.com</a>.
         </p>
       </div>
-
-      {(tier === 'foundation' || tier === 'notyet') && (
-        <div class="bg-white rounded-2xl p-6 lg:p-8 border border-gray-200 mb-8">
-          <h2 class="text-lg font-bold text-gray-900 mb-3">Start learning now — no signup needed</h2>
-          <p class="text-base text-gray-700 leading-relaxed mb-4">
-            Three free practitioner-led lessons on governance, stack diagnostics, and value streams. Real frameworks you can apply today while you build your foundation.
-          </p>
-          <a
-            href="/lessons"
-            class="text-base font-semibold text-[#294bf3] hover:underline underline-offset-4 transition-colors inline-flex items-center gap-1"
-          >
-            Browse free lessons
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-            </svg>
-          </a>
-        </div>
-      )}
 
       <!-- Back link -->
       <p class="text-center">
@@ -271,22 +162,22 @@ const pageDescription = 'Your personalized Rovo-Readiness Assessment result — 
 
 <script is:inline>
   function initRadarChart() {
-    const canvas = document.getElementById('radarChart');
+    var canvas = document.getElementById('radarChart');
     if (!canvas) return;
-    const p = new URLSearchParams(window.location.search);
-    const data = [
-      parseInt(p.get('d_flow_visibility')   || '0'),
+    var p = new URLSearchParams(window.location.search);
+    var data = [
       parseInt(p.get('d_atlassian_depth')   || '0'),
-      parseInt(p.get('d_data_ownership')    || '0'),
-      parseInt(p.get('d_change_governance') || '0'),
-      parseInt(p.get('d_builder_mindset')   || '0'),
+      parseInt(p.get('d_automation_output') || '0'),
+      parseInt(p.get('d_ai_fluency')        || '0'),
+      parseInt(p.get('d_influence_range')   || '0'),
+      parseInt(p.get('d_org_readiness')     || '0'),
     ];
     new Chart(canvas.getContext('2d'), {
       type: 'radar',
       data: {
-        labels: ['Flow Visibility', 'Atlassian Depth', 'Data Ownership', 'Change Governance', 'Builder Mindset'],
+        labels: ['Atlassian Depth', 'Automation Output', 'AI Fluency', 'Influence Range', 'Org Readiness'],
         datasets: [{
-          data,
+          data: data,
           backgroundColor: 'rgba(41, 75, 243, 0.15)',
           borderColor: '#294bf3',
           pointBackgroundColor: '#294bf3',
@@ -316,7 +207,7 @@ const pageDescription = 'Your personalized Rovo-Readiness Assessment result — 
   if (typeof Chart !== 'undefined') {
     initRadarChart();
   } else {
-    const s = document.createElement('script');
+    var s = document.createElement('script');
     s.src = 'https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js';
     s.onload = initRadarChart;
     document.head.appendChild(s);

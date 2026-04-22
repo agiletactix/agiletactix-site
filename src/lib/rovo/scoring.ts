@@ -13,7 +13,7 @@ import {
   type Deployment,
 } from './questions';
 
-export type Tier = 'ready' | 'close' | 'foundation' | 'notyet';
+export type Tier = 'facilitator' | 'builder' | 'orchestrator';
 
 export interface TierMeta {
   label: string;
@@ -22,10 +22,9 @@ export interface TierMeta {
 }
 
 export const TIER_META: Record<Tier, TierMeta> = {
-  ready: { label: 'Rovo-Ready', emoji: '🟢', color: 'text-green-600' },
-  close: { label: 'Close to Ready', emoji: '🟡', color: 'text-yellow-600' },
-  foundation: { label: 'Foundation First', emoji: '🟠', color: 'text-orange-600' },
-  notyet: { label: 'Not Yet', emoji: '🔴', color: 'text-red-600' },
+  facilitator:  { label: 'Facilitator',  emoji: '🔵', color: 'text-blue-600' },
+  builder:      { label: 'Builder',      emoji: '🟡', color: 'text-yellow-600' },
+  orchestrator: { label: 'Orchestrator', emoji: '🟢', color: 'text-green-600' },
 };
 
 export type DimensionScores = Record<Dimension, number>; // percentage 0-100
@@ -43,6 +42,8 @@ export interface ScoringResult {
   deployment_override: boolean;
   kit_tags: string[];
 }
+
+export type Constraint = 'atlassian_depth' | 'automation_output' | 'ai_fluency' | 'influence_range' | 'flat';
 
 // Input format: { q1: 4, q2: 3, ..., q10: 2 }
 export type QuizAnswers = Record<string, number>;
@@ -105,17 +106,14 @@ export function calculateScoring(answers: QuizAnswers, role: Role, deployment: D
 }
 
 function calculateTier(overallPct: number, weakDimensionCount: number): Tier {
-  // 🟢 Rovo-Ready: 80%+ overall AND no dimension below 60%
-  if (overallPct >= 80 && weakDimensionCount === 0) return 'ready';
+  // 🟢 Orchestrator: 80%+ overall AND no dimension below 60%
+  if (overallPct >= 80 && weakDimensionCount === 0) return 'orchestrator';
 
-  // 🟡 Close to Ready: 65-79% OR 1 dimension below 60%
-  if (overallPct >= 65 || (overallPct >= 50 && weakDimensionCount === 1)) return 'close';
+  // 🟡 Builder: 50-79% OR 1 dimension below 60%
+  if (overallPct >= 50 || (overallPct >= 40 && weakDimensionCount <= 1)) return 'builder';
 
-  // 🟠 Foundation First: 40-64% OR 2+ dimensions below 60%
-  if (overallPct >= 40 || weakDimensionCount >= 2) return 'foundation';
-
-  // 🔴 Not Yet: below 40% overall
-  return 'notyet';
+  // 🔵 Facilitator: below 50%
+  return 'facilitator';
 }
 
 function buildKitTags(role: Role, tier: Tier, weak: Dimension[], deployment: Deployment): string[] {
