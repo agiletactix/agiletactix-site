@@ -127,7 +127,7 @@ const pageDescription = 'See your Agile-AI Readiness profile — Facilitator, Bu
 const DIMENSIONS = [
   { key: 'atlassian',  name: 'Atlassian Depth',   ptag: 'Practitioner',  desc: 'How much of the stack you actually configure vs. inherit. JQL, automation rules, custom fields, dashboards.' },
   { key: 'automation', name: 'Automation Output',  ptag: 'Practitioner',  desc: 'Have you shipped automations, or just attended workshops. Real rules running in production.' },
-  { key: 'ai',         name: 'AI Fluency',         ptag: 'Practitioner',  desc: 'Are you prompting and building, or still watching demos. Rovo, agents, prompt craft.' },
+  { key: 'ai',         name: 'AI Fluency',         ptag: 'Practitioner',  desc: 'Are you prompting and building, or still watching demos. AI agents, prompt craft, workflow automation.' },
   { key: 'influence',  name: 'Influence Range',    ptag: 'Practitioner',  desc: 'Can you push changes without 3 layers of approval. Scope of the decisions you own.' },
   { key: 'org',        name: 'Org Readiness',      ptag: 'Environmental', desc: 'Structural readiness — value streams, data, governance — what\'s outside your control.' }
 ];
@@ -150,11 +150,11 @@ const TIER_LEAD = {
 const NEXT_STEPS = {
   Facilitator: [
     "Ship one Atlassian automation rule this week — pick the most painful manual thing you do every sprint and eliminate it.",
-    "Set up a Rovo agent to handle your stand-up notes or sprint recap. Use the output in your next ceremony.",
+    "Set up an AI agent to handle your stand-up notes or sprint recap. Use the output in your next ceremony.",
     "Document what changed in hours-saved and show it to your skip-level. Influence Range starts with proof-of-work."
   ],
   Builder: [
-    "Ship one Rovo agent that automates a ceremony you currently run manually. Stand-up notes, sprint recap, retro summary — pick the one you hate.",
+    "Ship one AI agent that automates a ceremony you currently run manually. Stand-up notes, sprint recap, retro summary — pick the one you hate.",
     "Document the before/after in hours-saved and surface it to your skip-level. This becomes your Influence Range leverage.",
     "Pick one Atlassian automation rule you've never written and write it. Public commits to the work close the gap faster than courses."
   ],
@@ -180,7 +180,7 @@ const OFFERS = {
     price: { dollars: 49, cadence: '/mo · cancel anytime' },
     cta: 'Start the membership →',
     aspirationLabel: 'Next tier',
-    aspiration: "<strong>Builders</strong> get access to the Rovo template library + peer-review threads. That unlocks automatically once you hit 50 — usually 8–12 weeks in."
+    aspiration: "<strong>Builders</strong> get access to the agent template library + peer-review threads. That unlocks automatically once you hit 50 — usually 8–12 weeks in."
   },
   Builder: {
     cls: 'atr-offer-builder',
@@ -188,7 +188,7 @@ const OFFERS = {
     h2: "You're closer than most. <span class=\"atr-offer-em\">Compound it</span> before the gap widens.",
     pitch: "You ship. You configure. You're already doing the hard thing — but solo. Membership is the peer group and pattern library that turns your wins into leverage.",
     bullets: [
-      "Rovo + agent template library — 40+ production-tested patterns",
+      "AI agent template library — 40+ production-tested patterns",
       "Builder-only peer review: post a spec, get it torn apart by 10 Builders",
       "Monthly teardowns of real automation systems (yours, if you ship one)",
       "Direct line to Danny for architecture reviews"
