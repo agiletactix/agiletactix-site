@@ -28,12 +28,15 @@
     --fg-4: #6b7280;
     --border-dark: rgba(255,255,255,0.08);
     --border-blue: rgba(37,99,235,0.3);
+    --glow-blue-sm: 0 8px 20px -6px rgba(37,99,235,0.40);
     --glow-blue-md: 0 10px 25px -5px rgba(37,99,235,0.30), 0 8px 10px -6px rgba(37,99,235,0.30);
     --glow-blue-lg: 0 20px 40px -10px rgba(37,99,235,0.45), 0 15px 20px -8px rgba(37,99,235,0.40);
     --grad-cta: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%);
     --grad-dark-card: linear-gradient(135deg, #111827 0%, #1f2937 100%);
     --grad-hero-mesh: radial-gradient(at 40% 20%, rgba(59,130,246,0.20) 0, transparent 50%), radial-gradient(at 80% 0%, rgba(37,99,235,0.20) 0, transparent 50%), radial-gradient(at 0% 50%, rgba(0,168,204,0.12) 0, transparent 50%);
     --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --font-sans: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
     --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
     --color-bg-secondary: 249, 250, 251;
     --color-text-primary: 17, 24, 39;

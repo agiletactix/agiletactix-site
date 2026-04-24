@@ -78,9 +78,8 @@ const pageDescription = 'Find out where you stand in the Facilitator → Builder
 
       <!-- RIGHT — preview card -->
       <div class="at-preview">
+        <div class="at-caption-stick">← What you get</div>
         <div class="at-preview-card">
-          <div class="at-caption-stick">← Your results preview</div>
-
           <div class="at-preview-head">
             <span class="at-preview-label">Readiness Profile</span>
             <span class="at-preview-live"><span class="at-dot-sm"></span>Sample · Builder tier</span>
@@ -90,7 +89,7 @@ const pageDescription = 'Find out where you stand in the Facilitator → Builder
           <div class="at-preview-sub">Filled shape is what you control. Ring is the environment you're in.</div>
 
           <div class="at-radar-box">
-            <RadarChart atlassian={78} automation={70} ai={45} influence={60} org={55} preview={true} />
+            <RadarChart atlassian={78} automation={70} ai={55} influence={62} org={58} preview={true} />
           </div>
 
           <div class="at-samples">
@@ -194,7 +193,7 @@ miniRadar('mini-orc',   [88, 82, 78, 85], '#22d3ee');
 .at-hero {
   position: relative;
   z-index: 1;
-  padding: 64px 48px 80px;
+  padding: 80px 48px 96px;
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -250,7 +249,7 @@ miniRadar('mini-orc',   [88, 82, 78, 85], '#22d3ee');
 
 /* Headline */
 .at-h1 {
-  font-size: clamp(36px, 5vw, 64px);
+  font-size: clamp(40px, 5vw, 68px);
   font-weight: 800;
   line-height: 1.02;
   letter-spacing: -0.032em;
@@ -446,6 +445,7 @@ miniRadar('mini-orc',   [88, 82, 78, 85], '#22d3ee');
   margin: 0 auto;
   padding: 56px 48px;
   border-top: 1px solid var(--border-dark);
+  border-bottom: 1px solid var(--border-dark);
   display: flex;
   justify-content: space-around;
   gap: 32px;
@@ -455,6 +455,7 @@ miniRadar('mini-orc',   [88, 82, 78, 85], '#22d3ee');
 @media (max-width: 640px) { .at-proof { padding: 40px 24px; } }
 .at-stat { text-align: center; }
 .at-n {
+  font-family: var(--font-display);
   font-size: 40px;
   font-weight: 800;
   letter-spacing: -0.03em;
