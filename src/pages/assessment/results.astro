@@ -67,6 +67,11 @@ const pageDescription = 'See your Agile-AI Readiness profile — Facilitator, Bu
         <div class="atr-legend-item"><span class="atr-sw atr-sw-cap"></span>Practitioner Capital — 4 things you own (Atlassian Depth, Automation Output, AI Fluency, Influence Range)</div>
         <div class="atr-legend-item"><span class="atr-sw atr-sw-org"></span>Org Readiness — the environmental variable you're working inside</div>
       </div>
+
+      <div class="gap-insight" id="gapInsight">
+        <div class="gi-label" id="gapLabel">Gap Analysis</div>
+        <div class="gi-body" id="gapBody"></div>
+      </div>
     </div>
 
     <div class="atr-breakdown" id="breakdown"></div>
@@ -79,8 +84,8 @@ const pageDescription = 'See your Agile-AI Readiness profile — Facilitator, Bu
       <span class="atr-pill">Danny's Take</span>
     </div>
     <h2 class="atr-reco-h2" id="recoTitle"></h2>
-    <p class="atr-reco-p" id="recoBody1"></p>
-    <p class="atr-reco-p" id="recoBody2"></p>
+    <p class="atr-reco-p reco-lede" id="recoBody1"></p>
+    <p class="atr-reco-p reco-support" id="recoBody2"></p>
     <div class="atr-next">
       <div class="atr-next-title">Next 30 days</div>
       <div id="nextSteps"></div>
@@ -168,49 +173,52 @@ const NEXT_STEPS = {
 const OFFERS = {
   Facilitator: {
     cls: 'atr-offer-facilitator',
-    eyebrow: 'Membership · Facilitator track',
+    eyebrow: 'Sprint Automation Kit · $27',
     h2: 'Get out of the <span class="atr-offer-em">ceremony trap</span> — before it decides your next role for you.',
-    pitch: "You're running the work. You haven't built the systems underneath it yet. Membership is the on-ramp — the exact starter automations Facilitators used to cross into Builder within 90 days.",
+    pitch: "You're running the work. You haven't built the systems underneath it yet. The Sprint Automation Kit is 5 production-tested Jira automation patterns — the exact starter rules Facilitators used to cross into Builder within 90 days.",
     bullets: [
-      "Your first Atlassian automation rule, shipped this week",
-      "The 5-prompt kit for running a stand-up without running it",
-      "Weekly office hours — bring one ticket, leave with a working automation",
-      "The Builder's Playbook — yours on join"
+      "5 Jira automation patterns used in real enterprise environments",
+      "Sprint Sync Engine, Stale Ticket Radar, Sprint Start + Closure Reporting",
+      "One-time purchase — build your first automation this weekend",
+      "The foundation AI agents depend on"
     ],
-    price: { dollars: 49, cadence: '/mo · cancel anytime' },
-    cta: 'Start the membership →',
+    price: { dollars: 27, cadence: 'one-time' },
+    url: 'https://checkout.agiletactix.ai/checkout/the-5-step-sprint-automation-kit',
+    cta: 'Get the Sprint Automation Kit →',
     aspirationLabel: 'Next tier',
-    aspiration: "<strong>Builders</strong> get access to the agent template library + peer-review threads. That unlocks automatically once you hit 50 — usually 8–12 weeks in."
+    aspiration: "<strong>Builders</strong> go deeper with the Agile Architect Lab — AI agents, cross-platform automation, and system design. That's the next move once you've shipped your first rules."
   },
   Builder: {
     cls: 'atr-offer-builder',
-    eyebrow: 'Membership · Builder track',
+    eyebrow: 'Agile Architect Lab · $197',
     h2: "You're closer than most. <span class=\"atr-offer-em\">Compound it</span> before the gap widens.",
-    pitch: "You ship. You configure. You're already doing the hard thing — but solo. Membership is the peer group and pattern library that turns your wins into leverage.",
+    pitch: "You ship. You configure. You're already doing the hard thing — but solo. The Agile Architect Lab is the advanced system: AI agents, cross-platform automation, and end-to-end workflow architecture. Self-paced. Built for practitioners who've already got the basics.",
     bullets: [
-      "AI agent template library — 40+ production-tested patterns",
-      "Builder-only peer review: post a spec, get it torn apart by 10 Builders",
-      "Monthly teardowns of real automation systems (yours, if you ship one)",
-      "Direct line to Danny for architecture reviews"
+      "AI agent builds — from single-tool to cross-platform autonomous systems",
+      "Step-by-step architecture for connecting Atlassian, automation, and AI end-to-end",
+      "Production-tested patterns from Fortune 500 environments",
+      "Self-paced — go as deep as your current projects need"
     ],
-    price: { dollars: 49, cadence: '/mo · cancel anytime' },
-    cta: 'Join the membership →',
+    price: { dollars: 197, cadence: 'one-time' },
+    url: 'https://checkout.agiletactix.ai/checkout/the-agile-architecture-lab-founding-members',
+    cta: 'Get the Agile Architect Lab →',
     aspirationLabel: 'Next tier',
-    aspiration: "<strong>Orchestrators</strong> meet in a private roundtable with 40 practitioners shipping production agent systems. The invite opens when you cross 75."
+    aspiration: "<strong>Orchestrators</strong> operate at the system-design level. A peer cohort for practitioners at that level is coming — you'll be first to know."
   },
   Orchestrator: {
     cls: 'atr-offer-orchestrator',
-    eyebrow: 'Membership · Orchestrator cohort',
+    eyebrow: 'Orchestrator Cohort · Coming Soon',
     h2: "You've earned the room. <span class=\"atr-offer-em\">Find your peers.</span>",
-    pitch: "You're already operating above the tool layer. You don't need another course — you need the 40 other people doing this at your level. Membership is that room.",
+    pitch: "You're already operating above the tool layer. You don't need another course — you need the 40 other people doing this at your level. A peer advisory cohort for Orchestrators is launching soon.",
     bullets: [
       "Private Orchestrator roundtable — 40 practitioners max, invite-only",
       "Monthly frontier sessions: spec-driven rollouts, multi-agent systems, governance at scale",
-      "First access to new patterns before they hit the public Builder library",
+      "First access to new patterns before they go public",
       "Co-authoring opportunities — shape the playbooks the rest of the field reads"
     ],
-    price: { dollars: 297, cadence: '/mo · application required' },
-    cta: 'Apply to the cohort →',
+    price: null,
+    url: null,
+    cta: 'Join the waitlist →',
     aspirationLabel: 'The room',
     aspiration: "<strong>You are the aspiration</strong> other tiers are working toward. The cohort is where you trade notes with people who don't need it explained."
   }
@@ -291,14 +299,14 @@ const OFFERS = {
       html += '<text x="' + lx + '" y="' + (ly + 16) + '" text-anchor="' + anchor + '" fill="#60a5fa" font-family="\'JetBrains Mono\', monospace" font-size="12" font-weight="700">' + s[ax.key] + '</text>';
     });
 
-    const orgR = (s.org / 100) * R;
+    var orgR = (s.org / 100) * R;
     html += '<circle cx="' + cx + '" cy="' + cy + '" r="' + orgR + '" fill="rgba(0,168,204,0.06)" stroke="rgba(0,168,204,0.65)" stroke-width="1.5" stroke-dasharray="4 4"/>';
-    html += '<text x="' + (cx + orgR + 6) + '" y="' + (cy - 6) + '" fill="#22d3ee" font-family="\'JetBrains Mono\', monospace" font-size="10" font-weight="700" letter-spacing="0.06em">ORG ' + s.org + '</text>';
 
-    const pts = axes.map(function(ax, i) { return pointFor(i, s[ax.key]); });
+    var pts = axes.map(function(ax, i) { return pointFor(i, s[ax.key]); });
     html += '<polygon points="' + pts.map(function(p) { return p.join(','); }).join(' ') + '" fill="rgba(96,165,250,0.32)" stroke="#60a5fa" stroke-width="2.5" stroke-linejoin="round"/>';
     pts.forEach(function(p) { html += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="5" fill="#60a5fa" stroke="#0a0a0a" stroke-width="2"/>'; });
     html += '<circle cx="' + cx + '" cy="' + cy + '" r="2.5" fill="rgba(255,255,255,0.3)"/>';
+    html += '<text x="' + (cx + orgR + 6) + '" y="' + (cy - 6) + '" fill="#22d3ee" font-family="\'JetBrains Mono\', monospace" font-size="11" font-weight="700" letter-spacing="0.06em" paint-order="stroke" stroke="#0a0a0a" stroke-width="3">ORG ' + s.org + '</text>';
 
     svg.innerHTML = html;
   }
@@ -395,6 +403,29 @@ const OFFERS = {
       }).join('');
     }
 
+    // Gap insight — capability vs org readiness (always renders)
+    var capAvg = Math.round((s.atlassian + s.automation + s.ai + s.influence) / 4);
+    var gap = capAvg - s.org;
+    var gapEl = document.getElementById('gapInsight');
+    var giLabel = document.getElementById('gapLabel');
+    var giBody = document.getElementById('gapBody');
+    if (gapEl && giLabel && giBody) {
+      gapEl.classList.remove('tone-ahead', 'tone-behind', 'tone-balanced');
+      if (gap >= 15) {
+        gapEl.classList.add('tone-ahead');
+        giLabel.textContent = 'Skills Ahead';
+        giBody.innerHTML = 'Your capability average is <strong>' + gap + ' points ahead</strong> of your org\'s readiness. You\'re not under-skilled — you\'re <strong>under-positioned</strong>. The move is visibility, not more courses.';
+      } else if (gap <= -15) {
+        gapEl.classList.add('tone-behind');
+        giLabel.textContent = 'Org Ahead';
+        giBody.innerHTML = 'Your org scores <strong>' + Math.abs(gap) + ' points above</strong> your capability average. The appetite is there; the gap is yours to close. <strong>Highest-urgency moment</strong> — ship something this quarter.';
+      } else {
+        gapEl.classList.add('tone-balanced');
+        giLabel.textContent = 'In Step';
+        giBody.innerHTML = 'You and your org are roughly <strong>in step</strong> — gap of ' + (gap >= 0 ? '+' : '') + gap + '. No positioning arbitrage to play. Your next move is pure capability: <strong>close the lowest practitioner axis first.</strong>';
+      }
+    }
+
     // Offer
     drawOffer(tier);
   }
@@ -412,8 +443,8 @@ const OFFERS = {
       '<p class="atr-offer-pitch">' + o.pitch + '</p>' +
       '<ul class="atr-offer-list">' + o.bullets.map(function(b) { return '<li>' + b + '</li>'; }).join('') + '</ul>' +
       '<div class="atr-offer-row">' +
-      '<a class="atr-cta atr-cta-primary" href="#">' + o.cta + '</a>' +
-      '<div class="atr-price"><strong>$' + o.price.dollars + '</strong> ' + o.price.cadence + '</div>' +
+      '<a class="atr-cta atr-cta-primary" href="' + (o.url || '#b2bForm') + '"' + (o.url ? ' target="_blank" rel="noopener noreferrer"' : '') + '>' + o.cta + '</a>' +
+      (o.price ? '<div class="atr-price"><strong>$' + o.price.dollars + '</strong> ' + o.price.cadence + '</div>' : '') +
       '</div>' +
       '<div class="atr-aspiration"><strong>' + o.aspirationLabel + ':</strong> ' + o.aspiration + '</div>';
   }
@@ -465,8 +496,8 @@ const OFFERS = {
 })();
 </script>
 
-<style>
-/* Results page — fully dark, isolated styles */
+<style is:global>
+/* Results page — fully dark, isolated styles (global because JS generates most DOM) */
 body {
   background: var(--at-black);
   color: var(--fg-1);
@@ -590,6 +621,7 @@ body {
   .atr-verdict { grid-template-columns: 1fr; gap: 24px; padding: 24px; }
 }
 .atr-score {
+  font-family: var(--font-display);
   font-size: 88px;
   font-weight: 800;
   line-height: 1;
@@ -623,12 +655,32 @@ body {
 .atr-chart-title { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; }
 .atr-chart-sub { font-size: 13px; color: var(--fg-4); margin-bottom: 24px; }
 .atr-radar-wrap { position: relative; width: 100%; aspect-ratio: 1/1; }
-.atr-radar { width: 100%; height: 100%; display: block; }
+.atr-radar { width: 100%; height: 100%; display: block; overflow: visible; }
 .atr-legend { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
 .atr-legend-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--fg-2); }
 .atr-sw { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; display: inline-block; }
 .atr-sw-cap { background: rgba(96,165,250,0.55); border: 1.5px solid var(--at-blue-400); }
 .atr-sw-org { background: rgba(0,168,204,0.2); border: 1.5px dashed var(--at-cyan); }
+
+/* Gap insight */
+.gap-insight {
+  margin-top: 22px; padding: 16px 18px; border-radius: 10px;
+  border: 1px solid var(--border-dark); background: rgba(255,255,255,0.025);
+  display: flex; gap: 14px; align-items: flex-start;
+}
+.gap-insight .gi-label {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-4);
+  padding-top: 2px; flex-shrink: 0; min-width: 110px;
+}
+.gap-insight .gi-body { font-size: 14px; color: var(--fg-2); line-height: 1.55; }
+.gap-insight .gi-body strong { color: #fff; font-weight: 700; }
+.gap-insight.tone-ahead    { border-left: 3px solid var(--at-blue-400); }
+.gap-insight.tone-ahead    .gi-label { color: var(--at-blue-300); }
+.gap-insight.tone-behind   { border-left: 3px solid #fca5a5; }
+.gap-insight.tone-behind   .gi-label { color: #fca5a5; }
+.gap-insight.tone-balanced { border-left: 3px solid var(--at-cyan); }
+.gap-insight.tone-balanced .gi-label { color: var(--at-cyan-bright); }
 
 /* Breakdown rows */
 .atr-breakdown { display: flex; flex-direction: column; gap: 12px; }
@@ -644,12 +696,12 @@ body {
 .atr-row-name { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
 .atr-ptag { font-family: var(--font-mono); font-size: 11px; color: var(--fg-4); letter-spacing: 0.06em; text-transform: uppercase; }
 .atr-ptag-org { color: var(--at-cyan); }
-.atr-row-score { display: flex; align-items: baseline; gap: 8px; margin-bottom: 10px; }
-.atr-row-n { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; color: var(--at-blue-400); line-height: 1; }
+.atr-row-score { display: flex; align-items: baseline; gap: 8px; }
+.atr-row-n { font-family: var(--font-display); font-size: 32px; font-weight: 800; letter-spacing: -0.02em; color: var(--at-blue-400); line-height: 1; }
 .atr-row-n-org { color: var(--at-cyan); }
 .atr-row-of { font-family: var(--font-mono); font-size: 13px; color: var(--fg-4); }
 .atr-bar { height: 6px; background: rgba(255,255,255,0.06); border-radius: 999px; overflow: hidden; margin-bottom: 10px; }
-.atr-bar-fill { height: 100%; background: var(--grad-cta); border-radius: 999px; }
+.atr-bar-fill { height: 100%; background: var(--grad-cta); border-radius: 999px; transition: width 800ms var(--ease-out); }
 .atr-bar-fill-org { background: linear-gradient(to right, var(--at-cyan), var(--at-cyan-bright)); }
 .atr-row-desc { font-size: 13px; color: var(--fg-3); line-height: 1.5; }
 
@@ -677,7 +729,20 @@ body {
 }
 .atr-reco-h2 { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 16px; text-wrap: balance; }
 .atr-reco-p { font-size: 16px; color: var(--fg-2); line-height: 1.65; margin-bottom: 20px; max-width: 720px; }
-.atr-next { margin-top: 28px; display: flex; flex-direction: column; gap: 0; }
+.atr-reco-p:last-of-type { margin-bottom: 0; }
+.atr-reco p.reco-lede {
+  font-size: 19px; line-height: 1.55; color: var(--fg-1);
+  font-weight: 500; letter-spacing: -0.005em;
+  padding-left: 18px; border-left: 3px solid var(--at-blue-400);
+  max-width: 760px;
+}
+.atr-reco p.reco-lede strong { color: #fff; font-weight: 700; }
+.atr-reco p.reco-support {
+  font-size: 15.5px; color: var(--fg-3); line-height: 1.65;
+  padding-left: 18px; border-left: 1px dashed var(--border-dark);
+  max-width: 760px;
+}
+.atr-next { margin-top: 28px; display: flex; flex-direction: column; gap: 10px; }
 .atr-next-title { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-4); margin-bottom: 4px; }
 .atr-step {
   display: flex;
@@ -689,6 +754,7 @@ body {
   padding: 10px 0;
   border-top: 1px solid var(--border-dark);
 }
+.atr-step:first-of-type { border-top: 0; }
 .atr-step-n { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--at-blue-400); min-width: 24px; }
 
 /* Offer */
@@ -747,7 +813,7 @@ body {
 .atr-offer-facilitator .atr-offer-list li::before { color: #fca5a5; }
 .atr-offer-orchestrator .atr-offer-list li::before { color: var(--at-cyan-bright); }
 .atr-offer-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; position: relative; z-index: 1; }
-.atr-price { font-size: 15px; color: var(--fg-3); font-weight: 500; }
+.atr-price { font-family: var(--font-display); font-size: 15px; color: var(--fg-3); font-weight: 500; }
 .atr-price strong { font-size: 22px; color: #fff; font-weight: 800; letter-spacing: -0.02em; }
 .atr-aspiration {
   margin-top: 20px;
@@ -821,6 +887,7 @@ body {
   font-family: inherit;
   font-size: 14px;
   font-weight: 800;
+  letter-spacing: -0.005em;
   border: none;
   border-radius: 10px;
   cursor: pointer;
