@@ -28,7 +28,7 @@ const rovoGovernance: LearningPath = {
   name: 'Architect Rovo Governance',
   description:
     'You scored Rovo-Ready. This path focuses on governance frameworks, change control, and scaling Rovo across your organization.',
-  targetTier: 'ready',
+  targetTier: 'orchestrator',
   lessons: [
     {
       id: 'rg-01',
@@ -89,7 +89,7 @@ const stackOptimizer: LearningPath = {
   name: 'Close the Gap',
   description:
     'You scored Close to Ready. This path helps you diagnose stack gaps, tighten integrations, and prepare for Rovo deployment.',
-  targetTier: 'close',
+  targetTier: 'builder',
   lessons: [
     {
       id: 'so-01',
@@ -150,7 +150,7 @@ const foundationBuilder: LearningPath = {
   name: 'Build the Foundation',
   description:
     'You scored Foundation First. This path establishes the organizational and technical prerequisites for AI readiness.',
-  targetTier: 'foundation',
+  targetTier: 'facilitator',
   lessons: [
     {
       id: 'fb-01',
@@ -211,7 +211,7 @@ const gettingStarted: LearningPath = {
   name: 'Start Here',
   description:
     'You scored Not Yet. This path covers the essentials — what AI readiness means and how to build a case for change.',
-  targetTier: 'notyet',
+  targetTier: 'facilitator',
   lessons: [
     {
       id: 'gs-01',
@@ -258,10 +258,9 @@ export const LEARNING_PATHS: Record<string, LearningPath> = {
 
 /** All learning paths indexed by target tier */
 export const PATHS_BY_TIER: Record<Tier, LearningPath> = {
-  ready: rovoGovernance,
-  close: stackOptimizer,
-  foundation: foundationBuilder,
-  notyet: gettingStarted,
+  orchestrator: rovoGovernance,
+  builder: stackOptimizer,
+  facilitator: foundationBuilder,
 };
 
 /** All lessons across all paths, indexed by lesson ID */

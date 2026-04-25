@@ -1,0 +1,194 @@
+---
+interface Props {
+  atlassian: number;
+  automation: number;
+  ai: number;
+  influence: number;
+  org: number;
+  preview?: boolean;
+}
+
+const { atlassian, automation, ai, influence, org, preview = false } = Astro.props;
+
+const cx = 250;
+const cy = 250;
+const R = 180;
+
+// 4 practitioner axes: top=Atlassian, right=Automation, bottom=AI, left=Influence
+const axes = preview
+  ? ['Atlassian', 'Automation', 'AI Fluency', 'Influence']
+  : ['Atlassian Depth', 'Automation Output', 'AI Fluency', 'Influence Range'];
+const scores = [atlassian, automation, ai, influence];
+const N = 4;
+
+function pointFor(i: number, v: number): [number, number] {
+  const angle = -Math.PI / 2 + i * (2 * Math.PI / N);
+  const r = (v / 100) * R;
+  return [cx + Math.cos(angle) * r, cy + Math.sin(angle) * r];
+}
+
+function pts(r: number): [number, number][] {
+  return axes.map((_, i) => {
+    const a = -Math.PI / 2 + i * (2 * Math.PI / N);
+    return [cx + Math.cos(a) * r, cy + Math.sin(a) * r] as [number, number];
+  });
+}
+
+function zonePath(r1: number, r2: number): string {
+  const outer = pts(r2).map((p, k) => (k === 0 ? 'M' : 'L') + p[0] + ',' + p[1]).join(' ') + ' Z';
+  const inner = pts(r1).map((p, k) => (k === 0 ? 'M' : 'L') + p[0] + ',' + p[1]).reverse().join(' ') + ' Z';
+  return outer + ' ' + inner;
+}
+
+// Zone bands: 0→0.50R red, 0.50R→0.75R blue, 0.75R→R cyan
+const zoneR = [0, R * 0.50, R * 0.75, R];
+const zoneFills = [
+  'rgba(248,113,113,0.07)',
+  'rgba(96,165,250,0.10)',
+  'rgba(34,211,238,0.10)',
+];
+
+// Grid rings
+const gridFracs = [0.25, 0.5, 0.75, 1.0];
+
+// Practitioner shape points
+const shapePts = scores.map((s, i) => pointFor(i, s));
+const polyPoints = shapePts.map(p => p.join(',')).join(' ');
+
+// Org ring
+const orgR = (org / 100) * R;
+
+// Axis label placements
+type LabelEntry = {
+  label: string;
+  score: number;
+  lx: number;
+  ly: number;
+  anchor: string;
+};
+const labelPush = preview ? 18 : 32;
+const labelEntries: LabelEntry[] = axes.map((ax, i) => {
+  const angle = -Math.PI / 2 + i * (2 * Math.PI / N);
+  const lx = cx + Math.cos(angle) * (R + labelPush);
+  let ly = cy + Math.sin(angle) * (R + 28);
+  if (preview && Math.abs(Math.sin(angle)) < 0.3) ly += 5;
+  let anchor = 'middle';
+  if (Math.cos(angle) > 0.3) anchor = 'start';
+  else if (Math.cos(angle) < -0.3) anchor = 'end';
+  return { label: ax, score: scores[i] as number, lx, ly, anchor };
+});
+
+const axisEndpoints = axes.map((_, i) => {
+  const angle = -Math.PI / 2 + i * (2 * Math.PI / N);
+  return {
+    x2: cx + Math.cos(angle) * R,
+    y2: cy + Math.sin(angle) * R,
+  };
+});
+
+const viewBox = preview ? '-40 30 580 440' : '-90 -30 680 560';
+---
+
+<svg viewBox={viewBox} preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;overflow:visible;">
+  <!-- Zone bands -->
+  {zoneR.slice(0, -1).map((r1, i) => (
+    <path d={zonePath(r1, zoneR[i + 1] as number)} fill={zoneFills[i] as string} fill-rule="evenodd" />
+  ))}
+
+  <!-- Grid rings -->
+  {gridFracs.map(frac => {
+    const ringPts = pts(R * frac);
+    return (
+      <polygon
+        points={ringPts.map(p => p.join(',')).join(' ')}
+        fill="none"
+        stroke="rgba(255,255,255,0.08)"
+        stroke-width="1"
+      />
+    );
+  })}
+
+  <!-- Axis lines -->
+  {axisEndpoints.map(ep => (
+    <line x1={cx} y1={cy} x2={ep.x2} y2={ep.y2} stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+  ))}
+
+  <!-- Axis labels -->
+  {!preview && labelEntries.map(e => (
+    <>
+      <text
+        x={e.lx}
+        y={e.ly}
+        text-anchor={e.anchor}
+        fill="#d1d5db"
+        font-family="Inter, sans-serif"
+        font-size="13"
+        font-weight="700"
+        letter-spacing="-0.01em"
+      >{e.label}</text>
+      <text
+        x={e.lx}
+        y={e.ly + 16}
+        text-anchor={e.anchor}
+        fill="#60a5fa"
+        font-family="'JetBrains Mono', monospace"
+        font-size="12"
+        font-weight="700"
+      >{e.score}</text>
+    </>
+  ))}
+
+  {preview && labelEntries.map(e => (
+    <text
+      x={e.lx}
+      y={e.ly}
+      text-anchor={e.anchor}
+      fill="#d1d5db"
+      font-family="Inter, sans-serif"
+      font-size="13"
+      font-weight="700"
+    >{e.label}</text>
+  ))}
+
+  <!-- Org Readiness ring -->
+  <circle
+    cx={cx}
+    cy={cy}
+    r={orgR}
+    fill="rgba(0,168,204,0.06)"
+    stroke="rgba(0,168,204,0.65)"
+    stroke-width="1.5"
+    stroke-dasharray="4 4"
+  />
+
+  <!-- Practitioner shape -->
+  <polygon
+    points={polyPoints}
+    fill="rgba(96,165,250,0.32)"
+    stroke="#60a5fa"
+    stroke-width="2.5"
+    stroke-linejoin="round"
+  />
+
+  <!-- Vertex dots -->
+  {shapePts.map(p => (
+    <circle cx={p[0]} cy={p[1]} r="5" fill="#60a5fa" stroke="#0a0a0a" stroke-width="2" />
+  ))}
+
+  <!-- Center dot -->
+  <circle cx={cx} cy={cy} r="2.5" fill="rgba(255,255,255,0.3)" />
+
+  <!-- Org label — rendered last so polygon stroke can't cover it -->
+  <text
+    x={cx + orgR + 6}
+    y={cy - 6}
+    fill="#22d3ee"
+    font-family="'JetBrains Mono', monospace"
+    font-size="11"
+    font-weight="700"
+    letter-spacing="0.06em"
+    paint-order="stroke"
+    stroke="#0a0a0a"
+    stroke-width="3"
+  >ORG {org}</text>
+</svg>

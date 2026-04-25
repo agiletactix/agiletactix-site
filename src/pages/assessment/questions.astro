@@ -1,0 +1,851 @@
+---
+import '../../styles/global.css';
+import Navigation from '../../components/Navigation.astro';
+import Footer from '../../components/Footer.astro';
+import { QUESTIONS, MAX_DIMENSION_RAW, TOTAL_QUESTIONS } from '../../lib/assessment/questions';
+
+const pageTitle = 'Agile-AI Readiness Assessment — AgileTactix';
+const pageDescription = 'Take the Agile-AI Readiness Assessment. 25 questions, 5 minutes, instant results.';
+
+// Serialize for client-side use
+const questionsData = QUESTIONS.map(q => ({
+  id: q.id,
+  dimension: q.dimension,
+  text: q.text,
+  options: q.options,
+}));
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDescription} />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+</head>
+<body>
+
+<Navigation />
+
+<div class="aq-wrap">
+
+  <!-- Subtle mesh background -->
+  <div class="aq-bg-mesh" aria-hidden="true"></div>
+
+  <main class="aq-main">
+
+    <!-- Intro screen -->
+    <div id="aq-intro" class="aq-card">
+      <div class="aq-eyebrow">
+        <span class="aq-dot"></span>Agile-AI Readiness Assessment
+      </div>
+      <h1 class="aq-intro-h1">Find out where you actually stand.</h1>
+      <p class="aq-intro-p">
+        Five dimensions. 25 questions. One honest profile of where you sit in the Facilitator → Builder → Orchestrator framework — and the single gap costing you the most right now.
+      </p>
+      <div class="aq-meta-row">
+        <span class="aq-meta-chip">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          25 questions
+        </span>
+        <span class="aq-meta-chip">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          5 minutes
+        </span>
+        <span class="aq-meta-chip">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          Free
+        </span>
+      </div>
+      <button type="button" id="aq-start-btn" class="aq-cta-btn">
+        Start Assessment →
+      </button>
+      <p class="aq-fine">Built by <strong>Danny Liu</strong> · taught to <strong>13,000+</strong> agile professionals</p>
+    </div>
+
+    <!-- Question screen -->
+    <div id="aq-question" class="aq-card hidden">
+      <!-- Progress -->
+      <div class="aq-progress-wrap">
+        <div class="aq-progress-track">
+          <div class="aq-progress-fill" id="aq-progress-fill" style="width: 0%"></div>
+        </div>
+        <div class="aq-progress-meta">
+          <span class="aq-q-counter" id="aq-q-counter">Question 1 of 25</span>
+          <span class="aq-dim-label" id="aq-dim-label"></span>
+        </div>
+      </div>
+
+      <!-- Question text -->
+      <p class="aq-q-text" id="aq-q-text"></p>
+
+      <!-- Options -->
+      <div class="aq-options" id="aq-options"></div>
+
+      <!-- Navigation -->
+      <div class="aq-nav">
+        <button type="button" id="aq-back-btn" class="aq-back-btn" disabled>← Back</button>
+        <button type="button" id="aq-next-btn" class="aq-cta-btn aq-next-btn" disabled><span>Next →</span></button>
+      </div>
+    </div>
+
+    <!-- Email capture screen -->
+    <div id="aq-email" class="aq-card hidden">
+      <div class="aq-eyebrow"><span class="aq-dot"></span>Almost there</div>
+      <h2 class="aq-email-h2">Where should we send your results?</h2>
+      <p class="aq-email-p">Your Facilitator / Builder / Orchestrator profile plus a tailored action plan — instant, free, in your inbox.</p>
+
+      <form id="aq-email-form" class="aq-form" novalidate>
+        <div class="aq-field">
+          <label for="aq-first-name" class="aq-label">First Name</label>
+          <input type="text" id="aq-first-name" name="first_name" required placeholder="Your first name" class="aq-input" />
+        </div>
+        <div class="aq-field">
+          <label for="aq-email-input" class="aq-label">Email Address</label>
+          <input type="email" id="aq-email-input" name="email" required placeholder="you@example.com" class="aq-input" />
+        </div>
+        <label class="aq-consent" for="aq-consent-check">
+          <input type="checkbox" id="aq-consent-check" name="consent_marketing" checked class="aq-checkbox" />
+          <span class="aq-consent-text">Email me my results plus occasional practitioner insights on AI-powered agile. Unsubscribe anytime.</span>
+        </label>
+        <div id="aq-form-error" class="aq-form-error hidden"></div>
+        <button type="submit" id="aq-submit-btn" class="aq-cta-btn aq-submit-btn">
+          <span id="aq-submit-label">Get My Results →</span>
+        </button>
+      </form>
+    </div>
+
+    <!-- Loading screen -->
+    <div id="aq-loading" class="aq-card hidden aq-loading-card">
+      <div class="aq-spinner"></div>
+      <p class="aq-loading-text">Calculating your readiness profile...</p>
+    </div>
+
+  </main>
+</div>
+
+<Footer />
+
+<script is:inline define:vars={{ questionsData, MAX_DIMENSION_RAW, TOTAL_QUESTIONS }}>
+(function () {
+  // ── State ────────────────────────────────────────────────────────────────
+  var state = {
+    currentIndex: 0,
+    answers: {}, // { questionId: value }
+  };
+
+  var QUESTIONS = questionsData;
+
+  var DIMENSION_NAMES = {
+    d_atlassian:  'Atlassian Depth',
+    d_automation: 'Automation Output',
+    d_ai:         'AI Fluency',
+    d_influence:  'Influence Range',
+    d_org:        'Org Readiness',
+  };
+
+  // ── DOM refs ─────────────────────────────────────────────────────────────
+  var introCard    = document.getElementById('aq-intro');
+  var questionCard = document.getElementById('aq-question');
+  var emailCard    = document.getElementById('aq-email');
+  var loadingCard  = document.getElementById('aq-loading');
+
+  var progressFill = document.getElementById('aq-progress-fill');
+  var qCounter     = document.getElementById('aq-q-counter');
+  var dimLabel     = document.getElementById('aq-dim-label');
+  var qText        = document.getElementById('aq-q-text');
+  var optionsEl    = document.getElementById('aq-options');
+  var backBtn      = document.getElementById('aq-back-btn');
+  var nextBtn      = document.getElementById('aq-next-btn');
+  var nextLabel    = nextBtn ? nextBtn.querySelector('span') : null;
+
+  var submitBtn    = document.getElementById('aq-submit-btn');
+  var submitLabel  = document.getElementById('aq-submit-label');
+  var formError    = document.getElementById('aq-form-error');
+
+  // ── Helpers ──────────────────────────────────────────────────────────────
+  function showOnly(el) {
+    [introCard, questionCard, emailCard, loadingCard].forEach(function (c) {
+      if (c) c.classList.add('hidden');
+    });
+    if (el) el.classList.remove('hidden');
+  }
+
+  function currentQuestion() {
+    return QUESTIONS[state.currentIndex];
+  }
+
+  function currentAnswer() {
+    var q = currentQuestion();
+    return q ? state.answers[q.id] : undefined;
+  }
+
+  // ── Render ───────────────────────────────────────────────────────────────
+  function renderQuestion() {
+    var q = currentQuestion();
+    if (!q) return;
+
+    var idx = state.currentIndex;
+    var pct = Math.round(((idx + 1) / TOTAL_QUESTIONS) * 100);
+
+    if (progressFill) progressFill.style.width = pct + '%';
+    if (qCounter) qCounter.textContent = 'Question ' + (idx + 1) + ' of ' + TOTAL_QUESTIONS;
+    if (dimLabel) dimLabel.textContent = DIMENSION_NAMES[q.dimension] || '';
+    if (qText) qText.textContent = q.text;
+
+    // Build option cards
+    if (optionsEl) {
+      optionsEl.innerHTML = '';
+      var answerVal = state.answers[q.id];
+      q.options.forEach(function (opt) {
+        var isSelected = answerVal === opt.value;
+        var lbl = document.createElement('label');
+        lbl.className = 'aq-option' + (isSelected ? ' aq-option-selected' : '');
+
+        var inp = document.createElement('input');
+        inp.type = 'radio';
+        inp.name = q.id;
+        inp.value = String(opt.value);
+        inp.checked = isSelected;
+        inp.className = 'aq-option-radio';
+
+        var txt = document.createElement('span');
+        txt.className = 'aq-option-text';
+        txt.textContent = opt.label;
+
+        inp.addEventListener('change', function () {
+          state.answers[q.id] = opt.value;
+          renderQuestion();
+          updateNav();
+        });
+
+        lbl.appendChild(inp);
+        lbl.appendChild(txt);
+        optionsEl.appendChild(lbl);
+      });
+    }
+
+    updateNav();
+  }
+
+  function updateNav() {
+    var answered = currentAnswer() !== undefined;
+    var isLast   = state.currentIndex === TOTAL_QUESTIONS - 1;
+    var isFirst  = state.currentIndex === 0;
+
+    if (backBtn) backBtn.disabled = isFirst;
+    if (nextBtn) nextBtn.disabled = !answered;
+
+    if (nextLabel) {
+      nextLabel.textContent = (isLast && answered) ? 'Continue →' : 'Next →';
+    }
+  }
+
+  // ── Scoring ──────────────────────────────────────────────────────────────
+  function calculateScores() {
+    var dimRaws = {
+      d_atlassian:  0,
+      d_automation: 0,
+      d_ai:         0,
+      d_influence:  0,
+      d_org:        0,
+    };
+
+    QUESTIONS.forEach(function (q) {
+      var val = state.answers[q.id];
+      if (typeof val === 'number') {
+        dimRaws[q.dimension] = (dimRaws[q.dimension] || 0) + val;
+      }
+    });
+
+    var normalized = {};
+    Object.keys(dimRaws).forEach(function (dim) {
+      normalized[dim] = Math.round((dimRaws[dim] / MAX_DIMENSION_RAW) * 100);
+    });
+
+    return normalized;
+  }
+
+  function buildResultUrl(scores) {
+    return '/assessment/results?' +
+      'd_atlassian='  + scores.d_atlassian  + '&' +
+      'd_automation=' + scores.d_automation + '&' +
+      'd_ai='         + scores.d_ai         + '&' +
+      'd_influence='  + scores.d_influence  + '&' +
+      'd_org='        + scores.d_org;
+  }
+
+  // ── Event handlers ───────────────────────────────────────────────────────
+  var startBtn = document.getElementById('aq-start-btn');
+  if (startBtn) {
+    startBtn.addEventListener('click', function () {
+      state.currentIndex = 0;
+      state.answers = {};
+      renderQuestion();
+      showOnly(questionCard);
+    });
+  }
+
+  if (backBtn) {
+    backBtn.addEventListener('click', function () {
+      if (state.currentIndex > 0) {
+        state.currentIndex--;
+        renderQuestion();
+      }
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', function () {
+      if (currentAnswer() === undefined) return;
+
+      if (state.currentIndex === TOTAL_QUESTIONS - 1) {
+        // Go to email capture
+        showOnly(emailCard);
+      } else {
+        state.currentIndex++;
+        renderQuestion();
+      }
+    });
+  }
+
+  // Email form submission
+  var emailForm = document.getElementById('aq-email-form');
+  if (emailForm) {
+    emailForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var firstNameEl = document.getElementById('aq-first-name');
+      var emailEl     = document.getElementById('aq-email-input');
+      var consentEl   = document.getElementById('aq-consent-check');
+
+      var firstName = firstNameEl ? firstNameEl.value.trim() : '';
+      var email     = emailEl     ? emailEl.value.trim()     : '';
+
+      // Basic client-side validation
+      if (!firstName || !email) {
+        if (formError) {
+          formError.textContent = 'Please enter your first name and email address.';
+          formError.classList.remove('hidden');
+        }
+        return;
+      }
+
+      if (formError) formError.classList.add('hidden');
+      if (submitBtn) submitBtn.setAttribute('disabled', 'true');
+      if (submitLabel) submitLabel.textContent = 'Calculating...';
+
+      showOnly(loadingCard);
+
+      var scores = calculateScores();
+
+      // TODO: POST email + scores to /api/assessment/submit when endpoint exists
+      // fetch('/api/assessment/submit', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({
+      //     first_name: firstName,
+      //     email: email,
+      //     consent_marketing: consentEl ? consentEl.checked : true,
+      //     scores: scores,
+      //   }),
+      // });
+
+      // Small UX delay so spinner renders
+      setTimeout(function () {
+        window.location.href = buildResultUrl(scores);
+      }, 800);
+    });
+  }
+})();
+</script>
+
+<style is:global>
+/* ── Option cards — must be global because created via JS createElement ── */
+.aq-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 20px;
+  background: rgba(255,255,255,0.03);
+  border: 1.5px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  color: #d1d5db;
+  cursor: pointer;
+  transition: border-color 200ms ease, background 200ms ease, color 200ms ease;
+  user-select: none;
+  text-align: left;
+  font-size: 15px;
+  line-height: 1.5;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  box-sizing: border-box;
+}
+
+.aq-option:hover {
+  border-color: #60a5fa;
+  background: rgba(96,165,250,0.06);
+  color: #f3f4f6;
+}
+
+.aq-option-selected {
+  border-color: #60a5fa;
+  background: rgba(96,165,250,0.12);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.aq-option-radio {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  margin-top: 1px;
+  flex-shrink: 0;
+  position: relative;
+  transition: border-color 150ms ease;
+}
+
+.aq-option:hover .aq-option-radio {
+  border-color: #60a5fa;
+}
+
+.aq-option-radio:checked {
+  border-color: #60a5fa;
+  background: #60a5fa;
+}
+
+.aq-option-radio:checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #0a0a0a;
+}
+
+.aq-option-text {
+  flex: 1;
+  line-height: 1.5;
+}
+</style>
+
+<style>
+/* ── Page wrapper ─────────────────────────────────────────────────────────── */
+.aq-wrap {
+  background: var(--at-black);
+  color: var(--fg-1);
+  min-height: calc(100vh - 72px);
+  position: relative;
+  font-family: var(--font-sans);
+  display: flex;
+  flex-direction: column;
+}
+
+.aq-bg-mesh {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: var(--grad-hero-mesh);
+  opacity: 0.6;
+}
+
+.aq-main {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 64px 24px 80px;
+}
+
+/* ── Card ─────────────────────────────────────────────────────────────────── */
+.aq-card {
+  width: 100%;
+  max-width: 680px;
+  background: var(--grad-dark-card);
+  border: 1px solid var(--border-blue);
+  border-radius: 16px;
+  padding: 44px 48px;
+  box-shadow:
+    0 30px 60px -20px rgba(0,0,0,0.6),
+    0 0 0 1px rgba(37,99,235,0.1),
+    0 0 80px -10px rgba(37,99,235,0.18);
+}
+
+@media (max-width: 640px) {
+  .aq-card { padding: 28px 24px; }
+}
+
+.hidden { display: none !important; }
+
+/* ── Eyebrow ──────────────────────────────────────────────────────────────── */
+.aq-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 14px;
+  background: rgba(37,99,235,0.12);
+  border: 1px solid var(--border-blue);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--at-blue-300);
+  margin-bottom: 24px;
+}
+
+.aq-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--at-blue-400);
+  box-shadow: 0 0 8px var(--at-blue-400);
+  animation: aq-pulse 2s infinite;
+  display: inline-block;
+  flex-shrink: 0;
+}
+@keyframes aq-pulse { 0%,100%{opacity:1;} 50%{opacity:.45;} }
+
+/* ── Intro screen ─────────────────────────────────────────────────────────── */
+.aq-intro-h1 {
+  font-size: clamp(30px, 4vw, 44px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+  color: var(--fg-1);
+}
+
+.aq-intro-p {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--fg-2);
+  margin-bottom: 28px;
+  font-weight: 400;
+}
+
+.aq-meta-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+
+.aq-meta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--fg-3);
+}
+
+.aq-meta-chip svg {
+  color: var(--at-blue-400);
+  flex-shrink: 0;
+}
+
+.aq-fine {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--fg-4);
+}
+
+.aq-fine strong {
+  color: var(--fg-2);
+  font-weight: 600;
+}
+
+/* ── CTA button ───────────────────────────────────────────────────────────── */
+.aq-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 32px;
+  background: var(--grad-cta);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
+  box-shadow: var(--glow-blue-md);
+}
+
+.aq-cta-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--glow-blue-lg);
+}
+
+.aq-cta-btn:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ── Progress ─────────────────────────────────────────────────────────────── */
+.aq-progress-wrap {
+  margin-bottom: 32px;
+}
+
+.aq-progress-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.aq-progress-fill {
+  height: 100%;
+  background: var(--grad-cta);
+  border-radius: 999px;
+  transition: width 300ms var(--ease-out);
+}
+
+.aq-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.aq-q-counter {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-4);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.aq-dim-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--at-blue-300);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ── Question text ────────────────────────────────────────────────────────── */
+.aq-q-text {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--fg-1);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  margin-bottom: 28px;
+}
+
+/* ── Options container ────────────────────────────────────────────────────── */
+.aq-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+/* ── Nav row ──────────────────────────────────────────────────────────────── */
+.aq-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.aq-back-btn {
+  background: none;
+  border: none;
+  color: var(--fg-4);
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 8px 0;
+  transition: color 150ms ease;
+}
+
+.aq-back-btn:hover:not(:disabled) {
+  color: var(--fg-1);
+}
+
+.aq-back-btn:disabled {
+  opacity: 0;
+  cursor: default;
+}
+
+.aq-next-btn {
+  padding: 14px 28px;
+  font-size: 15px;
+}
+
+/* ── Email capture ────────────────────────────────────────────────────────── */
+.aq-email-h2 {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 12px;
+  color: var(--fg-1);
+}
+
+.aq-email-p {
+  font-size: 16px;
+  color: var(--fg-2);
+  line-height: 1.6;
+  margin-bottom: 32px;
+  font-weight: 400;
+}
+
+.aq-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.aq-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.aq-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--fg-2);
+  text-transform: uppercase;
+}
+
+.aq-input {
+  background: rgba(255,255,255,0.04);
+  border: 1.5px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 14px 16px;
+  color: var(--fg-1);
+  font-family: inherit;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 150ms ease, background 150ms ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.aq-input::placeholder {
+  color: var(--fg-4);
+}
+
+.aq-input:focus {
+  border-color: var(--at-blue-400);
+  background: rgba(96,165,250,0.05);
+}
+
+.aq-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.aq-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 5px;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  margin-top: 1px;
+  transition: border-color 150ms ease, background 150ms ease;
+  flex-shrink: 0;
+}
+
+.aq-checkbox:checked {
+  background: var(--at-blue-600);
+  border-color: var(--at-blue-600);
+}
+
+.aq-checkbox:checked::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  width: 5px;
+  height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.aq-consent-text {
+  font-size: 14px;
+  color: var(--fg-3);
+  line-height: 1.55;
+}
+
+.aq-form-error {
+  background: rgba(248,113,113,0.1);
+  border: 1px solid rgba(248,113,113,0.3);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 14px;
+  color: #fca5a5;
+  line-height: 1.5;
+}
+
+.aq-submit-btn {
+  width: 100%;
+  font-size: 16px;
+  padding: 18px 32px;
+}
+
+/* ── Loading screen ───────────────────────────────────────────────────────── */
+.aq-loading-card {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 64px 48px;
+}
+
+.aq-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(96,165,250,0.2);
+  border-top-color: var(--at-blue-400);
+  border-radius: 50%;
+  animation: aq-spin 0.8s linear infinite;
+}
+
+@keyframes aq-spin { to { transform: rotate(360deg); } }
+
+.aq-loading-text {
+  font-size: 17px;
+  color: var(--fg-2);
+  font-weight: 500;
+}
+</style>
+
+</body>
+</html>

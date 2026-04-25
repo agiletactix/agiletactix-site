@@ -1,25 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  /* Import Inter font from Google Fonts with extended weights */
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
-
   :root {
-    --color-bg-primary: 255, 255, 255;
-    --color-bg-secondary: 249, 250, 251;
-    --color-text-primary: 17, 24, 39;
-    --color-text-secondary: 75, 85, 99;
-    --color-border: 229, 231, 235;
-  }
+    /* ---------- CORE BRAND ---------- */
+    --at-blue:        #294bf3;
+    --at-blue-600:    #2563eb;
+    --at-blue-500:    #3b82f6;
+    --at-blue-400:    #60a5fa;
+    --at-blue-300:    #93c5fd;
+    --at-blue-100:    #dbeafe;
+    --at-blue-50:     #eff6ff;
 
-  [data-theme="dark"] {
-    --color-bg-primary: 17, 24, 39;
-    --color-bg-secondary: 31, 41, 55;
-    --color-text-primary: 255, 255, 255;
-    --color-text-secondary: 209, 213, 219;
-    --color-border: 55, 65, 81;
+    --at-cyan:        #00a8cc;
+    --at-cyan-bright: #22d3ee;
+
+    /* ---------- NEUTRALS ---------- */
+    --at-black:       #0a0a0a;
+    --at-ink:         #1a1a1a;
+    --at-gray-950:    #030712;
+    --at-gray-900:    #111827;
+    --at-gray-800:    #1f2937;
+    --at-gray-700:    #374151;
+    --at-gray-600:    #4b5563;
+    --at-gray-500:    #6b7280;
+    --at-gray-400:    #9ca3af;
+    --at-gray-300:    #d1d5db;
+    --at-gray-200:    #e5e7eb;
+    --at-gray-100:    #f3f4f6;
+    --at-gray-50:     #f9fafb;
+    --at-white:       #ffffff;
+
+    /* ---------- SEMANTIC ---------- */
+    --at-success:     #34d399;
+    --at-warning:     #fbbf24;
+    --at-danger:      #f87171;
+
+    /* ---------- SURFACES (dark-first) ---------- */
+    --bg-1:           var(--at-black);
+    --bg-2:           #0f0f12;
+    --bg-3:           var(--at-gray-900);
+    --bg-4:           var(--at-gray-800);
+    --bg-light-1:     var(--at-white);
+    --bg-light-2:     #f0f7ff;
+    --bg-light-3:     var(--at-gray-50);
+
+    /* ---------- FOREGROUNDS ---------- */
+    --fg-1:           var(--at-white);
+    --fg-2:           var(--at-gray-300);
+    --fg-3:           var(--at-gray-400);
+    --fg-4:           var(--at-gray-500);
+    --fg-on-light-1:  var(--at-ink);
+    --fg-on-light-2:  var(--at-gray-600);
+
+    /* ---------- BORDERS ---------- */
+    --border-dark:    rgba(255,255,255,0.08);
+    --border-blue:    rgba(37, 99, 235, 0.3);
+    --border-blue-hi: rgba(37, 99, 235, 0.5);
+    --border-light:   var(--at-gray-200);
+
+    /* ---------- GLOW / SHADOW ---------- */
+    --glow-blue-sm:   0 8px 20px -6px rgba(37, 99, 235, 0.40);
+    --glow-blue-md:   0 10px 25px -5px rgba(37, 99, 235, 0.30),
+                      0 8px 10px -6px rgba(37, 99, 235, 0.30);
+    --glow-blue-lg:   0 20px 40px -10px rgba(37, 99, 235, 0.45),
+                      0 15px 20px -8px rgba(37, 99, 235, 0.40);
+    --glow-cyan:      0 0 24px rgba(0, 168, 204, 0.45);
+    --shadow-soft:    0 2px 15px -3px rgba(0,0,0,0.07), 0 10px 20px -2px rgba(0,0,0,0.04);
+    --shadow-med:     0 4px 25px -5px rgba(0,0,0,0.1),  0 10px 30px -5px rgba(0,0,0,0.04);
+    --shadow-strong:  0 10px 40px -10px rgba(0,0,0,0.2),0 15px 50px -10px rgba(0,0,0,0.1);
+
+    /* ---------- GRADIENTS ---------- */
+    --grad-cta:       linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%);
+    --grad-cta-hi:    linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #2563eb 100%);
+    --grad-bar:       linear-gradient(to top, #2563eb 0%, #60a5fa 100%);
+    --grad-dark-card: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+    --grad-hero-mesh: radial-gradient(at 40% 20%, rgba(59,130,246,0.20) 0, transparent 50%),
+                      radial-gradient(at 80% 0%,  rgba(37,99,235,0.20) 0, transparent 50%),
+                      radial-gradient(at 0% 50%,  rgba(0,168,204,0.12) 0, transparent 50%);
+
+    /* ---------- TYPE ---------- */
+    --font-sans:      'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    --font-display:   'Inter', -apple-system, sans-serif;
+    --font-mono:      'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    /* Weight */
+    --w-regular:      400;
+    --w-medium:       500;
+    --w-semibold:     600;
+    --w-bold:         700;
+    --w-extrabold:    800;
+    --w-black:        900;
+
+    /* Tracking */
+    --tr-display:     -0.03em;
+    --tr-heading:     -0.02em;
+    --tr-body:        0;
+    --tr-eyebrow:     0.08em;
+    --tr-label:       0.05em;
+
+    /* Sizes */
+    --t-display:      clamp(2.5rem, 5vw + 1rem, 4.5rem);
+    --t-h1:           clamp(2rem, 3vw + 1rem, 3.5rem);
+    --t-h2:           clamp(1.75rem, 2vw + 1rem, 3rem);
+    --t-h3:           clamp(1.375rem, 1vw + 1rem, 2rem);
+    --t-h4:           1.25rem;
+    --t-lead:         1.25rem;
+    --t-body:         1rem;
+    --t-small:        0.875rem;
+    --t-eyebrow:      0.75rem;
+    --t-micro:        0.625rem;
+
+    /* Line height */
+    --lh-tight:       1.05;
+    --lh-heading:     1.15;
+    --lh-body:        1.7;
+    --lh-relaxed:     1.75;
+
+    /* ---------- SPACING / RADII ---------- */
+    --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+    --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px;
+    --space-12: 48px; --space-16: 64px; --space-20: 80px; --space-24: 96px;
+    --space-32: 128px;
+
+    --r-none:  0;
+    --r-xs:    2px;
+    --r-sm:    4px;
+    --r-md:    8px;
+    --r-lg:    12px;
+    --r-xl:    16px;
+    --r-2xl:   24px;
+    --r-pill:  9999px;
+
+    /* ---------- MOTION ---------- */
+    --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --dur-fast:    150ms;
+    --dur-base:    300ms;
+    --dur-slow:    600ms;
+    --dur-scene:   800ms;
   }
 
   html {
@@ -28,8 +150,8 @@
 
   body {
     @apply font-sans antialiased;
-    background-color: rgb(var(--color-bg-primary));
-    color: rgb(var(--color-text-primary));
+    background: var(--bg-1);
+    color: var(--fg-1);
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
@@ -95,11 +217,6 @@
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.08);
   }
 
-  /* Dark mode button styles */
-  [data-theme="dark"] .btn-secondary {
-    @apply bg-gray-800 text-primary-400 border-primary-700;
-  }
-
   /* Section Container with increased max-width for modern feel */
   .section-container {
     @apply max-w-7xl mx-auto px-6 sm:px-8 lg:px-12;
@@ -125,10 +242,6 @@
   .card-modern:hover {
     transform: translateY(-4px);
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
-  }
-
-  [data-theme="dark"] .card-modern {
-    @apply bg-gray-800 border border-gray-700;
   }
 
   /* Heading Styles with better visual hierarchy */
@@ -171,14 +284,6 @@
       radial-gradient(at 80% 100%, rgba(37, 99, 235, 0.1) 0px, transparent 50%);
   }
 
-  [data-theme="dark"] .gradient-bg-mesh {
-    background-color: #111827;
-    background-image:
-      radial-gradient(at 40% 20%, rgba(59, 130, 246, 0.2) 0px, transparent 50%),
-      radial-gradient(at 80% 0%, rgba(37, 99, 235, 0.2) 0px, transparent 50%),
-      radial-gradient(at 0% 50%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
-      radial-gradient(at 80% 50%, rgba(96, 165, 250, 0.15) 0px, transparent 50%);
-  }
 }
 
 /* Focus visible styles for accessibility */
