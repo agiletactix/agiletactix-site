@@ -229,7 +229,9 @@ const OFFERS = {
     ],
     price: null,
     url: null,
-    cta: 'Join the founding member waitlist →',
+    waitlistForm: true,
+    waitlistTags: ['builder', 'membership_waitlist'],
+    cta: 'Lock in my spot →',
     aspirationLabel: 'Next tier',
     aspiration: "<strong>Orchestrators</strong> operate at the system-design level. A peer cohort for practitioners at that level is coming — you'll be first to know."
   },
@@ -470,16 +472,56 @@ const OFFERS = {
     const el = document.getElementById('offer');
     if (!el) return;
     el.className = 'atr-offer ' + o.cls;
+
+    var ctaHtml;
+    if (o.waitlistForm) {
+      ctaHtml =
+        '<form class="atr-waitlist-form" id="waitlistForm">' +
+        '<div class="atr-waitlist-row">' +
+        '<input type="email" placeholder="you@company.com" required class="atr-waitlist-input" id="waitlistEmail" />' +
+        '<button type="submit" class="atr-cta atr-cta-primary atr-waitlist-btn" id="waitlistBtn">' + o.cta + '</button>' +
+        '</div>' +
+        '<div class="atr-waitlist-fine">No spam. One note when founding seats open. Your spot is held.</div>' +
+        '</form>';
+    } else {
+      ctaHtml =
+        '<div class="atr-offer-row">' +
+        '<a class="atr-cta atr-cta-primary" href="' + (o.url || '#b2bForm') + '"' + (o.url ? ' target="_blank" rel="noopener noreferrer"' : '') + '>' + o.cta + '</a>' +
+        (o.price ? '<div class="atr-price"><strong>$' + o.price.dollars + '</strong> ' + o.price.cadence + '</div>' : '') +
+        '</div>';
+    }
+
     el.innerHTML =
       '<div class="atr-offer-eyebrow">' + o.eyebrow + '</div>' +
       '<h2 class="atr-offer-h2">' + o.h2 + '</h2>' +
       '<p class="atr-offer-pitch">' + o.pitch + '</p>' +
       '<ul class="atr-offer-list">' + o.bullets.map(function(b) { return '<li>' + b + '</li>'; }).join('') + '</ul>' +
-      '<div class="atr-offer-row">' +
-      '<a class="atr-cta atr-cta-primary" href="' + (o.url || '#b2bForm') + '"' + (o.url ? ' target="_blank" rel="noopener noreferrer"' : '') + '>' + o.cta + '</a>' +
-      (o.price ? '<div class="atr-price"><strong>$' + o.price.dollars + '</strong> ' + o.price.cadence + '</div>' : '') +
-      '</div>' +
+      ctaHtml +
       '<div class="atr-aspiration"><strong>' + o.aspirationLabel + ':</strong> ' + o.aspiration + '</div>';
+
+    if (o.waitlistForm) {
+      var wForm = document.getElementById('waitlistForm');
+      if (wForm) {
+        wForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          var emailEl = document.getElementById('waitlistEmail');
+          var btnEl = document.getElementById('waitlistBtn');
+          var email = emailEl ? emailEl.value : '';
+          if (!email) return;
+          if (btnEl) { btnEl.textContent = 'Joining...'; btnEl.setAttribute('disabled', 'true'); }
+          fetch('/api/assessment/waitlist', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, tags: o.waitlistTags })
+          }).then(function() {
+            if (btnEl) { btnEl.textContent = "You're on the list!"; }
+            if (emailEl) { emailEl.value = ''; emailEl.setAttribute('disabled', 'true'); }
+          }).catch(function() {
+            if (btnEl) { btnEl.textContent = "You're on the list!"; btnEl.setAttribute('disabled', 'true'); }
+          });
+        });
+      }
+    }
   }
 
   /* --- Particle scroll fade --- */
@@ -1028,6 +1070,32 @@ body {
 .atr-cta-ghost { background: transparent; color: #fff; border: 1px solid var(--border-dark); }
 .atr-cta-ghost:hover { border-color: var(--at-blue-400); color: var(--at-blue-400); }
 
+/* Waitlist inline form */
+.atr-waitlist-form { margin-top: 24px; }
+.atr-waitlist-row { display: flex; gap: 12px; }
+.atr-waitlist-input {
+  flex: 1;
+  padding: 14px 18px;
+  border-radius: 10px;
+  border: 1px solid var(--border-dark);
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 200ms;
+}
+.atr-waitlist-input:focus { border-color: var(--at-blue-400); }
+.atr-waitlist-input::placeholder { color: var(--fg-3); }
+.atr-waitlist-input:disabled { opacity: 0.5; }
+.atr-waitlist-btn { white-space: nowrap; flex-shrink: 0; }
+.atr-waitlist-btn:disabled { opacity: 0.7; cursor: default; transform: none !important; }
+.atr-waitlist-fine {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--fg-3);
+}
+
 /* B2B */
 .atr-b2b {
   margin-top: 56px;
@@ -1096,12 +1164,13 @@ body {
   }
   .atr-grid { grid-template-columns: 1fr !important; }
   a { text-decoration: none !important; }
-  .atr-offer-btn, .atr-b2b-btn { display: none !important; }
+  .atr-offer-btn, .atr-b2b-btn, .atr-waitlist-form { display: none !important; }
 }
 
 @media (max-width: 640px) {
   .atr-share-btns { flex-direction: column; }
   .atr-share-toggle-row { flex-direction: column; gap: 10px; }
+  .atr-waitlist-row { flex-direction: column; }
 }
 </style>
 
