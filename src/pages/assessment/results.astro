@@ -39,7 +39,7 @@ const pageDescription = 'See your Agile-AI Readiness profile — Facilitator, Bu
   <!-- Header -->
   <div class="atr-hdr">
     <div class="atr-eyebrow"><span class="atr-dot"></span>Your Agile-AI Readiness Profile</div>
-    <h1 class="atr-h1">You're <span id="tierArticle">a</span> <span class="atr-blue" id="tierName">Builder</span>. Here's what that means.</h1>
+    <h1 class="atr-h1"><span id="userName"></span>You're <span id="tierArticle">a</span> <span class="atr-blue" id="tierName">Builder</span>. Here's what that means.</h1>
     <p class="atr-lead" id="leadCopy">Your results are loading...</p>
   </div>
 
@@ -229,6 +229,11 @@ const OFFERS = {
    ------------------------------------------------------- */
 (function() {
   const params = new URLSearchParams(window.location.search);
+  const firstName = params.get('name') || '';
+  const userNameEl = document.getElementById('userName');
+  if (userNameEl && firstName) {
+    userNameEl.textContent = firstName + ', ';
+  }
   const scores = {
     atlassian:  Math.min(100, Math.max(0, parseInt(params.get('d_atlassian')  || '60', 10))),
     automation: Math.min(100, Math.max(0, parseInt(params.get('d_automation') || '60', 10))),

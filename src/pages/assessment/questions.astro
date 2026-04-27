@@ -269,8 +269,9 @@ const questionsData = QUESTIONS.map(q => ({
     return normalized;
   }
 
-  function buildResultUrl(scores) {
+  function buildResultUrl(scores, firstName) {
     return '/assessment/results?' +
+      'name='         + encodeURIComponent(firstName) + '&' +
       'd_atlassian='  + scores.d_atlassian  + '&' +
       'd_automation=' + scores.d_automation + '&' +
       'd_ai='         + scores.d_ai         + '&' +
@@ -342,22 +343,22 @@ const questionsData = QUESTIONS.map(q => ({
 
       var scores = calculateScores();
 
-      // TODO: POST email + scores to /api/assessment/submit when endpoint exists
-      // fetch('/api/assessment/submit', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({
-      //     first_name: firstName,
-      //     email: email,
-      //     consent_marketing: consentEl ? consentEl.checked : true,
-      //     scores: scores,
-      //   }),
-      // });
+      var formData = new URLSearchParams();
+      formData.append('email_address', email);
+      formData.append('first_name', firstName);
+      var capAvg = (scores.d_atlassian + scores.d_automation + scores.d_ai + scores.d_influence) / 4;
+      var total = Math.round(capAvg * 0.8 + scores.d_org * 0.2);
+      var tier = total >= 75 ? 'Orchestrator' : total >= 50 ? 'Builder' : 'Facilitator';
+      formData.append('fields[assessment_tier]', tier);
 
-      // Small UX delay so spinner renders
-      setTimeout(function () {
-        window.location.href = buildResultUrl(scores);
-      }, 800);
+      fetch('https://app.kit.com/forms/9369282/subscriptions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString(),
+        redirect: 'manual'
+      }).finally(function () {
+        window.location.href = buildResultUrl(scores, firstName);
+      });
     });
   }
 })();
