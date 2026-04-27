@@ -34,3 +34,7 @@ Thumbs.db
 # Cloudflare Workers / Pages local secrets
 workers/**/.dev.vars
 .dev.vars
+
+# MemPalace per-project files (issue #185)
+mempalace.yaml
+entities.json

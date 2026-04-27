@@ -3,6 +3,7 @@ import '../../styles/global.css';
 import Navigation from '../../components/Navigation.astro';
 import Footer from '../../components/Footer.astro';
 import RadarChart from '../../components/RadarChart.astro';
+import ParticleNetwork from '../../components/ParticleNetwork.astro';
 
 const pageTitle = 'Are You a Facilitator, Builder, or Orchestrator? — AgileTactix Assessment';
 const pageDescription = 'Find out where you stand in the Facilitator → Builder → Orchestrator framework. Five dimensions, five minutes, instant results. Free.';
@@ -15,6 +16,13 @@ const pageDescription = 'Find out where you stand in the Facilitator → Builder
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{pageTitle}</title>
   <meta name="description" content={pageDescription} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://agiletactix.ai/assessment" />
+  <meta property="og:title" content="Agile-AI Readiness Assessment — Where Do You Stand?" />
+  <meta property="og:description" content="Score yourself across 4 dimensions. Find out if you're a Facilitator, Builder, or Orchestrator. Five minutes, instant results." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Agile-AI Readiness Assessment — Where Do You Stand?" />
+  <meta name="twitter:description" content="Score yourself across 4 dimensions. Find out if you're a Facilitator, Builder, or Orchestrator." />
   <link rel="icon" type="image/png" href="/favicon.png" />
 </head>
 <body>
@@ -24,9 +32,9 @@ const pageDescription = 'Find out where you stand in the Facilitator → Builder
 <!-- Full-dark assessment hero -->
 <div class="at-assessment-wrap">
 
-  <!-- Particles layer -->
+  <!-- Particles layer — same animated component as homepage -->
   <div class="at-particles-layer" aria-hidden="true">
-    <canvas data-particles data-focus-x="0.92" data-focus-y="0.15" data-count="70"></canvas>
+    <ParticleNetwork />
     <div class="at-vignette"></div>
   </div>
 
@@ -126,8 +134,6 @@ const pageDescription = 'Find out where you stand in the Facilitator → Builder
 </div>
 
 <Footer />
-
-<script src="/particles-bg.js" is:inline></script>
 
 <script is:inline>
 /* Mini sample radars */
