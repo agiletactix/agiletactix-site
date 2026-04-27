@@ -260,6 +260,7 @@ const OFFERS = {
 (function() {
   const params = new URLSearchParams(window.location.search);
   const firstName = params.get('name') || '';
+  const userEmail = params.get('email') || '';
   const userNameEl = document.getElementById('userName');
   if (userNameEl && firstName) {
     userNameEl.textContent = firstName + ', ';
@@ -500,6 +501,10 @@ const OFFERS = {
       '<div class="atr-aspiration"><strong>' + o.aspirationLabel + ':</strong> ' + o.aspiration + '</div>';
 
     if (o.waitlistForm) {
+      var wEmailEl = document.getElementById('waitlistEmail');
+      if (wEmailEl && userEmail) {
+        wEmailEl.value = userEmail;
+      }
       var wForm = document.getElementById('waitlistForm');
       if (wForm) {
         wForm.addEventListener('submit', function(e) {
@@ -512,7 +517,7 @@ const OFFERS = {
           fetch('/api/assessment/waitlist', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email, tags: o.waitlistTags })
+            body: JSON.stringify({ email: email, first_name: firstName || undefined, tags: o.waitlistTags })
           }).then(function() {
             if (btnEl) { btnEl.textContent = "You're on the list!"; }
             if (emailEl) { emailEl.value = ''; emailEl.setAttribute('disabled', 'true'); }

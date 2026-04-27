@@ -269,9 +269,10 @@ const questionsData = QUESTIONS.map(q => ({
     return normalized;
   }
 
-  function buildResultUrl(scores, firstName) {
+  function buildResultUrl(scores, firstName, email) {
     return '/assessment/results?' +
       'name='         + encodeURIComponent(firstName) + '&' +
+      'email='        + encodeURIComponent(email || '') + '&' +
       'd_atlassian='  + scores.d_atlassian  + '&' +
       'd_automation=' + scores.d_automation + '&' +
       'd_ai='         + scores.d_ai         + '&' +
@@ -357,7 +358,7 @@ const questionsData = QUESTIONS.map(q => ({
         body: formData.toString(),
         redirect: 'manual'
       }).finally(function () {
-        window.location.href = buildResultUrl(scores, firstName);
+        window.location.href = buildResultUrl(scores, firstName, email);
       });
     });
   }
