@@ -15,9 +15,6 @@ STRIPE_LAB_PRICE_ID=price_...
 # Kit.com (get from app.kit.com/account_settings/developer_settings)
 KIT_API_KEY=
 
-# OpenAI (get from platform.openai.com/api-keys) — used for Whisper transcription
-OPENAI_API_KEY=
-
 # Base URL — use your local dev server URL
 BETTER_AUTH_URL=http://localhost:4321
 
