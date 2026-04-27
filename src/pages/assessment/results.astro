@@ -218,9 +218,9 @@ const OFFERS = {
   },
   Builder: {
     cls: 'atr-offer-builder',
-    eyebrow: 'Founding Membership · Coming Soon',
+    eyebrow: 'Founding Community · Coming Soon',
     h2: "You're closer than most. <span class=\"atr-offer-em\">Lock in early</span> before the door closes.",
-    pitch: "You ship. You configure. You're already doing the hard thing — but solo. The founding membership is ongoing access to AI agent builds, cross-platform automation patterns, and a community of practitioners at your level. Founding members lock in the lowest price for life.",
+    pitch: "You ship. You configure. You're already doing the hard thing — but solo. The founding community is ongoing access to AI agent builds, cross-platform automation patterns, and practitioners at your level. Founding members lock in the lowest price for life.",
     bullets: [
       "AI agent builds — from single-tool to cross-platform autonomous systems",
       "Step-by-step architecture for connecting Atlassian, automation, and AI end-to-end",
@@ -230,7 +230,7 @@ const OFFERS = {
     price: null,
     url: null,
     waitlistForm: true,
-    waitlistTags: ['builder', 'membership_waitlist'],
+    waitlistFormId: '9376395',
     cta: 'Lock in my spot →',
     aspirationLabel: 'Next tier',
     aspiration: "<strong>Orchestrators</strong> operate at the system-design level. A peer cohort for practitioners at that level is coming — you'll be first to know."
@@ -514,13 +514,21 @@ const OFFERS = {
           var email = emailEl ? emailEl.value : '';
           if (!email) return;
           if (btnEl) { btnEl.textContent = 'Joining...'; btnEl.setAttribute('disabled', 'true'); }
-          fetch('/api/assessment/waitlist', {
+          var formData = new URLSearchParams();
+          formData.append('email_address', email);
+          if (firstName) formData.append('first_name', firstName);
+          fetch('https://app.kit.com/forms/' + o.waitlistFormId + '/subscriptions', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email, first_name: firstName || undefined, tags: o.waitlistTags })
-          }).then(function() {
-            if (btnEl) { btnEl.textContent = "You're on the list!"; }
-            if (emailEl) { emailEl.value = ''; emailEl.setAttribute('disabled', 'true'); }
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: formData.toString(),
+            redirect: 'manual'
+          }).then(function(res) {
+            if (res.ok || res.status === 302 || res.type === 'opaqueredirect') {
+              if (btnEl) { btnEl.textContent = "You're on the list!"; }
+              if (emailEl) { emailEl.setAttribute('disabled', 'true'); }
+            } else {
+              if (btnEl) { btnEl.textContent = 'Something went wrong — try again'; btnEl.removeAttribute('disabled'); }
+            }
           }).catch(function() {
             if (btnEl) { btnEl.textContent = "You're on the list!"; btnEl.setAttribute('disabled', 'true'); }
           });

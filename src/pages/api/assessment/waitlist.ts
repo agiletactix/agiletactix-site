@@ -15,7 +15,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     return new Response(JSON.stringify({ error: 'Missing email' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
   }
 
-  const allowedTags = ['builder', 'orchestrator', 'facilitator', 'membership_waitlist', 'orchestrator_waitlist', 'b2b_waitlist'];
+  const allowedTags = ['builder', 'orchestrator', 'facilitator', 'community_waitlist', 'orchestrator_waitlist', 'b2b_waitlist'];
   const tags = (body.tags || []).filter(t => allowedTags.includes(t));
 
   const runtime = (locals as Record<string, unknown>).runtime as { env?: Record<string, string> } | undefined;
