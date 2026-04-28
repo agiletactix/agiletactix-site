@@ -155,9 +155,9 @@ const pageDescription = 'See your Agile-AI Readiness profile — Facilitator, Bu
 
 <script is:inline>
 /* -------------------------------------------------------
-   Data model
+   Data model (outside any IIFE — available to renderResults)
    ------------------------------------------------------- */
-const DIMENSIONS = [
+var DIMENSIONS = [
   { key: 'atlassian',  name: 'Atlassian Depth',   ptag: 'Practitioner',  desc: 'How much of the stack you actually configure vs. inherit. JQL, automation rules, custom fields, dashboards.' },
   { key: 'automation', name: 'Automation Output',  ptag: 'Practitioner',  desc: 'Have you shipped automations, or just attended workshops. Real rules running in production.' },
   { key: 'ai',         name: 'AI Fluency',         ptag: 'Practitioner',  desc: 'Are you prompting and building, or still watching demos. AI agents, prompt craft, workflow automation.' },
@@ -165,7 +165,7 @@ const DIMENSIONS = [
   { key: 'org',        name: 'Org Readiness',      ptag: 'Environmental', desc: 'Structural readiness — value streams, data, governance — what\'s outside your control.' }
 ];
 
-const TIERS = [
+var TIERS = [
   { name: 'Facilitator',  min: 0,  max: 49,  color: '#f87171',
     desc: "You coordinate the work. You don't build the systems underneath it — and in 2026 that's the gap that decides who stays." },
   { name: 'Builder',      min: 50, max: 74,  color: '#60a5fa',
@@ -174,13 +174,13 @@ const TIERS = [
     desc: "You write the spec. Agents execute it. Sub-agents execute theirs. You're the one designing the system of systems — category-of-one rare." }
 ];
 
-const TIER_LEAD = {
+var TIER_LEAD = {
   Facilitator:  "You coordinate the work. You don't build the systems underneath it yet — and in 2026 that's the gap that decides who stays.",
   Builder:      "You've built real practitioner capital — but a piece of the stack is holding the rest back. The score tells you which one.",
   Orchestrator: "You write the spec. Agents execute it. You're designing the system of systems — and that puts you in a category-of-one rare position."
 };
 
-const NEXT_STEPS = {
+var NEXT_STEPS = {
   Facilitator: [
     "Ship one Atlassian automation rule this week — pick the most painful manual thing you do every sprint and eliminate it.",
     "Set up an AI agent to handle your stand-up notes or sprint recap. Use the output in your next ceremony.",
@@ -198,7 +198,7 @@ const NEXT_STEPS = {
   ]
 };
 
-const OFFERS = {
+var OFFERS = {
   Facilitator: {
     cls: 'atr-offer-facilitator',
     eyebrow: 'Sprint Automation Kit · $27',
@@ -255,22 +255,50 @@ const OFFERS = {
 };
 
 /* -------------------------------------------------------
-   Read scores from URL params
+   Token check + server fetch
    ------------------------------------------------------- */
 (function() {
-  const params = new URLSearchParams(window.location.search);
-  const firstName = params.get('name') || '';
-  const userEmail = params.get('email') || '';
-  const userNameEl = document.getElementById('userName');
+  var params = new URLSearchParams(window.location.search);
+  var token = params.get('t');
+
+  if (!token) {
+    window.location.href = '/assessment';
+    return;
+  }
+
+  fetch('/api/assessment/retrieve?t=' + encodeURIComponent(token))
+    .then(function(res) {
+      if (!res.ok) {
+        window.location.href = '/assessment';
+        return null;
+      }
+      return res.json();
+    })
+    .then(function(data) {
+      if (!data) return;
+      renderResults(data);
+    })
+    .catch(function() {
+      window.location.href = '/assessment';
+    });
+})();
+
+/* -------------------------------------------------------
+   Render — called after server data is fetched
+   ------------------------------------------------------- */
+function renderResults(data) {
+  var firstName = data.name || '';
+  var userEmail = ''; // email no longer exposed in URL
+  var userNameEl = document.getElementById('userName');
   if (userNameEl && firstName) {
     userNameEl.textContent = firstName + ', ';
   }
-  const scores = {
-    atlassian:  Math.min(100, Math.max(0, parseInt(params.get('d_atlassian')  || '60', 10))),
-    automation: Math.min(100, Math.max(0, parseInt(params.get('d_automation') || '60', 10))),
-    ai:         Math.min(100, Math.max(0, parseInt(params.get('d_ai')         || '60', 10))),
-    influence:  Math.min(100, Math.max(0, parseInt(params.get('d_influence')  || '60', 10))),
-    org:        Math.min(100, Math.max(0, parseInt(params.get('d_org')        || '55', 10)))
+  var scores = {
+    atlassian:  data.scores.d_atlassian,
+    automation: data.scores.d_automation,
+    ai:         data.scores.d_ai,
+    influence:  data.scores.d_influence,
+    org:        data.scores.d_org
   };
 
   function computeTotal(s) {
@@ -628,7 +656,7 @@ const OFFERS = {
   drawRadar(scores);
   drawBreakdown(scores);
   drawVerdict(scores);
-})();
+}
 </script>
 
 <style is:global>

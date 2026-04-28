@@ -108,8 +108,8 @@ const questionsData = QUESTIONS.map(q => ({
           <input type="email" id="aq-email-input" name="email" required placeholder="you@example.com" class="aq-input" />
         </div>
         <label class="aq-consent" for="aq-consent-check">
-          <input type="checkbox" id="aq-consent-check" name="consent_marketing" checked class="aq-checkbox" />
-          <span class="aq-consent-text">Email me my results plus occasional practitioner insights on AI-powered agile. Unsubscribe anytime.</span>
+          <input type="checkbox" id="aq-consent-check" name="consent_marketing" class="aq-checkbox" />
+          <span class="aq-consent-text">Send me practitioner insights on AI-powered agile. Unsubscribe anytime.</span>
         </label>
         <div id="aq-form-error" class="aq-form-error hidden"></div>
         <button type="submit" id="aq-submit-btn" class="aq-cta-btn aq-submit-btn">
@@ -269,17 +269,6 @@ const questionsData = QUESTIONS.map(q => ({
     return normalized;
   }
 
-  function buildResultUrl(scores, firstName, email) {
-    return '/assessment/results?' +
-      'name='         + encodeURIComponent(firstName) + '&' +
-      'email='        + encodeURIComponent(email || '') + '&' +
-      'd_atlassian='  + scores.d_atlassian  + '&' +
-      'd_automation=' + scores.d_automation + '&' +
-      'd_ai='         + scores.d_ai         + '&' +
-      'd_influence='  + scores.d_influence  + '&' +
-      'd_org='        + scores.d_org;
-  }
-
   // ── Event handlers ───────────────────────────────────────────────────────
   var startBtn = document.getElementById('aq-start-btn');
   if (startBtn) {
@@ -343,22 +332,39 @@ const questionsData = QUESTIONS.map(q => ({
       showOnly(loadingCard);
 
       var scores = calculateScores();
+      var consent = consentEl ? consentEl.checked : false;
 
-      var formData = new URLSearchParams();
-      formData.append('email_address', email);
-      formData.append('first_name', firstName);
-      var capAvg = (scores.d_atlassian + scores.d_automation + scores.d_ai + scores.d_influence) / 4;
-      var total = Math.round(capAvg * 0.8 + scores.d_org * 0.2);
-      var tier = total >= 75 ? 'Orchestrator' : total >= 50 ? 'Builder' : 'Facilitator';
-      formData.append('fields[assessment_tier]', tier);
-
-      fetch('https://app.kit.com/forms/9369282/subscriptions', {
+      fetch('/api/assessment/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: formData.toString(),
-        redirect: 'manual'
-      }).finally(function () {
-        window.location.href = buildResultUrl(scores, firstName, email);
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email,
+          first_name: firstName,
+          consent_marketing: consent,
+          scores: scores
+        })
+      }).then(function(res) {
+        return res.json();
+      }).then(function(data) {
+        if (data.token) {
+          window.location.href = '/assessment/results?t=' + data.token;
+        } else {
+          if (formError) {
+            formError.textContent = 'Something went wrong. Please try again.';
+            formError.classList.remove('hidden');
+          }
+          if (submitBtn) submitBtn.removeAttribute('disabled');
+          if (submitLabel) submitLabel.textContent = 'Get My Results →';
+          showOnly(emailCard);
+        }
+      }).catch(function() {
+        if (formError) {
+          formError.textContent = 'Something went wrong. Please try again.';
+          formError.classList.remove('hidden');
+        }
+        if (submitBtn) submitBtn.removeAttribute('disabled');
+        if (submitLabel) submitLabel.textContent = 'Get My Results →';
+        showOnly(emailCard);
       });
     });
   }

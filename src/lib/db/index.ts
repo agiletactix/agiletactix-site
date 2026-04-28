@@ -313,6 +313,16 @@ export async function updateLessonProgress(
   }
 }
 
+/** Get an assessment by its ID (token). */
+export async function getAssessmentById(db: Database, id: string) {
+  return db.select().from(schema.assessments).where(eq(schema.assessments.id, id)).get();
+}
+
+/** Get a member by their ID. */
+export async function getMemberById(db: Database, id: string) {
+  return db.select().from(schema.members).where(eq(schema.members.id, id)).get();
+}
+
 /** Count completed lessons for a member. */
 export async function getCompletedLessonCount(
   db: Database,
