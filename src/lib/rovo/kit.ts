@@ -13,6 +13,7 @@ export async function createOrUpdateSubscriber(
   firstName: string | undefined,
   tags: string[],
   apiSecret: string,
+  fields?: Record<string, string>,
 ): Promise<KitSubscriberResult> {
   try {
     // Step 1: Look up or create subscriber
@@ -63,6 +64,7 @@ export async function createOrUpdateSubscriber(
               api_secret: apiSecret,
               email,
               first_name: firstName || undefined,
+              ...(fields && Object.keys(fields).length > 0 ? { fields } : {}),
             }),
           });
 
@@ -85,6 +87,7 @@ export async function createOrUpdateSubscriber(
           api_secret: apiSecret,
           email_address: email,
           first_name: firstName || undefined,
+          ...(fields && Object.keys(fields).length > 0 ? { fields } : {}),
         }),
       });
 

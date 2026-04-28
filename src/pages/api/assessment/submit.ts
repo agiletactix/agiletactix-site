@@ -113,7 +113,18 @@ export const POST: APIRoute = async ({ request, locals }) => {
       orchestrator: ['assessment-orchestrator'],
     };
     const tags = tagMap[tier] ?? [];
-    const kitResult = await createOrUpdateSubscriber(body.email, body.first_name, tags, kitApiKey);
+    const resultsUrl = `https://agiletactix.ai/assessment/results?t=${token}`;
+    const kitResult = await createOrUpdateSubscriber(
+      body.email,
+      body.first_name,
+      tags,
+      kitApiKey,
+      {
+        assessment_results_url: resultsUrl,
+        assessment_tier: tier.charAt(0).toUpperCase() + tier.slice(1),
+        assessment_score: String(total),
+      },
+    );
     if (kitResult.status === 'failed') {
       console.error('[Kit] assessment/submit subscribe failed:', kitResult.error);
     }

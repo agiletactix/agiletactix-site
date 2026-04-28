@@ -107,10 +107,7 @@ const questionsData = QUESTIONS.map(q => ({
           <label for="aq-email-input" class="aq-label">Email Address</label>
           <input type="email" id="aq-email-input" name="email" required placeholder="you@example.com" class="aq-input" />
         </div>
-        <label class="aq-consent" for="aq-consent-check">
-          <input type="checkbox" id="aq-consent-check" name="consent_marketing" class="aq-checkbox" />
-          <span class="aq-consent-text">Send me practitioner insights on AI-powered agile. Unsubscribe anytime.</span>
-        </label>
+        <p class="aq-consent-text">By submitting, you'll receive your results and practitioner insights on AI-powered agile. Unsubscribe anytime. <a href="/privacy" class="aq-privacy-link">Privacy Policy</a></p>
         <div id="aq-form-error" class="aq-form-error hidden"></div>
         <button type="submit" id="aq-submit-btn" class="aq-cta-btn aq-submit-btn">
           <span id="aq-submit-label">Get My Results →</span>
@@ -311,7 +308,6 @@ const questionsData = QUESTIONS.map(q => ({
 
       var firstNameEl = document.getElementById('aq-first-name');
       var emailEl     = document.getElementById('aq-email-input');
-      var consentEl   = document.getElementById('aq-consent-check');
 
       var firstName = firstNameEl ? firstNameEl.value.trim() : '';
       var email     = emailEl     ? emailEl.value.trim()     : '';
@@ -332,7 +328,6 @@ const questionsData = QUESTIONS.map(q => ({
       showOnly(loadingCard);
 
       var scores = calculateScores();
-      var consent = consentEl ? consentEl.checked : false;
 
       fetch('/api/assessment/submit', {
         method: 'POST',
@@ -340,7 +335,7 @@ const questionsData = QUESTIONS.map(q => ({
         body: JSON.stringify({
           email: email,
           first_name: firstName,
-          consent_marketing: consent,
+          consent_marketing: true,
           scores: scores
         })
       }).then(function(res) {
@@ -764,51 +759,20 @@ const questionsData = QUESTIONS.map(q => ({
   background: rgba(96,165,250,0.05);
 }
 
-.aq-consent {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  cursor: pointer;
+.aq-consent-text {
+  font-size: 13px;
+  color: var(--fg-4);
+  line-height: 1.55;
   padding: 4px 0;
 }
 
-.aq-checkbox {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 20px;
-  height: 20px;
-  min-width: 20px;
-  border: 2px solid rgba(255,255,255,0.2);
-  border-radius: 5px;
-  background: transparent;
-  cursor: pointer;
-  position: relative;
-  margin-top: 1px;
-  transition: border-color 150ms ease, background 150ms ease;
-  flex-shrink: 0;
+.aq-privacy-link {
+  color: var(--at-blue-400);
+  text-decoration: none;
 }
 
-.aq-checkbox:checked {
-  background: var(--at-blue-600);
-  border-color: var(--at-blue-600);
-}
-
-.aq-checkbox:checked::after {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 5px;
-  width: 5px;
-  height: 9px;
-  border: solid #fff;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-
-.aq-consent-text {
-  font-size: 14px;
-  color: var(--fg-3);
-  line-height: 1.55;
+.aq-privacy-link:hover {
+  text-decoration: underline;
 }
 
 .aq-form-error {
