@@ -257,6 +257,8 @@ var OFFERS = {
     ],
     price: null,
     url: null,
+    waitlistApi: true,
+    waitlistTag: 'orchestrator-cohort-waitlist',
     cta: 'Join the waitlist →',
     aspirationLabel: 'The room',
     aspiration: "<strong>You are the aspiration</strong> other tiers are working toward. The cohort is where you trade notes with people who don't need it explained."
@@ -512,7 +514,7 @@ function renderResults(data) {
     el.className = 'atr-offer ' + o.cls;
 
     var ctaHtml;
-    if (o.waitlistForm) {
+    if (o.waitlistForm || o.waitlistApi) {
       ctaHtml =
         '<form class="atr-waitlist-form" id="waitlistForm">' +
         '<label for="waitlistEmail" class="atr-sr-only">Email address</label>' +
@@ -538,7 +540,7 @@ function renderResults(data) {
       ctaHtml +
       '<div class="atr-aspiration"><strong>' + o.aspirationLabel + ':</strong> ' + o.aspiration + '</div>';
 
-    if (o.waitlistForm) {
+    if (o.waitlistForm || o.waitlistApi) {
       var wEmailEl = document.getElementById('waitlistEmail');
       if (wEmailEl && userEmail) {
         wEmailEl.value = userEmail;
@@ -552,24 +554,42 @@ function renderResults(data) {
           var email = emailEl ? emailEl.value : '';
           if (!email) return;
           if (btnEl) { btnEl.textContent = 'Joining...'; btnEl.setAttribute('disabled', 'true'); }
-          var formData = new URLSearchParams();
-          formData.append('email_address', email);
-          if (firstName) formData.append('first_name', firstName);
-          fetch('https://app.kit.com/forms/' + o.waitlistFormId + '/subscriptions', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: formData.toString(),
-            redirect: 'manual'
-          }).then(function(res) {
-            if (res.ok || res.status === 302 || res.type === 'opaqueredirect') {
-              if (btnEl) { btnEl.textContent = "You're on the list!"; }
-              if (emailEl) { emailEl.setAttribute('disabled', 'true'); }
-            } else {
-              if (btnEl) { btnEl.textContent = 'Something went wrong — try again'; btnEl.removeAttribute('disabled'); }
-            }
-          }).catch(function() {
-            if (btnEl) { btnEl.textContent = "You're on the list!"; btnEl.setAttribute('disabled', 'true'); }
-          });
+
+          if (o.waitlistApi) {
+            fetch('/api/waitlist/tag', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: email, first_name: firstName, tag: o.waitlistTag })
+            }).then(function(res) {
+              if (res.ok) {
+                if (btnEl) { btnEl.textContent = "You're on the list!"; }
+                if (emailEl) { emailEl.setAttribute('disabled', 'true'); }
+              } else {
+                if (btnEl) { btnEl.textContent = 'Something went wrong — try again'; btnEl.removeAttribute('disabled'); }
+              }
+            }).catch(function() {
+              if (btnEl) { btnEl.textContent = "You're on the list!"; btnEl.setAttribute('disabled', 'true'); }
+            });
+          } else {
+            var formData = new URLSearchParams();
+            formData.append('email_address', email);
+            if (firstName) formData.append('first_name', firstName);
+            fetch('https://app.kit.com/forms/' + o.waitlistFormId + '/subscriptions', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+              body: formData.toString(),
+              redirect: 'manual'
+            }).then(function(res) {
+              if (res.ok || res.status === 302 || res.type === 'opaqueredirect') {
+                if (btnEl) { btnEl.textContent = "You're on the list!"; }
+                if (emailEl) { emailEl.setAttribute('disabled', 'true'); }
+              } else {
+                if (btnEl) { btnEl.textContent = 'Something went wrong — try again'; btnEl.removeAttribute('disabled'); }
+              }
+            }).catch(function() {
+              if (btnEl) { btnEl.textContent = "You're on the list!"; btnEl.setAttribute('disabled', 'true'); }
+            });
+          }
         });
       }
     }
