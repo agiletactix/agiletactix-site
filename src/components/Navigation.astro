@@ -70,7 +70,7 @@ const navLinks = [
       {navLinks.map((link) => (
         <a
           href={link.href}
-          class={`block px-4 py-3 rounded-lg text-lg font-medium transition-colors duration-200 ${
+          class={`block px-4 py-3 rounded-lg text-lg font-medium transition-colors duration-200 focus-visible-ring ${
             currentPath === link.href
               ? 'text-primary-400 bg-white/10'
               : 'text-white hover:text-white hover:bg-white/10'
@@ -81,7 +81,7 @@ const navLinks = [
       ))}
       <a
         href="/blueprint/"
-        class="block px-4 py-3 btn-primary text-center mt-6 relative"
+        class="block px-4 py-3 btn-primary text-center mt-6 relative focus-visible-ring"
       >
         <span class="relative z-10">Get the Blueprint</span>
       </a>

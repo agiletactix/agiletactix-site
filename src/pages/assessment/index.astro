@@ -27,10 +27,11 @@ const pageDescription = 'Find out where you stand in the Facilitator → Builder
 </head>
 <body>
 
+<a href="#main-content" class="at-skip-link">Skip to main content</a>
 <Navigation />
 
 <!-- Full-dark assessment hero -->
-<div class="at-assessment-wrap">
+<div class="at-assessment-wrap" id="main-content" tabindex="-1">
 
   <!-- Particles layer — same animated component as homepage -->
   <div class="at-particles-layer" aria-hidden="true">
@@ -163,6 +164,25 @@ miniRadar('mini-orc',   [88, 82, 78, 85], '#22d3ee');
 </script>
 
 <style>
+/* Skip link */
+.at-skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  background: #294bf3;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform 0.2s;
+}
+.at-skip-link:focus {
+  transform: translateY(0);
+}
+
 /* Assessment page — dark-first, isolated from site light-mode defaults */
 .at-assessment-wrap {
   background: var(--at-black);
@@ -310,12 +330,14 @@ miniRadar('mini-orc',   [88, 82, 78, 85], '#22d3ee');
   box-shadow: var(--glow-blue-md);
 }
 .at-cta-primary:hover { transform: translateY(-2px); box-shadow: var(--glow-blue-lg); }
+.at-cta-primary:focus-visible { outline: 3px solid #60a5fa; outline-offset: 3px; }
 .at-cta-ghost {
   background: transparent;
   color: #fff;
   border: 1px solid var(--border-dark);
 }
 .at-cta-ghost:hover { border-color: var(--at-blue-400); color: var(--at-blue-400); }
+.at-cta-ghost:focus-visible { outline: 3px solid #60a5fa; outline-offset: 3px; }
 
 .at-fine { font-size: 13px; color: var(--fg-4); }
 .at-fine strong { color: var(--fg-2); font-weight: 600; }

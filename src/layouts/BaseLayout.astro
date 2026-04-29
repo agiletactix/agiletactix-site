@@ -101,8 +101,9 @@ const fullTitle = title === 'Home' ? siteTitle : `${title} | AgileTactix`;
     })} />
   </head>
   <body class="flex flex-col min-h-screen">
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
     <Navigation />
-    <main class="flex-grow">
+    <main id="main-content" tabindex="-1" class="flex-grow">
       <slot />
     </main>
     <Footer />

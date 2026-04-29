@@ -20,13 +20,15 @@ const pageDescription = 'See your Agile-AI Readiness profile — Facilitator, Bu
 </head>
 <body>
 
+<a href="#main-content" class="atr-skip-link">Skip to main content</a>
+
 <!-- Particles layer (fixed behind all content) -->
 <div class="atr-particles-layer" id="particlesLayer" aria-hidden="true">
   <canvas data-particles data-focus-x="0.5" data-focus-y="0.35" data-count="100"></canvas>
   <div class="atr-vignette"></div>
 </div>
 
-<div class="atr-page">
+<div class="atr-page" id="main-content" tabindex="-1">
 
   <!-- Top bar -->
   <div class="atr-topbar">
@@ -137,6 +139,7 @@ const pageDescription = 'See your Agile-AI Readiness profile — Facilitator, Bu
       <p class="atr-b2b-p">The leadership assessment mirrors the same 5 dimensions — but scores your <em>org</em>, not your practitioners. See the gap between what your team has built and what your environment lets them ship.</p>
     </div>
     <form class="atr-b2b-form" id="b2bForm">
+      <label for="b2bEmail" class="atr-sr-only">Work email address</label>
       <input type="email" placeholder="work@yourcompany.com" required class="atr-b2b-input" id="b2bEmail" />
       <button type="submit" class="atr-b2b-btn" id="b2bBtn">Join the waitlist</button>
     </form>
@@ -506,6 +509,7 @@ function renderResults(data) {
     if (o.waitlistForm) {
       ctaHtml =
         '<form class="atr-waitlist-form" id="waitlistForm">' +
+        '<label for="waitlistEmail" class="atr-sr-only">Email address</label>' +
         '<div class="atr-waitlist-row">' +
         '<input type="email" placeholder="you@company.com" required class="atr-waitlist-input" id="waitlistEmail" />' +
         '<button type="submit" class="atr-cta atr-cta-primary atr-waitlist-btn" id="waitlistBtn">' + o.cta + '</button>' +
@@ -666,6 +670,36 @@ body {
   color: var(--fg-1);
   font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
   min-height: 100vh;
+}
+
+.atr-skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  background: #294bf3;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform 0.2s;
+}
+.atr-skip-link:focus {
+  transform: translateY(0);
+}
+
+.atr-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* Particles */
@@ -1037,6 +1071,10 @@ body {
   color: var(--at-blue-400);
   background: rgba(96,165,250,0.08);
 }
+.atr-share-btn:focus-visible {
+  outline: 3px solid #60a5fa;
+  outline-offset: 3px;
+}
 .atr-share-toggle-row {
   display: flex;
   align-items: flex-start;
@@ -1048,6 +1086,7 @@ body {
 }
 .atr-toggle { position: relative; display: inline-flex; cursor: pointer; flex-shrink: 0; margin-top: 2px; }
 .atr-toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
+.atr-toggle input:focus-visible + .atr-toggle-track { outline: 3px solid #60a5fa; outline-offset: 2px; border-radius: 13px; }
 .atr-toggle-track {
   width: 48px;
   height: 26px;
@@ -1108,8 +1147,10 @@ body {
 }
 .atr-cta-primary { background: var(--grad-cta); color: #fff; box-shadow: var(--glow-blue-md); border: none; }
 .atr-cta-primary:hover { transform: translateY(-2px); box-shadow: var(--glow-blue-lg); }
+.atr-cta-primary:focus-visible { outline: 3px solid #60a5fa; outline-offset: 3px; }
 .atr-cta-ghost { background: transparent; color: #fff; border: 1px solid var(--border-dark); }
 .atr-cta-ghost:hover { border-color: var(--at-blue-400); color: var(--at-blue-400); }
+.atr-cta-ghost:focus-visible { outline: 3px solid #60a5fa; outline-offset: 3px; }
 
 /* Waitlist inline form */
 .atr-waitlist-form { margin-top: 24px; }
@@ -1188,6 +1229,7 @@ body {
 .atr-back { margin-top: 48px; }
 .atr-back-link { font-size: 14px; color: var(--fg-4); text-decoration: none; }
 .atr-back-link:hover { color: var(--at-blue-400); }
+.atr-back-link:focus-visible { outline: 2px solid #60a5fa; outline-offset: 3px; border-radius: 3px; color: var(--at-blue-400); }
 
 /* Print / PDF styles */
 @media print {
