@@ -56,7 +56,10 @@ const pageDescription = 'See your Agile-AI Readiness profile — Facilitator, Bu
     <div class="atr-score"><span id="totalScore">—</span><span class="atr-of">/100</span></div>
     <div class="atr-tier">
       <div class="atr-tier-label">Tier</div>
-      <div class="atr-tier-name" id="tierNameBig">—</div>
+      <div class="atr-tier-icon-row">
+        <div class="atr-tier-icon" id="tierIcon"></div>
+        <div class="atr-tier-name" id="tierNameBig">—</div>
+      </div>
       <div class="atr-tier-desc" id="tierDesc"></div>
     </div>
     <div class="atr-zone-key" id="zoneKey"></div>
@@ -176,10 +179,13 @@ var DIMENSIONS = [
 
 var TIERS = [
   { name: 'Facilitator',  min: 0,  max: 49,  color: '#f87171',
+    icon: '<svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 30l-4 2v10h8V32l-4-2z" stroke="#f87171" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 30l12-8 8-2" stroke="#f87171" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M34 20c0-2.5 2-4.5 4.5-4.5S43 17.5 43 20s-2 4.5-4.5 4.5" stroke="#f87171" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M34 16l4.5-3" stroke="#f87171" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M34 24l4.5 3" stroke="#f87171" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M28 16l-2-4" stroke="#f87171" stroke-width="1.8" stroke-linecap="round"/><path d="M30 14l3-3" stroke="#f87171" stroke-width="1.8" stroke-linecap="round"/></svg>',
     desc: "You coordinate the work. You don't build the systems underneath it — and in 2026 that's the gap that decides who stays." },
   { name: 'Builder',      min: 50, max: 74,  color: '#60a5fa',
+    icon: '<svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 34h28" stroke="#60a5fa" stroke-width="1.8" stroke-linecap="round"/><path d="M16 34v-6h6v6" stroke="#60a5fa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 34v-10h6v10" stroke="#60a5fa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 34v-8h6v8" stroke="#60a5fa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="26" cy="14" rx="12" ry="5" stroke="#60a5fa" stroke-width="1.8"/><path d="M14 14v3c0 2.76 5.37 5 12 5s12-2.24 12-5v-3" stroke="#60a5fa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     desc: "You ship automations and configure the stack. You're closing the gap, one workflow at a time — but you're not yet orchestrating agents that ship while you sleep." },
   { name: 'Orchestrator', min: 75, max: 100, color: '#22d3ee',
+    icon: '<svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="26" cy="30" r="4" stroke="#22d3ee" stroke-width="1.8"/><path d="M26 26V12" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round"/><path d="M26 12l6-4" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 30l-8 4" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round"/><path d="M30 30l8 4" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="36" r="3" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="2 2"/><circle cx="40" cy="36" r="3" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="2 2"/><path d="M22 34l-6 8" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/><path d="M30 34l6 8" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/></svg>',
     desc: "You write the spec. Agents execute it. Sub-agents execute theirs. You're the one designing the system of systems — category-of-one rare." }
 ];
 
@@ -418,6 +424,12 @@ function renderResults(data) {
 
     const tierNameBigEl = document.getElementById('tierNameBig');
     if (tierNameBigEl) tierNameBigEl.textContent = tier.name;
+
+    const tierIconEl = document.getElementById('tierIcon');
+    if (tierIconEl) {
+      tierIconEl.innerHTML = tier.icon || '';
+      tierIconEl.style.filter = 'drop-shadow(0 0 8px ' + tier.color + '66)';
+    }
 
     const tierDescEl = document.getElementById('tierDesc');
     if (tierDescEl) tierDescEl.textContent = tier.desc;
@@ -871,7 +883,10 @@ body {
 }
 .atr-of { font-size: 32px; color: var(--fg-4); font-weight: 500; letter-spacing: -0.01em; }
 .atr-tier-label { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--at-blue-300); margin-bottom: 8px; }
-.atr-tier-name { font-size: 36px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 6px; }
+.atr-tier-icon-row { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+.atr-tier-icon { width: 52px; height: 52px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: filter 400ms ease; }
+.atr-tier-icon svg { display: block; }
+.atr-tier-name { font-size: 36px; font-weight: 800; letter-spacing: -0.02em; }
 .atr-tier-desc { font-size: 15px; color: var(--fg-3); line-height: 1.5; max-width: 460px; }
 .atr-zone-key { display: flex; flex-direction: column; gap: 8px; font-family: var(--font-mono); font-size: 11px; color: var(--fg-4); }
 .atr-zrow { display: flex; align-items: center; gap: 8px; }
