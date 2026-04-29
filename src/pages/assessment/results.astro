@@ -297,7 +297,7 @@ var OFFERS = {
    ------------------------------------------------------- */
 function renderResults(data) {
   var firstName = data.name || '';
-  var userEmail = ''; // email no longer exposed in URL
+  var userEmail = data.email || '';
   var userNameEl = document.getElementById('userName');
   if (userNameEl && firstName) {
     userNameEl.textContent = firstName + ', ';
@@ -594,6 +594,8 @@ function renderResults(data) {
   })();
 
   /* --- B2B waitlist form --- */
+  var b2bEmailEl = document.getElementById('b2bEmail');
+  if (b2bEmailEl && userEmail) { b2bEmailEl.value = userEmail; }
   const b2bForm = document.getElementById('b2bForm');
   if (b2bForm) {
     b2bForm.addEventListener('submit', function(e) {

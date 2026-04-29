@@ -46,6 +46,7 @@ export const GET: APIRoute = async ({ url, locals }) => {
 
   const responseBody = {
     name: member?.firstName ?? '',
+    email: member?.email ?? '',
     scores: {
       d_atlassian:  dimensionScores.d_atlassian  ?? 0,
       d_automation: dimensionScores.d_automation ?? 0,
