@@ -45,6 +45,12 @@ const pageDescription = 'See your Agile-AI Readiness profile — Facilitator, Bu
     <p class="atr-lead" id="leadCopy">Your results are loading...</p>
   </div>
 
+  <!-- Email confirmation -->
+  <div class="atr-inbox-note" id="inboxNote">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+    Check your inbox — your full results and personalized breakdown are on the way.
+  </div>
+
   <!-- Verdict banner -->
   <div class="atr-verdict">
     <div class="atr-score"><span id="totalScore">—</span><span class="atr-of">/100</span></div>
@@ -801,6 +807,21 @@ body {
   line-height: 1.5;
   max-width: 720px;
 }
+
+/* Inbox note */
+.atr-inbox-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  margin-top: 24px;
+  background: rgba(96,165,250,0.08);
+  border: 1px solid rgba(96,165,250,0.2);
+  border-radius: 10px;
+  font-size: 14px;
+  color: var(--fg-2);
+}
+.atr-inbox-note svg { color: var(--at-blue-400); flex-shrink: 0; }
 
 /* Verdict */
 .atr-verdict {
