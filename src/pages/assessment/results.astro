@@ -28,11 +28,6 @@ const pageDescription = 'See your Agile-AI Readiness profile — Facilitator, Bu
   <div class="atr-vignette"></div>
 </div>
 
-<!-- Tier illustration — full viewport bleed, behind page content -->
-<div class="atr-hero-img" id="tierHeroImg" aria-hidden="true">
-  <img id="tierImg" src="" alt="" />
-</div>
-
 <div class="atr-page" id="main-content" tabindex="-1">
 
   <!-- Top bar -->
@@ -43,7 +38,7 @@ const pageDescription = 'See your Agile-AI Readiness profile — Facilitator, Bu
     <div class="atr-crumb">Assessment · Results</div>
   </div>
 
-  <!-- Header -->
+  <!-- Header with tier illustration -->
   <div class="atr-hero">
     <div class="atr-hero-text">
       <div class="atr-eyebrow"><span class="atr-dot"></span>Your Agile-AI Readiness Profile</div>
@@ -53,6 +48,9 @@ const pageDescription = 'See your Agile-AI Readiness profile — Facilitator, Bu
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
         Check your inbox — your full results and personalized breakdown are on the way.
       </div>
+    </div>
+    <div class="atr-hero-img" id="tierHeroImg" aria-hidden="true">
+      <img id="tierImg" src="" alt="" />
     </div>
   </div>
 
@@ -802,36 +800,37 @@ body {
   text-transform: uppercase;
 }
 
-/* Hero text */
-.atr-hero { position: relative; min-height: 380px; }
+/* Hero — two-column header with tier illustration */
+.atr-hero {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 32px;
+  align-items: center;
+  min-height: 380px;
+}
 .atr-hero-text { position: relative; z-index: 2; }
-
-/* Tier illustration — viewport-wide, behind page content */
 .atr-hero-img {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 60vw;
-  height: 680px;
+  position: relative;
   z-index: 1;
+  width: 320px;
+  height: 480px;
+  flex-shrink: 0;
+  overflow: visible;
   pointer-events: none;
-  mask-image: linear-gradient(to left, black 20%, transparent 75%),
-              linear-gradient(to top, transparent 0%, black 15%, black 85%, transparent 100%);
-  mask-composite: intersect;
-  -webkit-mask-image: linear-gradient(to left, black 20%, transparent 75%),
-                      linear-gradient(to top, transparent 0%, black 15%, black 85%, transparent 100%);
-  -webkit-mask-composite: source-in;
+  mask-image: radial-gradient(ellipse 75% 70% at 50% 45%, black 35%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 45%, black 35%, transparent 70%);
 }
 .atr-hero-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 15%;
+  object-position: center 20%;
   opacity: 0;
   transition: opacity 600ms ease;
 }
-.atr-hero-img img.loaded { opacity: 0.65; }
+.atr-hero-img img.loaded { opacity: 0.8; }
 @media (max-width: 900px) {
+  .atr-hero { grid-template-columns: 1fr; min-height: auto; }
   .atr-hero-img { display: none; }
 }
 
