@@ -179,13 +179,13 @@ var DIMENSIONS = [
 
 var TIERS = [
   { name: 'Facilitator',  min: 0,  max: 49,  color: '#f87171',
-    img: '/images/tier-facilitator.png',
+    img: '/images/tier-facilitator.webp',
     desc: "You coordinate the work. You don't build the systems underneath it — and in 2026 that's the gap that decides who stays." },
   { name: 'Builder',      min: 50, max: 74,  color: '#60a5fa',
-    img: '/images/tier-builder.png',
+    img: '/images/tier-builder.webp',
     desc: "You ship automations and configure the stack. You're closing the gap, one workflow at a time — but you're not yet orchestrating agents that ship while you sleep." },
   { name: 'Orchestrator', min: 75, max: 100, color: '#22d3ee',
-    img: '/images/tier-orchestrator.png',
+    img: '/images/tier-orchestrator.webp',
     desc: "You write the spec. Agents execute it. Sub-agents execute theirs. You're the one designing the system of systems — category-of-one rare." }
 ];
 
@@ -802,6 +802,7 @@ body {
 
 /* Hero — two-column header with tier illustration */
 .atr-hero {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 32px;
@@ -810,14 +811,17 @@ body {
 }
 .atr-hero-text { position: relative; z-index: 2; }
 .atr-hero-img {
-  position: relative;
+  position: absolute;
+  right: -48px;
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 1;
-  width: 340px;
-  height: 480px;
-  flex-shrink: 0;
-  overflow: hidden;
-  mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  width: 460px;
+  height: 560px;
+  overflow: visible;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 72%);
 }
 .atr-hero-img img {
   width: 100%;
@@ -827,7 +831,7 @@ body {
   opacity: 0;
   transition: opacity 600ms ease;
 }
-.atr-hero-img img.loaded { opacity: 0.85; }
+.atr-hero-img img.loaded { opacity: 0.7; }
 @media (max-width: 900px) {
   .atr-hero { grid-template-columns: 1fr; min-height: auto; }
   .atr-hero-img { display: none; }
