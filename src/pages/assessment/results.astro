@@ -28,6 +28,11 @@ const pageDescription = 'See your Agile-AI Readiness profile — Facilitator, Bu
   <div class="atr-vignette"></div>
 </div>
 
+<!-- Tier illustration — full viewport bleed, behind page content -->
+<div class="atr-hero-img" id="tierHeroImg" aria-hidden="true">
+  <img id="tierImg" src="" alt="" />
+</div>
+
 <div class="atr-page" id="main-content" tabindex="-1">
 
   <!-- Top bar -->
@@ -38,7 +43,7 @@ const pageDescription = 'See your Agile-AI Readiness profile — Facilitator, Bu
     <div class="atr-crumb">Assessment · Results</div>
   </div>
 
-  <!-- Header with tier illustration -->
+  <!-- Header -->
   <div class="atr-hero">
     <div class="atr-hero-text">
       <div class="atr-eyebrow"><span class="atr-dot"></span>Your Agile-AI Readiness Profile</div>
@@ -48,9 +53,6 @@ const pageDescription = 'See your Agile-AI Readiness profile — Facilitator, Bu
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
         Check your inbox — your full results and personalized breakdown are on the way.
       </div>
-    </div>
-    <div class="atr-hero-img" id="tierHeroImg" aria-hidden="true">
-      <img id="tierImg" src="" alt="" />
     </div>
   </div>
 
@@ -800,30 +802,35 @@ body {
   text-transform: uppercase;
 }
 
-/* Hero — full-bleed tier illustration behind text */
-.atr-hero {
-  position: relative;
-  min-height: 420px;
-  overflow: hidden;
-}
+/* Hero text */
+.atr-hero { position: relative; min-height: 380px; }
 .atr-hero-text { position: relative; z-index: 2; }
+
+/* Tier illustration — viewport-wide, behind page content */
 .atr-hero-img {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  width: 60vw;
+  height: 680px;
   z-index: 1;
   pointer-events: none;
-  mask-image: radial-gradient(ellipse 80% 80% at 65% 45%, black 15%, transparent 65%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 65% 45%, black 15%, transparent 65%);
+  mask-image: linear-gradient(to left, black 20%, transparent 75%),
+              linear-gradient(to top, transparent 0%, black 15%, black 85%, transparent 100%);
+  mask-composite: intersect;
+  -webkit-mask-image: linear-gradient(to left, black 20%, transparent 75%),
+                      linear-gradient(to top, transparent 0%, black 15%, black 85%, transparent 100%);
+  -webkit-mask-composite: source-in;
 }
 .atr-hero-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center 15%;
   opacity: 0;
   transition: opacity 600ms ease;
 }
-.atr-hero-img img.loaded { opacity: 0.55; }
+.atr-hero-img img.loaded { opacity: 0.65; }
 @media (max-width: 900px) {
   .atr-hero-img { display: none; }
 }
